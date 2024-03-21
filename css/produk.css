@@ -1,0 +1,132 @@
+body {
+  background-color: #f8f8f8 !important;
+}
+
+/* header style */
+header {
+  background-color: #fff;
+}
+
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+header .container img {
+  width: 90px;
+}
+
+header .container nav ul {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+}
+
+header .container nav ul li a {
+  text-decoration: none;
+  color: var(--dark-text);
+  margin-right: 20px;
+}
+
+/* header style end */
+
+/* all product style */
+.all-product {
+  padding: 10rem 0rem 5rem 0;
+}
+
+.all-product .container h2 {
+  font-size: 64px;
+  text-align: center;
+}
+
+.all-product .all-product-text {
+  text-align: center;
+  margin: 3rem 0;
+  font-weight: 200;
+}
+
+.all-product .row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.all-product .row .col {
+  text-align: center;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.all-product .row .col p {
+  margin: 15px 0;
+}
+
+.all-product button.pesan {
+  width: 100%;
+  font-size: 1.2rem;
+  display: block;
+  background-color: var(--dark-text);
+  border: 0;
+  padding: 1rem 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* all product style end */
+
+/* footer style */
+
+footer {
+  padding-top: 1rem;
+  background-color: #fff;
+}
+
+footer img {
+  width: 100px;
+}
+
+footer .row {
+  display: flex;
+  padding: 1rem 0;
+  justify-content: space-between;
+}
+
+footer .row .col:first-child h5 {
+  font-family: "Prata", sans-serif;
+  font-size: 22px;
+}
+
+footer .row .col:first-child .footer-line {
+  background-color: #000000;
+  height: 3px;
+  width: 70px;
+  margin: 15px 0;
+}
+
+footer .row .col:first-child p {
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "Work Sans", sans-serif;
+}
+
+footer .row .col ul {
+  list-style-type: none;
+}
+
+footer .row .col ul li {
+  margin: 20px 0;
+}
+
+footer .row .col ul a {
+  color: var(--dark-text);
+}
+
+footer .footer-bottom {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* footer style end */
