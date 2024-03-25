@@ -1,0 +1,72 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid red;
+}
+
+.checkout-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.display-order {
+  margin-bottom: 20px;
+}
+
+.display-order span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.grand-total {
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inputBox {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.inputBox span {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

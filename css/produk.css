@@ -30,6 +30,11 @@ header .container nav ul li a {
   margin-right: 20px;
 }
 
+header .container .header-cart {
+  text-decoration: none;
+  color: var(--dark-text);
+}
+
 /* header style end */
 
 /* all product style */
