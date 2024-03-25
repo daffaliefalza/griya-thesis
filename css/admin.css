@@ -1,0 +1,177 @@
+/* External CSS File: style.css */
+
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  background-color: #f4f6f9;
+}
+
+/* Wrapper styles */
+.wrapper {
+  display: grid;
+  grid-template-columns: 250px repeat(3, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "sidebar topbar topbar topbar"
+    "sidebar main main main"
+    "sidebar main main main"
+    "sidebar footer footer footer";
+  min-height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+  background-color: #f4f6f9; /* Light gray background */
+  color: #fff;
+  grid-area: sidebar;
+  border-right: 1px solid #8d8d8d;
+}
+
+.sidebar-header {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 3px solid #fff;
+  background-color: #fff; /* White background */
+  border-bottom: 1px solid #8d8d8d;
+}
+
+.sidebar-header img {
+  max-width: 80px; /* Set maximum width */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.sidebar-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-content ul li {
+  padding: 10px 20px;
+}
+
+.sidebar-content ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Top bar styles */
+.top-bar {
+  background-color: #34495e; /* Darker shade of blue */
+  grid-area: topbar;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.top-bar h2 {
+  margin: 0;
+  color: #fff; /* White text color */
+}
+
+.top-bar-links {
+  display: flex;
+  align-items: center;
+}
+
+.top-bar-links a {
+  margin-left: 20px;
+  color: #fff; /* White text color */
+  text-decoration: underline;
+}
+
+/* Main content styles */
+.main-content {
+  grid-area: main;
+  padding: 20px;
+}
+
+.main-content-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main-content-header input[type="search"] {
+  padding: 15px 8px; /* Increased padding */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 500px; /* Increased width */
+}
+
+/* Table styles */
+.content {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.content th,
+.content td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.content th {
+  background-color: #ecf0f1; /* Light gray background */
+  font-weight: bold;
+  text-align: left;
+}
+
+.content td img {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.content td a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.content td a[href*="ubah.php"] {
+  background-color: #3498db; /* Blue background for "Ubah" button */
+  color: #fff;
+}
+
+.content td a[href*="hapus.php"] {
+  background-color: #e74c3c; /* Red background for "Hapus" button */
+  color: #fff;
+}
+
+.content td a:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
+}
+
+/* Footer styles */
+.admin-footer {
+  color: #333; /* Dark gray text color */
+  text-align: center;
+  padding: 20px;
+  grid-area: footer;
+}
+
+/* Styling for the "Tambah Produk" link */
+.admin-produk {
+  background-color: #3498db; /* Blue background color */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.admin-produk:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
