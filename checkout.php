@@ -114,6 +114,7 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['name'] = $name;
         $_SESSION['number'] = $number;
         $_SESSION['email'] = $email;
+
         $_SESSION['flat'] = $flat;
         $_SESSION['street'] = $street;
         $_SESSION['city'] = $city;
@@ -121,6 +122,7 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['country'] = $country;
         $_SESSION['pin_code'] = $pin_code;
         $_SESSION['items'] = $items;
+        $_SESSION['transaction_details'] = $transaction_details; // Store transaction details
 
 
         // Redirect to checkout_detail.php
