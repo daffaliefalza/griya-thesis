@@ -1,0 +1,60 @@
+/* External CSS File: style.css */
+
+/* Form styles */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="number"],
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+form button[type="submit"] {
+  background-color: #3498db; /* Blue background color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Back link styles */
+.back {
+  display: block;
+  text-align: start;
+  margin-top: 20px;
+  margin-left: 10px;
+  color: #3498db; /* Blue color */
+}
+
+.back:hover {
+  color: #2980b9; /* Darker blue on hover */
+}

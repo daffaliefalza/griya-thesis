@@ -15,10 +15,10 @@ if (isset($_POST['add_to_cart'])) {
   $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name'");
 
   if (mysqli_num_rows($select_cart) > 0) {
-    $message[] = 'product already added to cart';
+    echo '<script>alert("Produk sudah berada di keranjang");</script>';
   } else {
     $insert_product = mysqli_query($conn, "INSERT INTO `cart`(name, price, image, quantity) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity')");
-    $message[] = 'product added to cart succesfully';
+    echo "<script>alert('Produk berhasil ditambahkan!');</script>";
   }
 }
 
@@ -37,6 +37,39 @@ if (isset($_POST['add_to_cart'])) {
 
   <link rel="stylesheet" href="css/default.css" />
   <link rel="stylesheet" href="css/produk.css" />
+
+  <style>
+    /* CSS for Cart Icon */
+    .wrapper .cart {
+      position: relative;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .wrapper .cart span {
+      position: absolute;
+      top: -8px;
+      right: -20px;
+      background-color: #3498db;
+      /* Blue background color */
+      color: #fff;
+      /* White text color */
+      font-size: 12px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Cart icon hover effect */
+    .wrapper .cart:hover {
+      color: #2980b9;
+      /* Darker blue color on hover */
+    }
+  </style>
+
 </head>
 
 <body>
@@ -44,11 +77,11 @@ if (isset($_POST['add_to_cart'])) {
 
   <?php
 
-  if (isset($message)) {
-    foreach ($message as $message) {
-      echo '<div class="message"><span>' . $message . '</span> <i class="fas fa-times" onclick="this.parentElement.style.display = `none`;"></i> </div>';
-    };
-  };
+  // if (isset($message)) {
+  //   foreach ($message as $message) {
+  //     echo '<div class="message"><span>' . $message . '</span> <i class="fas fa-times" onclick="this.parentElement.style.display = `none`;"></i> </div>';
+  //   };
+  // };
 
   ?>
 
@@ -62,9 +95,9 @@ if (isset($_POST['add_to_cart'])) {
       <nav>
         <ul>
           <li><a href="index.html">Beranda</a></li>
-          <li><a href="#">Tentang-kami</a></li>
+          <li><a href="index.html">Tentang-kami</a></li>
           <li><a href="#">Produk</a></li>
-          <li><a href="#">Artikel</a></li>
+          <li><a href="blog.html">Blog</a></li>
         </ul>
       </nav>
       <div class="wrapper">
@@ -143,7 +176,7 @@ if (isset($_POST['add_to_cart'])) {
           <h4>Quick Links</h4>
           <ul>
             <li><a href="produk.html">Produk</a></li>
-            <li><a href="artikel.html">Artikel</a></li>
+            <li><a href="blog.html">Blog</a></li>
           </ul>
         </div>
         <div class="col">
@@ -169,6 +202,9 @@ if (isset($_POST['add_to_cart'])) {
   </footer>
 
   <!-- footer end -->
+
+
+
 </body>
 
 </html>

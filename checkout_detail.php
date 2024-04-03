@@ -37,32 +37,63 @@ $pin_code = $_SESSION['pin_code'];
 <body>
 
     <div class="container">
-        <h1>Checkout Details</h1>
+        <h1>Detail Pembayaran</h1>
 
         <div class="customer-info">
-            <h2>Customer Information:</h2>
-            <p><strong>Name:</strong> <?= $name ?></p>
-            <p><strong>Phone Number:</strong> <?= $number ?></p>
-            <p><strong>Email:</strong> <?= $email ?></p>
+            <h2>Informasi Customer:</h2>
+            <p><strong>Nama Lengkap:</strong> <?= $name ?></p>
+            <p><strong>No Telpon:</strong> <?= $number ?></p>
+            <p><strong>Alamat Email:</strong> <?= $email ?></p>
         </div>
 
         <div class="shipping-address">
-            <h2>Shipping Address:</h2>
+            <h2>Alamat Pengiriman:</h2>
             <p><strong>Address Line 1:</strong> <?= $flat ?></p>
             <p><strong>Address Line 2:</strong> <?= $street ?></p>
-            <p><strong>City:</strong> <?= $city ?></p>
-            <p><strong>State:</strong> <?= $state ?></p>
-            <p><strong>Country:</strong> <?= $country ?></p>
-            <p><strong>Pin Code:</strong> <?= $pin_code ?></p>
+            <p><strong>Kota:</strong> <?= $city ?></p>
+            <p><strong>Provinsi:</strong> <?= $state ?></p>
+            <p><strong>Negara:</strong> <?= $country ?></p>
+            <p><strong>Kode Pos:</strong> <?= $pin_code ?></p>
         </div>
 
         <div class="product-details">
-            <h2>Product Details:</h2>
-            <!-- Add product details here -->
+            <h2>Detail Produk:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Produk</th>
+                        <th>Harga</th>
+                        <th>Kuantitas</th>
+                        <th>Total Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (isset($_SESSION['items']) && !empty($_SESSION['items'])) {
+                        foreach ($_SESSION['items'] as $item) {
+                            $total_price = $item['price'] * $item['quantity'];
+                            $total_price_formatted = 'Rp ' . number_format($total_price, 0, ',', '.');
+                    ?>
+                            <tr>
+                                <td><?php echo $item['name']; ?></td>
+                                <td><?php echo 'Rp ' . number_format($item['price'], 0, ',', '.'); ?></td>
+                                <td><?php echo $item['quantity']; ?></td>
+                                <td><?php echo $total_price_formatted; ?></td>
+                            </tr>
+                    <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
 
-        <button id="pay-button">Proceed to Payment</button>
+        <button id="pay-button">Pilih metode pembayaran</button>
     </div>
+
+
+
+
     <!-- Include Midtrans Snap script -->
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-pZhq8U8wInb_l_Cz"></script>
 
@@ -74,6 +105,8 @@ $pin_code = $_SESSION['pin_code'];
             window.snap.pay(snapToken);
         });
     </script>
+
+
 </body>
 
 </html>

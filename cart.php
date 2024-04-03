@@ -43,15 +43,15 @@ if (isset($_GET['delete_all'])) {
 
     <div class="container">
         <section class="shopping-cart">
-            <h1 class="heading">Shopping Cart</h1>
+            <h1 class="heading">Keranjang Belanja</h1>
             <table>
                 <thead>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
+                    <th>Gambar</th>
+                    <th>Nama Produk</th>
+                    <th>Harga</th>
                     <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
+                    <th>Total Harga</th>
+                    <th>Aksi</th>
                 </thead>
 
                 <tbody>
@@ -101,7 +101,8 @@ if (isset($_GET['delete_all'])) {
             </table>
 
             <div class="checkout-btn">
-                <a href="checkout.php" class="btn <?= ($grand_total > 1) ? '' : 'disabled'; ?>">Proceed to Checkout</a>
+                <a href="checkout.php" class="btn <?= ($grand_total > 1) ? '' : 'disabled'; ?>">Lanjutkan ke pembayaran
+                </a>
             </div>
 
         </section>

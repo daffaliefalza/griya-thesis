@@ -43,10 +43,16 @@ if (isset($_GET['id_produk'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ubah Produk</title>
+
+    <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/form-admin.css">
+
 </head>
 
 <body>
-    <h1>Ubah Data Produk</h1>
+
+    <a href="./index.php" class="back">Kembali</a>
+    <h1 style="text-align: center;">Ubah Data Produk</h1>
 
     <form action="" method="post">
         <label for="nama_produk">Nama Produk</label><br>
@@ -57,7 +63,7 @@ if (isset($_GET['id_produk'])) {
 
 
         <label for="gambar">Gambar</label><br>
-        <input type="text" name="gambar" id="gambar" value="<?php echo $row['gambar']; ?>"><br>
+        <input type="text" name="gambar" id="gambar" value="<?php echo $row['image']; ?>"><br>
 
         <label for="harga">Harga</label><br>
         <input type="number" name="harga" id="harga" value="<?php echo $row['harga']; ?>"><br>
@@ -70,6 +76,8 @@ if (isset($_GET['id_produk'])) {
 
         <button type="submit" name="ubah_data">Ubah!</button>
     </form>
+
+
 </body>
 
 </html>

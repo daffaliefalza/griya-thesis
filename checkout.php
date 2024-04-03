@@ -120,6 +120,8 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['state'] = $state;
         $_SESSION['country'] = $country;
         $_SESSION['pin_code'] = $pin_code;
+        $_SESSION['items'] = $items;
+
 
         // Redirect to checkout_detail.php
         header('Location: checkout_detail.php?snapToken=' . urlencode($snapToken));
@@ -151,7 +153,7 @@ if (isset($_POST['order_btn'])) {
 
         <section class="checkout-form">
 
-            <h1 class="heading">complete your order</h1>
+            <h1 class="heading">Isi formulir pemesanan</h1>
 
             <form action="" method="post">
 
@@ -178,43 +180,43 @@ if (isset($_POST['order_btn'])) {
 
                 <div class="flex">
                     <div class="inputBox">
-                        <span>your name</span>
-                        <input type="text" placeholder="enter your name" name="name" required>
+                        <span>Nama Lengkap</span>
+                        <input type="text" placeholder="Masukkan Nama Lengkap.." name="name" required>
                     </div>
                     <div class="inputBox">
-                        <span>your number</span>
-                        <input type="number" placeholder="enter your number" name="number" required>
+                        <span>No. Telpon</span>
+                        <input type="number" placeholder="Masukkan No Telpon.." name="number" required>
                     </div>
                     <div class="inputBox">
-                        <span>your email</span>
-                        <input type="email" placeholder="enter your email" name="email" required>
+                        <span>Alamat Email</span>
+                        <input type="email" placeholder="Masukkan Alamat Email.." name="email" required>
                     </div>
 
                     <div class="inputBox">
-                        <span>address line 1</span>
+                        <span>Address line 1</span>
                         <input type="text" placeholder="e.g. flat no." name="flat" required>
                     </div>
                     <div class="inputBox">
-                        <span address line 2</span>
-                            <input type="text" placeholder="e.g. street name" name="street" required>
+                        <span> Address line 2</span>
+                        <input type="text" placeholder="e.g. street name" name="street" required>
                     </div>
                     <div class="inputBox">
-                        <span>city</span>
+                        <span>Kota</span>
                         <input type="text" placeholder="e.g. mumbai" name="city" required>
                     </div>
                     <div class="inputBox">
-                        <span>state</span>
+                        <span>Provinsi</span>
                         <input type="text" placeholder="e.g. maharashtra" name="state" required>
                     </div>
                     <div class="inputBox">
-                        <span>country</span>
+                        <span>Negara</span>
                         <input type="text" placeholder="e.g. india" name="country" required>
                     </div>
-                    <div class="inputBox"> <span>pin code</span>
+                    <div class="inputBox"> <span>Kode pos</span>
                         <input type="text" placeholder="e.g. 123456" name="pin_code" required>
                     </div>
                 </div>
-                <input type="submit" value="order now" name="order_btn" class="btn">
+                <input type="submit" value="Pesan Sekarang" name="order_btn" class="btn">
             </form>
         </section>
 

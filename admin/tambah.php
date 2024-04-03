@@ -33,10 +33,17 @@ if (isset($_POST['tambah_data'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Produk</title>
+
+    <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/form-admin.css">
+
 </head>
 
 <body>
-    <h1>Tambah Data Produk</h1>
+
+    <a href="./index.php" class="back">Kembali</a>
+
+    <h1 style="text-align: center;">Tambah Data Produk</h1>
 
     <form action="" method="post">
         <label for="nama_produk">Nama Produk</label>
@@ -74,6 +81,7 @@ if (isset($_POST['tambah_data'])) {
         <button type="submit" name="tambah_data">Tambah!</button>
 
     </form>
+
 
 
 

@@ -1,4 +1,5 @@
 <?php
+
 /** 
  * Check PHP version.
  */
