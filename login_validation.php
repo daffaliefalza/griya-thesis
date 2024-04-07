@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
         // Verify password
         if (password_verify($password, $user['password'])) {
             // Password is correct, start session and store user data
-            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_id'] = $user['id_users'];
             $_SESSION['username'] = $user['username'];
             // Redirect to dashboard or desired page
             header("Location: produk.php");

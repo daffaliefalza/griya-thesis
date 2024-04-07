@@ -11,7 +11,7 @@ $username = isset($_SESSION['user_id']) ? fetchUsername($_SESSION['user_id']) : 
 function fetchUsername($user_id)
 {
   global $conn;
-  $query = "SELECT username FROM users WHERE id = '$user_id'";
+  $query = "SELECT username FROM users WHERE id_users = '$user_id'";
   $result = mysqli_query($conn, $query);
   if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
@@ -28,7 +28,8 @@ if (isset($_POST['add_to_cart'])) {
     exit();
   }
 
-
+  // Get the user ID from the session
+  $user_id = $_SESSION['user_id'];
   $product_name = $_POST['product_name'];
   $product_price = $_POST['product_price'];
   $product_image = $_POST['product_image'];
@@ -39,8 +40,8 @@ if (isset($_POST['add_to_cart'])) {
   if (mysqli_num_rows($select_cart) > 0) {
     echo '<script>alert("Produk sudah berada di keranjang");</script>';
   } else {
-    // Add the item to the cart
-    $insert_product = mysqli_query($conn, "INSERT INTO `cart`(name, price, image, quantity) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity')");
+    // Add the item to the cart with the user ID
+    $insert_product = mysqli_query($conn, "INSERT INTO `cart`(name, price, image, quantity, id_users) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity', '$user_id')");
     echo "<script>alert('Produk berhasil ditambahkan!');</script>";
   }
 }
