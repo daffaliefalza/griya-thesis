@@ -22,7 +22,7 @@ if (isset($_GET['id_produk'])) {
             $stok = $_POST['stok'];
 
             // Update the data in the database
-            $sql = "UPDATE produk SET nama_produk='$nama_produk', kategori_produk='$kategori_produk', gambar='$gambar', harga=$harga, deskripsi='$deskripsi', stok=$stok WHERE id_produk='$id_produk'";
+            $sql = "UPDATE produk SET nama_produk='$nama_produk', kategori_produk='$kategori_produk', image='$gambar', harga=$harga, deskripsi='$deskripsi', stok=$stok WHERE id_produk='$id_produk'";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
