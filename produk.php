@@ -48,10 +48,18 @@ if (isset($_POST['add_to_cart'])) {
 
 // Logout functionality
 if (isset($_POST['logout'])) {
+  // Get the user ID from the session
+  $user_id = $_SESSION['user_id'];
+
+  // Delete cart items associated with the logged-out user
+  mysqli_query($conn, "DELETE FROM `cart` WHERE id_users = '$user_id'");
+
   // Unset all session variables
   $_SESSION = array();
   // Destroy the session
   session_destroy();
+  // Clear the cart session
+  unset($_SESSION['cart']); // Assuming you're storing cart items in $_SESSION['cart']
   // Redirect to the produk.php page
   header("Location: produk.php");
   exit();
