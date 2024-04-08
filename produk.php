@@ -20,9 +20,20 @@ function fetchUsername($user_id)
   return null;
 }
 
+// Load cart items from the database if the user is logged in
+$cart_items = [];
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $select_cart = mysqli_query($conn, "SELECT id, name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
+  if (mysqli_num_rows($select_cart) > 0) {
+    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+      $cart_items[] = $fetch_cart;
+    }
+  }
+}
+
 // Add item to cart logic
 if (isset($_POST['add_to_cart'])) {
-
   if (!isset($_SESSION['user_id'])) {
     header('location: login.php');
     exit();
@@ -36,30 +47,28 @@ if (isset($_POST['add_to_cart'])) {
   $product_quantity = 1;
 
   // Check if the item is already in the cart
-  $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name'");
+  $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND id_users = '$user_id'");
   if (mysqli_num_rows($select_cart) > 0) {
     echo '<script>alert("Produk sudah berada di keranjang");</script>';
+    echo '<script>window.location.href = "produk.php";</script>';
   } else {
     // Add the item to the cart with the user ID
     $insert_product = mysqli_query($conn, "INSERT INTO `cart`(name, price, image, quantity, id_users) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity', '$user_id')");
-    echo "<script>alert('Produk berhasil ditambahkan!');</script>";
+    echo "<script>alert('Produk berhasil ditambahkan!'); window.location.href = 'produk.php';</script>";
   }
 }
 
 // Logout functionality
 if (isset($_POST['logout'])) {
-  // Get the user ID from the session
-  $user_id = $_SESSION['user_id'];
-
-  // Delete cart items associated with the logged-out user
-  mysqli_query($conn, "DELETE FROM `cart` WHERE id_users = '$user_id'");
-
-  // Unset all session variables
-  $_SESSION = array();
-  // Destroy the session
-  session_destroy();
   // Clear the cart session
   unset($_SESSION['cart']); // Assuming you're storing cart items in $_SESSION['cart']
+
+  // Unset all other session variables
+  $_SESSION = array();
+
+  // Destroy the session
+  session_destroy();
+
   // Redirect to the produk.php page
   header("Location: produk.php");
   exit();
@@ -130,10 +139,7 @@ if (isset($_POST['logout'])) {
       <div class="wrapper">
         <?php echo $username ? "<span>Welcome, $username</span>" : ""; ?>
         <?php echo $username ? '<form action="" method="post"><button type="submit" name="logout">Logout</button></form>' : '<a href="login.php">Login</a>'; ?>
-        <?php
-        $select_rows = mysqli_query($conn, "SELECT * FROM `cart`") or die('query failed');
-        $row_count = mysqli_num_rows($select_rows);
-        ?>
+        <?php $row_count = count($cart_items); ?>
         <a style="color: #000; text-decoration: none;" href="cart.php" class="cart">cart <span><?php echo $row_count; ?></span> </a>
 
       </div>
@@ -182,7 +188,33 @@ if (isset($_POST['logout'])) {
     <div class="container">
       <img src="img/logo.png" alt="logo griya jamoe" />
       <div class="row">
-        <!-- Footer content -->
+        <div class="col">
+          <h5>Minuman Tradisional <br />Rempah Klasik, Rasa Autentik</h5>
+          <div class="footer-line"></div>
+          <p>Tumbuhkan Kesehatan, Rasakan Kebaikan</p>
+        </div>
+        <div class="col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="produk.php">Produk</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="admin/login.html">Login as admin</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Kontak</h4>
+          <ul>
+            <li>
+              <p>
+                ✉️ Srengseng Sawah, Kec. Jagakarsa, <br />Kota Jakarta
+                Selatan, Daerah Khusus Ibukota Jakarta 12640
+              </p>
+            </li>
+            <li>
+              <p>📞 0856-1445-231</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <hr />
@@ -190,7 +222,9 @@ if (isset($_POST['logout'])) {
       © Griya Jamoe Klasik 2024 - All rights reserved
     </p>
   </footer>
+
   <!-- footer end -->
+
 
 </body>
 
