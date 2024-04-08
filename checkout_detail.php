@@ -1,15 +1,15 @@
 <?php
 session_start();
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+// require 'PHPMailer/src/Exception.php';
+// require 'PHPMailer/src/PHPMailer.php';
+// require 'PHPMailer/src/SMTP.php';
 
-// Create a new PHPMailer instance
-$mail = new PHPMailer(true);
+// // Create a new PHPMailer instance
+// $mail = new PHPMailer(true);
 
 // Check if snapToken is present in the URL query parameters
 if (isset($_GET['snapToken'])) {
@@ -48,62 +48,62 @@ if (isset($transaction_details)) {
 }
 
 // Construct email message
-$message = "Dear $name,\n\n";
-$message .= "Thank you for your order!\n\n";
-$message .= "Your order details:\n\n";
+// $message = "Dear $name,\n\n";
+// $message .= "Thank you for your order!\n\n";
+// $message .= "Your order details:\n\n";
 
-// Include order ID in the email message
-$message .= "Order ID: $order_id\n\n";
+// // Include order ID in the email message
+// $message .= "Order ID: $order_id\n\n";
 
-$grand_total = 0;
+// $grand_total = 0;
 
-foreach ($items as $item) {
-    $total_price = $item['price'] * $item['quantity'];
-    $total_price_formatted = 'Rp ' . number_format($total_price, 0, ',', '.');
-    $grand_total += $total_price;
+// foreach ($items as $item) {
+//     $total_price = $item['price'] * $item['quantity'];
+//     $total_price_formatted = 'Rp ' . number_format($total_price, 0, ',', '.');
+//     $grand_total += $total_price;
 
-    $message .= "Product: " . $item['name'] . "\n";
-    $message .= "Price: Rp " . number_format($item['price'], 0, ',', '.') . "\n";
-    $message .= "Quantity: " . $item['quantity'] . "\n";
-    $message .= "Total Price: " . $total_price_formatted . "\n\n";
-}
+//     $message .= "Product: " . $item['name'] . "\n";
+//     $message .= "Price: Rp " . number_format($item['price'], 0, ',', '.') . "\n";
+//     $message .= "Quantity: " . $item['quantity'] . "\n";
+//     $message .= "Total Price: " . $total_price_formatted . "\n\n";
+// }
 
-$wa = 'https://wa.me/6281213567170';
+// $wa = 'https://wa.me/6281213567170';
 
-$message .= "Grand Total: Rp " . number_format($grand_total, 0, ',', '.') . "\n\n";
-$message .= "Shipping Address:\n";
-$message .= "Address Line 1: $flat\n";
-$message .= "Address Line 2: $street\n";
-$message .= "City: $city\n";
-$message .= "State: $state\n";
-$message .= "Country: $country\n";
-$message .= "Postal Code: $pin_code\n\n";
-$message .= "If you have any questions, feel free to contact us at $wa \n";
-$message .= "Best Regards,\n";
-$message .= "Griya Jamoe Klasik";
+// $message .= "Grand Total: Rp " . number_format($grand_total, 0, ',', '.') . "\n\n";
+// $message .= "Shipping Address:\n";
+// $message .= "Address Line 1: $flat\n";
+// $message .= "Address Line 2: $street\n";
+// $message .= "City: $city\n";
+// $message .= "State: $state\n";
+// $message .= "Country: $country\n";
+// $message .= "Postal Code: $pin_code\n\n";
+// $message .= "If you have any questions, feel free to contact us at $wa \n";
+// $message .= "Best Regards,\n";
+// $message .= "Griya Jamoe Klasik";
 
-// SMTP configuration
-$mail->isSMTP();
-$mail->Host = 'smtp.gmail.com';
-$mail->SMTPAuth = true;
-$mail->Username = 'liefalzaa@gmail.com'; // Your Gmail email address
-$mail->Password = 'jnzw guiv sksl vcjy'; // Your Gmail password
-$mail->SMTPSecure = 'tls';
-$mail->Port = 587;
+// // SMTP configuration
+// $mail->isSMTP();
+// $mail->Host = 'smtp.gmail.com';
+// $mail->SMTPAuth = true;
+// $mail->Username = 'liefalzaa@gmail.com'; // Your Gmail email address
+// $mail->Password = 'jnzw guiv sksl vcjy'; // Your Gmail password
+// $mail->SMTPSecure = 'tls';
+// $mail->Port = 587;
 
-// Set email parameters
-$mail->setFrom('liefalzaa@gmail.com', 'Your Company Name');
-$mail->addAddress($email, $name);
-$mail->Subject = 'Order Confirmation';
-$mail->Body = $message;
+// // Set email parameters
+// $mail->setFrom('liefalzaa@gmail.com', 'Your Company Name');
+// $mail->addAddress($email, $name);
+// $mail->Subject = 'Order Confirmation';
+// $mail->Body = $message;
 
-// Send email
-if (!$mail->send()) {
-    echo 'Email could not be sent.';
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
-} else {
-    // echo 'Email sent successfully!';
-}
+// // Send email
+// if (!$mail->send()) {
+//     echo 'Email could not be sent.';
+//     echo 'Mailer Error: ' . $mail->ErrorInfo;
+// } else {
+//     // echo 'Email sent successfully!';
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,7 +178,27 @@ if (!$mail->send()) {
         var snapToken = '<?= $snapToken ?>';
         var payButton = document.getElementById('pay-button');
         payButton.addEventListener('click', function() {
-            window.snap.pay(snapToken);
+            window.snap.pay(snapToken), {
+                onSuccess: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment success!");
+                    console.log(result);
+                },
+                onPending: function(result) {
+                    /* You may add your own implementation here */
+                    alert("wating your payment!");
+                    console.log(result);
+                },
+                onError: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment failed!");
+                    console.log(result);
+                },
+                onClose: function() {
+                    /* You may add your own implementation here */
+                    alert('you closed the popup without finishing the payment');
+                }
+            }
         });
     </script>
 </body>

@@ -1,5 +1,4 @@
 <?php
-
 // Include Midtrans PHP Library
 require_once dirname(__FILE__) . '/midtrans/midtrans-php-master/Midtrans.php';
 
@@ -13,6 +12,27 @@ include './server/connection.php'; // Include your database configuration
 // Start the session
 session_start();
 
+// Fetch cart items for the current user
+$user_id = $_SESSION['user_id'];
+$select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
+$total = 0;
+$grand_total = 0;
+$items = array(); // Initialize array for items
+if (mysqli_num_rows($select_cart) > 0) {
+    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+        $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
+        $grand_total += $total_price;
+        // Add item to items array
+        $items[] = array(
+            'id' => $fetch_cart['id'],
+            'price' => $fetch_cart['price'],
+            'quantity' => $fetch_cart['quantity'],
+            'name' => $fetch_cart['name'],
+        );
+    }
+}
+// Ensure $grand_total is initialized to 0 even when the cart is empty
+$grand_total = isset($grand_total) ? $grand_total : 0;
 
 // Handle form submission
 if (isset($_POST['order_btn'])) {
@@ -32,28 +52,6 @@ if (isset($_POST['order_btn'])) {
     $state = $_POST['state'];
     $country = $_POST['country'];
     $pin_code = $_POST['pin_code'];
-
-    // Fetch cart items
-    $select_cart = mysqli_query($conn, "SELECT * FROM `cart`");
-    $total = 0;
-    $grand_total = 0;
-    $items = array(); // Initialize array for items
-    if (mysqli_num_rows($select_cart) > 0) {
-        while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-            $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-            $grand_total += $total_price;
-            // Add item to items array
-            $items[] = array(
-                'id' => $fetch_cart['id'],
-                'price' => $fetch_cart['price'],
-                'quantity' => $fetch_cart['quantity'],
-                'name' => $fetch_cart['name'],
-            );
-        }
-    } else {
-        echo "<div class='display-order'><span>Your cart is empty!</span></div>";
-        exit;
-    }
 
     // Prepare transaction details
     $transaction_details = array(
@@ -96,6 +94,7 @@ if (isset($_POST['order_btn'])) {
             'quantity' => $item['quantity'],
         );
     }
+
     // Prepare Snap Token
     try {
         $params = array(
@@ -124,7 +123,6 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['items'] = $items;
         $_SESSION['transaction_details'] = $transaction_details; // Store transaction details
 
-
         // Redirect to checkout_detail.php
         header('Location: checkout_detail.php?snapToken=' . urlencode($snapToken));
     } catch (Exception $e) {
@@ -145,41 +143,29 @@ if (isset($_POST['order_btn'])) {
 
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/checkouts.css">
-
-
 </head>
 
 <body>
 
-    <div class=" container">
-
+    <div class="container">
         <section class="checkout-form">
-
             <h1 class="heading">Isi formulir pemesanan</h1>
-
             <form action="" method="post">
-
                 <div class="display-order">
                     <?php
-                    $select_cart = mysqli_query($conn, "SELECT * FROM `cart`");
-                    $total = 0;
-                    $grand_total = 0;
-                    if (mysqli_num_rows($select_cart) > 0) {
-                        while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                            $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-                            $grand_total = $total += $total_price;
+                    // Display cart items for the current user
+                    if (!empty($items)) {
+                        foreach ($items as $item) {
                     ?>
-                            <span><?= $fetch_cart['name']; ?>(<?= $fetch_cart['quantity']; ?>)</span>
+                            <span><?= $item['name']; ?>(<?= $item['quantity']; ?>)</span>
                     <?php
                         }
                     } else {
-                        echo "<div class='display-order'><span>your cart is empty!</span></div>";
+                        echo "<div class='display-order'><span>Your cart is empty!</span></div>";
                     }
                     ?>
-                    <span class="grand-total"> grand total : Rp <?= number_format($grand_total, 0, ',', '.'); ?>,- </span>
-
+                    <span class="grand-total">Grand Total : Rp <?= number_format($grand_total, 0, ',', '.'); ?>,-</span>
                 </div>
-
                 <div class="flex">
                     <div class="inputBox">
                         <span>Nama Lengkap</span>
@@ -193,13 +179,12 @@ if (isset($_POST['order_btn'])) {
                         <span>Alamat Email</span>
                         <input type="email" placeholder="Masukkan Alamat Email.." name="email" required>
                     </div>
-
                     <div class="inputBox">
                         <span>Address line 1</span>
                         <input type="text" placeholder="e.g. flat no." name="flat" required>
                     </div>
                     <div class="inputBox">
-                        <span> Address line 2</span>
+                        <span>Address line 2</span>
                         <input type="text" placeholder="e.g. street name" name="street" required>
                     </div>
                     <div class="inputBox">
@@ -214,14 +199,14 @@ if (isset($_POST['order_btn'])) {
                         <span>Negara</span>
                         <input type="text" placeholder="e.g. india" name="country" required>
                     </div>
-                    <div class="inputBox"> <span>Kode pos</span>
+                    <div class="inputBox">
+                        <span>Kode pos</span>
                         <input type="text" placeholder="e.g. 123456" name="pin_code" required>
                     </div>
                 </div>
                 <input type="submit" value="Pesan Sekarang" name="order_btn" class="btn">
             </form>
         </section>
-
     </div>
 
 </body>
