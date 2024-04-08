@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -8,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 
 require('server/connection.php');
 
@@ -68,7 +66,9 @@ if (isset($_GET['delete_all'])) {
 
                     <?php
 
-                    $select_cart = mysqli_query($conn, "SELECT id, name, price, image, quantity FROM `cart`");
+                    $user_id = $_SESSION['user_id']; // Get the user ID from the session
+
+                    $select_cart = mysqli_query($conn, "SELECT id, name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
 
                     $grand_total = 0;
                     if (mysqli_num_rows($select_cart) > 0) {
