@@ -46,6 +46,15 @@ $result = mysqli_query($conn, $sql);
             <img src="../img/blog-icon.svg" width="25">
             <a href="kelola-blog.php">Kelola Blog</a>
           </li>
+          <li style="display: flex; align-items: center;  gap: 0.4rem;">
+            <img src="../img/password-icon.svg" width="25">
+            <a href="ubah-password.php">Ubah Pasword</a>
+          </li>
+          <li style="display: flex; align-items: center;  gap: 0.4rem; border-top: 1px solid #000;">
+            <a href="logout.php" style="text-decoration: underline;">Logout</a>
+          </li>
+
+
         </ul>
       </div>
     </aside>
@@ -53,7 +62,6 @@ $result = mysqli_query($conn, $sql);
       <h2>Kelola Produk</h2>
       <div class="top-bar-links">
         <h3>Halo, <span style="color: #9f9f9f">Admin</span></h3>
-        <a href="logout.php">Logout</a>
       </div>
     </div>
     <main class="main-content">
