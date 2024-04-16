@@ -1,4 +1,6 @@
 <?php
+
+include 'server/connection.php';
 // Include Midtrans PHP Library
 require_once dirname(__FILE__) . '/midtrans/midtrans-php-master/Midtrans.php';
 
@@ -113,7 +115,6 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['name'] = $name;
         $_SESSION['number'] = $number;
         $_SESSION['email'] = $email;
-
         $_SESSION['flat'] = $flat;
         $_SESSION['street'] = $street;
         $_SESSION['city'] = $city;
@@ -122,6 +123,11 @@ if (isset($_POST['order_btn'])) {
         $_SESSION['pin_code'] = $pin_code;
         $_SESSION['items'] = $items;
         $_SESSION['transaction_details'] = $transaction_details; // Store transaction details
+
+
+
+        $user_id = $_SESSION['user_id'];
+        mysqli_query($conn, "DELETE FROM `cart` WHERE id_users = '$user_id'");
 
         // Redirect to checkout_detail.php
         header('Location: checkout_detail.php?snapToken=' . urlencode($snapToken));

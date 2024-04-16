@@ -181,8 +181,8 @@ if (isset($transaction_details)) {
             window.snap.pay(snapToken), {
                 onSuccess: function(result) {
                     /* You may add your own implementation here */
-                    alert("payment success!");
-                    console.log(result);
+                    // alert("payment success!");
+                    // console.log(result);
                 },
                 onPending: function(result) {
                     /* You may add your own implementation here */

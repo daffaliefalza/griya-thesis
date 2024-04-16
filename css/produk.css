@@ -38,6 +38,28 @@ header .container .header-cart {
 /* header style end */
 
 /* all product style */
+
+.all-product .buttons {
+  display: flex;
+  justify-content: center !important;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.all-product .buttons button {
+  padding: 10px 20px;
+  background-color: #dfb665;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.all-product .buttons button:hover {
+  background-color: #c49a43;
+}
+
 .all-product {
   padding: 10rem 0rem 5rem 0;
 }
