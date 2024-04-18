@@ -44,7 +44,7 @@ $result = mysqli_query($conn, $sql);
           </li>
           <li style="display: flex; align-items: center;  gap: 0.4rem;">
             <img src="../img/blog-icon.svg" width="25">
-            <a href="kelola-blog.php">Kelola Blog</a>
+            <a href="kelola-blog.php">Kelola Artikel</a>
           </li>
           <li style="display: flex; align-items: center;  gap: 0.4rem;">
             <img src="../img/password-icon.svg" width="25">

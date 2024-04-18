@@ -24,13 +24,13 @@
           </li>
           <li style="display: flex; align-items: center;  gap: 0.4rem;">
             <img src="../img/blog-icon.svg" width="25">
-            <a href="kelola-blog.php">Kelola Blog</a>
+            <a href="kelola-blog.php">Kelola Artikel</a>
           </li>
         </ul>
       </div>
     </aside>
     <div class="top-bar">
-      <h2>Kelola Blog</h2>
+      <h2>Kelola Artikel</h2>
       <div class="top-bar-links">
         <h3>Halo, <span style="color: #9f9f9f">Admin</span></h3>
         <a href="admin-logout.html">Logout</a>

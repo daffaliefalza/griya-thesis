@@ -189,15 +189,15 @@ if (isset($_POST['logout'])) {
   <!-- header start -->
   <header>
     <div class="container">
-      <a href="#">
+      <a href="index.php">
         <img src="./img/logo.png" alt="Logo Griya" />
       </a>
       <nav>
         <ul>
-          <li><a href="index.html">Beranda</a></li>
-          <li><a href="index.html">Tentang-kami</a></li>
+          <li><a href="index.php">Beranda</a></li>
+          <li><a href="index.php#tentang-kami">Tentang-kami</a></li>
           <li><a href="#">Produk</a></li>
-          <li><a href="blog.html">Blog</a></li>
+          <li><a href="artikel.php">Artikel</a></li>
         </ul>
       </nav>
       <div class="wrapper">
@@ -254,8 +254,7 @@ if (isset($_POST['logout'])) {
           <h4>Quick Links</h4>
           <ul>
             <li><a href="produk.php">Produk</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="admin/login.html">Login as admin</a></li>
+            <li><a href="artikel.php">Artikel</a></li>
           </ul>
         </div>
         <div class="col">

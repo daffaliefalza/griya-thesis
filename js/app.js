@@ -12,9 +12,3 @@ blogPost[2].onclick = () => {
 blogPost[3].onclick = () => {
   window.location.href = "blog-post/kunyit_post.html";
 };
-
-// blogPost.forEach((item) => {
-//   item.addEventListener("click", function () {
-//     window.location.href = "blog-post/ginger_post.html";
-//   });
-// });
