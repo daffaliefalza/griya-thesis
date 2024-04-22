@@ -1,141 +1,74 @@
 <?php
+session_start();
 
 include 'server/connection.php';
-// Include Midtrans PHP Library
-require_once dirname(__FILE__) . '/midtrans/midtrans-php-master/Midtrans.php';
 
-// Set your Midtrans API credentials
-\Midtrans\Config::$serverKey = 'SB-Mid-server-n48WqIvtn-de3JRWJW19DXY6';
-\Midtrans\Config::$isProduction = false; // Set to true for production environment
-
-// Include necessary files
-include './server/connection.php'; // Include your database configuration
-
-// Start the session
-session_start();
+// Function to generate a unique order number
+function generateOrderNumber()
+{
+    // Generate a random number and append current timestamp to ensure uniqueness
+    return 'ORD' . mt_rand(100000, 999999) . time();
+}
 
 // Fetch cart items for the current user
 $user_id = $_SESSION['user_id'];
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
 $total = 0;
-$grand_total = 0;
-$items = array(); // Initialize array for items
+
+$product_names = array(); // Initialize an empty array to store product names
+$quantities = array();
+
 if (mysqli_num_rows($select_cart) > 0) {
     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
         $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-        $grand_total += $total_price;
-        // Add item to items array
-        $items[] = array(
-            'id' => $fetch_cart['id'],
-            'price' => $fetch_cart['price'],
-            'quantity' => $fetch_cart['quantity'],
-            'name' => $fetch_cart['name'],
-        );
+        $total += $total_price; // Accumulate total price
+        $product_names[] = $fetch_cart['name'];
+        $quantities[] = $fetch_cart['quantity'];
     }
 }
-// Ensure $grand_total is initialized to 0 even when the cart is empty
-$grand_total = isset($grand_total) ? $grand_total : 0;
 
 // Handle form submission
 if (isset($_POST['order_btn'])) {
-    // Check if all required fields are filled
-    if (empty($_POST['name']) || empty($_POST['number']) || empty($_POST['email'])  || empty($_POST['flat']) || empty($_POST['street']) || empty($_POST['city']) || empty($_POST['state']) || empty($_POST['country']) || empty($_POST['pin_code'])) {
-        echo "<div class='display-order'><span>Please fill all required fields!</span></div>";
-        exit;
-    }
-
     // Collect order details
-    $name = $_POST['name'];
-    $number = $_POST['number'];
+    $fullname = $_POST['fullname'];
+    $phone_number = $_POST['phone_number'];
     $email = $_POST['email'];
-    $flat = $_POST['flat'];
-    $street = $_POST['street'];
+    $province = $_POST['province'];
     $city = $_POST['city'];
-    $state = $_POST['state'];
-    $country = $_POST['country'];
-    $pin_code = $_POST['pin_code'];
+    $detail_address = $_POST['detail_address'];
+    $postal_code = $_POST['postal_code'];
 
-    // Prepare transaction details
-    $transaction_details = array(
-        'order_id' => uniqid(), // Generate a unique order ID
-        'gross_amount' => $grand_total, // Set the total order amount
-    );
+    // Generate unique order number
+    $order_number = generateOrderNumber();
 
-    // Prepare customer details
-    $customer_details = array(
-        'first_name' => $name,
-        'email' => $email,
-        'phone' => $number,
-        'billing_address' => array(
-            'first_name' => $name,
-            'email' => $email,
-            'phone' => $number,
-            'address' => $flat . ', ' . $street . ', ' . $city . ', ' . $state . ', ' . $country . ', ' . $pin_code,
-            'city' => $city,
-            'postal_code' => $pin_code,
-            'country_code' => 'IDN', // Assuming Indonesia, change it accordingly
-        ),
-        'shipping_address' => array(
-            'first_name' => $name, // Assuming shipping address same as billing
-            'email' => $email,
-            'phone' => $number,
-            'address' => $flat . ', ' . $street . ', ' . $city . ', ' . $state . ', ' . $country . ', ' . $pin_code,
-            'city' => $city,
-            'postal_code' => $pin_code,
-            'country_code' => 'IDN', // Assuming Indonesia, change it accordingly
-        ),
-    );
+    // Insert order into orders table
+    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, province, city, detail_address, postal_code, total_price) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$province', '$city', '$detail_address', '$postal_code', '$total')";
+    if (mysqli_query($conn, $insert_order_query)) {
+        // Get the last inserted order ID
+        $order_id = mysqli_insert_id($conn);
 
-    // Prepare items details
-    $item_details = array();
-    foreach ($items as $item) {
-        $item_details[] = array(
-            'id' => $item['id'],
-            'name' => $item['name'],
-            'price' => $item['price'],
-            'quantity' => $item['quantity'],
-        );
-    }
+        // Insert items into order_items table
+        for ($i = 0; $i < count($product_names); $i++) {
+            $product_name = $product_names[$i];
+            $quantity = $quantities[$i];
+            $insert_item_query = "INSERT INTO order_items (order_id, product_name, quantity) VALUES ('$order_id', '$product_name', '$quantity')";
+            if (!mysqli_query($conn, $insert_item_query)) {
+                echo "Error inserting item: " . mysqli_error($conn);
+                exit();
+            }
+        }
 
-    // Prepare Snap Token
-    try {
-        $params = array(
-            'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
-            'item_details' => $item_details,
-        );
-
-        // Get Snap Token
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        // Pass the Snap Token to the frontend JavaScript
-        echo "<script>var snapToken = '{$snapToken}';</script>";
-
-        // Storing form data in session variables
-        $_SESSION['name'] = $name;
-        $_SESSION['number'] = $number;
-        $_SESSION['email'] = $email;
-        $_SESSION['flat'] = $flat;
-        $_SESSION['street'] = $street;
-        $_SESSION['city'] = $city;
-        $_SESSION['state'] = $state;
-        $_SESSION['country'] = $country;
-        $_SESSION['pin_code'] = $pin_code;
-        $_SESSION['items'] = $items;
-        $_SESSION['transaction_details'] = $transaction_details; // Store transaction details
-
-
-
-        $user_id = $_SESSION['user_id'];
+        // Clear cart for the current user
         mysqli_query($conn, "DELETE FROM `cart` WHERE id_users = '$user_id'");
 
-        // Redirect to checkout_detail.php
-        header('Location: checkout_detail.php?snapToken=' . urlencode($snapToken));
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
+        // Redirect to checkout history or any other page
+        header("Location: checkout_history.php");
+        exit();
+    } else {
+        // Error occurred while inserting order
+        echo "Error inserting order: " . mysqli_error($conn);
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -145,7 +78,7 @@ if (isset($_POST['order_btn'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>checkout</title>
+    <title>Checkout</title>
 
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/checkouts.css">
@@ -160,54 +93,45 @@ if (isset($_POST['order_btn'])) {
                 <div class="display-order">
                     <?php
                     // Display cart items for the current user
-                    if (!empty($items)) {
-                        foreach ($items as $item) {
-                    ?>
-                            <span><?= $item['name']; ?>(<?= $item['quantity']; ?>)</span>
-                    <?php
-                        }
+                    for ($i = 0; $i < count($product_names); $i++) {
+                        echo "<p>$product_names[$i] - Jumlah: $quantities[$i]</p>"; // Output each product name and its quantity
+                    }
+                    if ($total > 0) {
+                        echo "<span>Total Price: Rp " . number_format($total, 0, ',', '.') . ",-</span>";
                     } else {
                         echo "<div class='display-order'><span>Your cart is empty!</span></div>";
                     }
                     ?>
-                    <span class="grand-total">Grand Total : Rp <?= number_format($grand_total, 0, ',', '.'); ?>,-</span>
                 </div>
                 <div class="flex">
                     <div class="inputBox">
                         <span>Nama Lengkap</span>
-                        <input type="text" placeholder="Masukkan Nama Lengkap.." name="name" required>
+                        <input type="text" placeholder="Masukkan Nama Lengkap.." name="fullname" required>
                     </div>
                     <div class="inputBox">
                         <span>No. Telpon</span>
-                        <input type="number" placeholder="Masukkan No Telpon.." name="number" required>
+                        <input type="number" placeholder="Masukkan No Telpon.." name="phone_number" required>
                     </div>
                     <div class="inputBox">
                         <span>Alamat Email</span>
                         <input type="email" placeholder="Masukkan Alamat Email.." name="email" required>
                     </div>
                     <div class="inputBox">
-                        <span>Address line 1</span>
-                        <input type="text" placeholder="e.g. flat no." name="flat" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Address line 2</span>
-                        <input type="text" placeholder="e.g. street name" name="street" required>
+                        <span>Provinsi</span>
+                        <input type="text" placeholder="e.g. maharashtra" name="province" required>
                     </div>
                     <div class="inputBox">
                         <span>Kota</span>
                         <input type="text" placeholder="e.g. mumbai" name="city" required>
                     </div>
+                    <br>
                     <div class="inputBox">
-                        <span>Provinsi</span>
-                        <input type="text" placeholder="e.g. maharashtra" name="state" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Negara</span>
-                        <input type="text" placeholder="e.g. india" name="country" required>
+                        <p>Alamat Lengkap</p>
+                        <textarea name="detail_address" cols="30" rows="10" placeholder="Jalan lumbu tengah 1b"></textarea>
                     </div>
                     <div class="inputBox">
                         <span>Kode pos</span>
-                        <input type="text" placeholder="e.g. 123456" name="pin_code" required>
+                        <input type="text" placeholder="e.g. 123456" name="postal_code" required>
                     </div>
                 </div>
                 <input type="submit" value="Pesan Sekarang" name="order_btn" class="btn">

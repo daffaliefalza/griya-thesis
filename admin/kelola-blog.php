@@ -12,23 +12,7 @@
 
 <body>
   <div class="wrapper">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <img src="../img/logo.png" alt="logo griya jamoe" />
-      </div>
-      <div class="sidebar-content">
-        <ul style="padding: 0.5rem;">
-          <li style="display: flex; align-items: center; gap: 0.4rem; ">
-            <img src="../img/produk-icon.svg" width="25">
-            <a href="index.php">Kelola Produk</a>
-          </li>
-          <li style="display: flex; align-items: center;  gap: 0.4rem;">
-            <img src="../img/blog-icon.svg" width="25">
-            <a href="kelola-blog.php">Kelola Artikel</a>
-          </li>
-        </ul>
-      </div>
-    </aside>
+    <?php include 'sidebar.php' ?>
     <div class="top-bar">
       <h2>Kelola Artikel</h2>
       <div class="top-bar-links">

@@ -54,6 +54,9 @@ if (isset($_POST['tambah_data'])) {
         <label for="kategori_produk">Kategori Produk</label>
         <br>
 
+
+        <p>Rubah Jadi jamu / instan</p>
+
         <input type="text" name="kategori_produk" id="kategori_produk">
         <br>
 

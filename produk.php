@@ -198,6 +198,14 @@ if (isset($_POST['logout'])) {
           <li><a href="index.php#tentang-kami">Tentang-kami</a></li>
           <li><a href="#">Produk</a></li>
           <li><a href="artikel.php">Artikel</a></li>
+          <?php
+
+          if (isset($_SESSION['user_id'])) {
+            echo "<li><a href='checkout_history.php'>Riwayat Pemesanan</a></li>";
+          }
+
+
+          ?>
         </ul>
       </nav>
       <div class="wrapper">
