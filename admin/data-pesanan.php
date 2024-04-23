@@ -94,9 +94,14 @@ $result = mysqli_query($conn, "SELECT * FROM orders ");
                         <td><?php echo $row['payment_status'] ?></td>
                         <td><?php echo number_format($row['total_price']) ?></td>
                         <td>
-                            <button class="status-button">Ubah status pesanan</button>
-                            <button class="payment-button">Lihat bukti pembayaran</button>
+                            <!-- <a class="status-button">Ubah status pesanan</a> -->
 
+                            <?php if ($row['status'] == 'rejected') { ?>
+                                <a href="#">Batal</a>
+                            <?php } else { ?>
+                                <a class="payment-button" href="lihat-bukti.php?order_id=<?php echo $row['order_id']; ?>">Lihat bukti pembayaran</a>
+                            <?php } ?>
+                            <p>Lihat bukti pembayaran, nangkep data payment & bisa rubah status pesanan</p>
 
                         </td>
                     </tbody>

@@ -70,26 +70,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .reset-password-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .reset-password-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .reset-password-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .reset-password-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-password-form button:hover {
+            background-color: #0056b3;
+        }
+
         .error-message {
             color: red;
             font-style: italic;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
-    <h2>Reset Password</h2>
-    <?php if (!$passwords_match) : ?>
-        <p class="error-message">Passwords do not match.</p>
-    <?php endif; ?>
-    <form action="" method="post">
-        <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
-        <label for="new_password">Enter your new password:</label><br>
-        <input type="password" id="new_password" name="new_password" required><br>
-        <label for="confirm_password">Confirm new password:</label><br>
-        <input type="password" id="confirm_password" name="confirm_password" required><br>
-        <button type="submit">Reset Password</button>
-    </form>
+    <div class="reset-password-container">
+        <h2>Reset Password</h2>
+        <?php if (!$passwords_match) : ?>
+            <p class="error-message">Passwords do not match.</p>
+        <?php endif; ?>
+        <form class="reset-password-form" action="" method="post">
+            <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
+            <label for="new_password">Enter your new password:</label><br>
+            <input type="password" id="new_password" name="new_password" required><br>
+            <label for="confirm_password">Confirm new password:</label><br>
+            <input type="password" id="confirm_password" name="confirm_password" required><br>
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
 </body>
 
 </html>

@@ -51,7 +51,8 @@ if (isset($_POST['order_btn'])) {
         for ($i = 0; $i < count($product_names); $i++) {
             $product_name = $product_names[$i];
             $quantity = $quantities[$i];
-            $insert_item_query = "INSERT INTO order_items (order_id, product_name, quantity) VALUES ('$order_id', '$product_name', '$quantity')";
+            $total_price = $total;
+            $insert_item_query = "INSERT INTO order_items (order_id, product_name, quantity, total_price) VALUES ('$order_id', '$product_name', '$quantity', $total_price)";
             if (!mysqli_query($conn, $insert_item_query)) {
                 echo "Error inserting item: " . mysqli_error($conn);
                 exit();

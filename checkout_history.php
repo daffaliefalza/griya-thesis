@@ -36,9 +36,10 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Pembelian</title>
+    <link rel="stylesheet" href="css/default.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            /* font-family: Arial, sans-serif; */
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
@@ -46,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
@@ -58,6 +59,7 @@ if (!isset($_SESSION['user_id'])) {
             font-size: 24px;
             margin-bottom: 20px;
             color: #333;
+            text-align: center;
         }
 
         table {
@@ -84,10 +86,48 @@ if (!isset($_SESSION['user_id'])) {
         p {
             margin-bottom: 10px;
             color: #555;
+            text-align: justify;
         }
 
         .no-history {
             color: #555;
+            text-align: center;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-link-invoice {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: green !important;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+
+        .disabled-text {
+            color: #bbb;
+            font-style: italic;
+            /* Choose a color for disabled text */
+            text-decoration: none;
+            /* Remove any default link decoration */
+            pointer-events: none;
+            /* Disable pointer events */
+            cursor: default;
+            /* Change cursor to default */
         }
     </style>
 </head>
@@ -118,12 +158,33 @@ if (!isset($_SESSION['user_id'])) {
                         <tr>
                             <td><?php echo  $no++ ?></td>
                             <td><?php echo $row['order_number'] ?></td>
-                            <td><?php echo $row['total_price'] ?></td>
-                            <td><?php echo $row['order_date'] ?></td>
+                            <td>Rp <?php echo number_format($row['total_price'], 0, ',', '.'); ?></td>
+                            <td><?php echo date('d F Y H:i:s', strtotime($row['order_date'])); ?></td>
                             <td><?php echo $row['status'] ?></td>
                             <td><?php echo $row['payment_status'] ?></td>
                             <td>
-                                <a href="payment.php?order_id=<?php echo $row['order_id'] ?>">Selesaikan pembayaran</a>
+
+
+
+
+                                <?php if ($row['status'] == 'rejected') { ?>
+                                    <a class="disabled-text" disabled>* Pesanan dibatalkan karena bukti tidak valid atau melebihi batas waktu yang ditentukan</a>
+                                <?php } ?>
+
+                                <?php if ($row['payment_status'] == 'unpaid' && $row['status'] != 'rejected') { ?>
+                                    <a class="button-link" href="payment.php?order_id=<?php echo $row['order_id'] ?>">Selesaikan pembayaran</a>
+                                <?php } ?>
+
+                                <?php if ($row['payment_status'] == 'paid') { ?>
+                                    <a class="button-link-invoice" href="invoice.php?order_id=<?php echo $row['order_id'] ?>">Lihat Invoice</a>
+
+                                <?php } ?>
+
+
+
+
+
+
                             </td>
                         </tr>
                     </tbody>
@@ -133,13 +194,19 @@ if (!isset($_SESSION['user_id'])) {
             <p class="no-history">Tidak ada riwayat pemesanan.</p>
         <?php } ?>
 
+        <p>
+            <strong>Untuk informasi lebih lanjut, silakan hubungi tim support Griya via e-mail liefalzzzzzz@gmail.com atau whatsapp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order.</strong>
+        </p>
+
         <p>jika sudah melakukan pembayaran -> status pembayaran berubah jadi paid (sudah melakukan pembayaran) -> DONE</p>
         <p>jika sudah membayar, Anda akan menerima notifikasi. Admin akan melakukan validasi pembayaran Anda. Mohon ditunggu.</p>
-        <p>ADD A NOTA FOR EACH ID</p>
-        <p>jika bukti pembayaran tidak valid, status pembayaran akan ditolak dan dana akan hangus.</p>
+        <p>ADD A NOTA FOR EACH ID (DONE)</p>
+        <p>Coloring the buttons yuck</p>
+        <p>jika bukti pembayaran tidak valid, status pembayaran akan ditolak dan dana akan hangus. (done)</p>
         <p>add a timer?</p>
-        <p>as for the status that are rejected, stops</p>
-        <p>FORMATIN DONG KAK</p>
+        <p>as for the status that are rejected, stops (DONE)</p>
+        <p>FORMATIN DONG KAK (DONE)</p>
+        <p>Rubah status paid unpaid, rejected processed etc</p>
     </div>
 </body>
 

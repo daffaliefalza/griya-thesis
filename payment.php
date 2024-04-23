@@ -1,8 +1,15 @@
 <?php
+include 'server/connection.php';
+
+$order_id = $_GET['order_id'];
+
+$result = mysqli_query($conn, "SELECT * FROM orders WHERE order_id= '$order_id'");
+
+
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Include database connection
-    include 'server/connection.php';
 
     // Get form data
     $payer_name = $_POST['nama_penyetor'];
@@ -10,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // File upload
     $target_dir = "proof_image/";
-    $target_file = $target_dir . basename($_FILES["payment_proof"]["name"]);
+    $target_file = $target_dir . basename($_FILES['payment_proof']["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -46,10 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (move_uploaded_file($_FILES["payment_proof"]["tmp_name"], $target_file)) {
             // File uploaded successfully, insert payment information into database
             $payment_proof_path = $target_file;
-            $sql = "INSERT INTO payment (payer_name, total_payment, payment_proof) VALUES ('$payer_name', '$total_payment', '$payment_proof_path')";
+            $sql = "INSERT INTO payment (order_id, payer_name, total_payment, payment_proof) VALUES ('$order_id','$payer_name', '$total_payment', '$payment_proof_path')";
             if (mysqli_query($conn, $sql)) {
                 // Update payment status in checkout_history table
-                $order_id = $_GET['order_id'];
+                // $order_id = $_GET['order_id'];
+
                 $update_sql = "UPDATE orders SET payment_status = 'Paid' WHERE order_id = '$order_id'";
                 if (mysqli_query($conn, $update_sql)) {
                     echo "<script>
@@ -166,13 +174,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" id="payment_amount" name="payment_amount" required>
 
             <label for="payment_proof">Bukti Pembayaran:</label>
-            <input type="file" id="payment_proof" name="payment_proof" accept="image/*" required>
+            <input type="file" id="payment_proof" name="payment_proof" required>
 
             <input type="submit" value="Submit">
         </form>
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+            <p style="font-weight: bold; font-style: italic;">* Nominal yang harus dibayarkan: Rp <?php echo number_format($row['total_price'], 0, ',', '.'); ?>
+            </p>
+        <?php } ?>
 
         <div class="instructions">
-            <p>Silahkan pilih opsi pembayaran ke no rekening berikut:</p>
+            <p>Silahkan pilih opsi pembayaran ke no rekening berikut: </p>
             <ul>
                 <li>BCA - 1121321313 (AN) - daffaliefalza</li>
                 <li>BRI - 1121321313 (AN) - daffakece</li>
