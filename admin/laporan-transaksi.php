@@ -6,7 +6,8 @@ include '../server/connection.php';
 
 // Initialize variables
 $result = null;
-$totalPrice = 0;
+$_SESSION['total_price_transaksi'] = 0;
+
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,13 +16,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate'";
+    // $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate'";
+
+    // INI FILTER HANYA STATUS DONE & SUDAH PAID
+    $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'done' AND payment_status = 'paid'";
+
 
     $result = mysqli_query($conn, $query);
 
     // Calculate total price
     while ($row = mysqli_fetch_assoc($result)) {
-        $totalPrice += $row['total_price']; // Add price to total
+        if ($row['status'] == 'done' && $row['payment_status'] == 'paid') {
+            $_SESSION['total_price_transaksi'] += $row['total_price']; // Add price to total
+        }
+
+        // $totalPrice += $row['total_price'];
     }
 }
 
@@ -36,6 +45,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Admin - Laporan Transaksi</title>
     <link rel="stylesheet" href="../css/default.css" />
     <link rel="stylesheet" href="../css/admin.css">
+
+    <style>
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="date"],
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #008CBA;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="date"]:focus,
+        button:hover {
+            background-color: #005f7b;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        tfoot {
+            font-weight: bold;
+        }
+
+        .export-button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .export-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -47,9 +120,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <main class="main-content">
             <!-- Form for date filtering -->
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <label for="start_date">Start Date:</label>
+                <label for="start_date">Tanggal Mulai:</label>
                 <input type="date" id="start_date" name="start_date">
-                <label for="end_date">End Date:</label>
+                <label for="end_date">Tanggal Berakhir:</label>
                 <input type="date" id="end_date" name="end_date">
                 <button type="submit">Cari</button>
                 <!-- Export button -->
@@ -87,11 +160,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <tfoot>
                         <tr>
                             <th colspan="3">Total</th>
-                            <td><strong>Rp. <?php echo number_format($totalPrice) ?></strong></td>
+                            <td><strong>Rp. <?php echo number_format($_SESSION['total_price_transaksi']) ?></strong></td>
                         </tr>
                     </tfoot>
                 </table>
             <?php endif; ?>
+            <h2>Only totaling the paid and the status is done itu udah, tapi di export nya belum berhasil</h2>
+            <h2>Filter hanya yang sudah paid & done saja???</h2>
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza

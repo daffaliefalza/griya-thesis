@@ -28,7 +28,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
     <div class="wrapper">
         <?php include 'sidebar.php' ?>
         <div class="top-bar">
-            <h2>Data Pesanan</h2>
+            <h2>Data Pelanggan</h2>
 
         </div>
         <main class="main-content">

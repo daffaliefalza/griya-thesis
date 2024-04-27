@@ -97,11 +97,11 @@ $result = mysqli_query($conn, "SELECT * FROM orders ");
                             <!-- <a class="status-button">Ubah status pesanan</a> -->
 
                             <?php if ($row['status'] == 'rejected') { ?>
-                                <a href="#">Batal</a>
+                                <p>-</p>
                             <?php } else { ?>
-                                <a class="payment-button" href="lihat-bukti.php?order_id=<?php echo $row['order_id']; ?>">Lihat bukti pembayaran</a>
+                                <a class="payment-button" href="lihat-bukti.php?order_id=<?php echo $row['order_id']; ?>">Detail</a>
                             <?php } ?>
-                            <p>Lihat bukti pembayaran, nangkep data payment & bisa rubah status pesanan</p>
+
 
                         </td>
                     </tbody>

@@ -70,6 +70,9 @@
 </head>
 
 <body>
+    <div style="position: absolute; left: 1rem; top: 3rem;">
+        <a href="produk.php">Kembali</a>
+    </div>
     <div class="login-container">
         <h2>Login</h2>
         <!-- Your login form -->
@@ -77,7 +80,11 @@
             <input type="text" name="username" placeholder="Username or Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit" name="login">Login</button>
-            <a class="forgot-password" href="forgot_password.php">Forgot password?</a>
+            <br>
+            <br>
+            <span>Gak punya akun ya kak?</span>
+            <a href="register.php">Daftar Akun</a>
+            <a class="forgot-password" href="forgot_password.php">Lupa Password?</a>
         </form>
     </div>
 </body>

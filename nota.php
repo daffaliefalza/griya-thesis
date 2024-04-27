@@ -21,12 +21,12 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Nota</title>
 </head>
 
 <body>
 
-    <h1>Invoice</h1>
+    <h1>Nota Pesanan</h1>
 
 
     <div>

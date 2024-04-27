@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include 'server/connection.php';
 
@@ -8,24 +7,14 @@ $user_id = $_SESSION['user_id'];
 $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'");
 $get_username = mysqli_query($conn, "SELECT username from users WHERE id_users='$user_id'");
 
-// $test = mysqli_fetch_assoc($result);
-
-// var_dump($test);
-
-// die();
-
 $username = null;
 while ($row = mysqli_fetch_assoc($get_username)) {
-
     $username = $row['username'];
 }
-
 
 if (!isset($_SESSION['user_id'])) {
     header('location: produk.php');
 }
-
-
 
 ?>
 
@@ -39,7 +28,6 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="css/default.css">
     <style>
         body {
-            /* font-family: Arial, sans-serif; */
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
@@ -121,18 +109,15 @@ if (!isset($_SESSION['user_id'])) {
         .disabled-text {
             color: #bbb;
             font-style: italic;
-            /* Choose a color for disabled text */
             text-decoration: none;
-            /* Remove any default link decoration */
             pointer-events: none;
-            /* Disable pointer events */
             cursor: default;
-            /* Change cursor to default */
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
         <h1>Riwayat Pemesanan <?php echo $username ?></h1>
 
@@ -151,8 +136,28 @@ if (!isset($_SESSION['user_id'])) {
                 </thead>
 
                 <?php
+                $current_time = time();
+                $expiry_time = 24 * 60 * 60; // 24 hours in seconds
+
                 $no = 1;
                 while ($row = mysqli_fetch_assoc($result)) {
+                    $order_timestamp = strtotime($row['order_date']);
+                    $payment_expiry = $order_timestamp + $expiry_time; // Calculate payment expiry from order date
+                    $time_difference = $payment_expiry - $current_time;
+
+                    // If payment is due within the next 24 hours, display the deadline
+                    if ($time_difference > 0) {
+                        $payment_deadline = date('d F Y H:i:s', $payment_expiry);
+                        $payment_notification = "<p>Bayar sebelum: $payment_deadline</p>";
+                    } else {
+                        $payment_notification = "<a class='disabled-text' disabled>* Pesanan dibatalkan karena bukti tidak valid atau melebihi batas waktu yang ditentukan</a>";
+                        // Update the status to rejected if payment deadline has passed and payment status is unpaid
+                        if ($row['payment_status'] == 'unpaid') {
+                            $order_id = $row['order_id'];
+                            mysqli_query($conn, "UPDATE orders SET status = 'rejected' WHERE order_id = '$order_id'");
+                        }
+                    }
+
                 ?>
                     <tbody>
                         <tr>
@@ -163,28 +168,18 @@ if (!isset($_SESSION['user_id'])) {
                             <td><?php echo $row['status'] ?></td>
                             <td><?php echo $row['payment_status'] ?></td>
                             <td>
-
-
-
-
                                 <?php if ($row['status'] == 'rejected') { ?>
                                     <a class="disabled-text" disabled>* Pesanan dibatalkan karena bukti tidak valid atau melebihi batas waktu yang ditentukan</a>
                                 <?php } ?>
 
                                 <?php if ($row['payment_status'] == 'unpaid' && $row['status'] != 'rejected') { ?>
                                     <a class="button-link" href="payment.php?order_id=<?php echo $row['order_id'] ?>">Selesaikan pembayaran</a>
+                                    <?php echo $payment_notification; ?>
                                 <?php } ?>
 
                                 <?php if ($row['payment_status'] == 'paid') { ?>
-                                    <a class="button-link-invoice" href="invoice.php?order_id=<?php echo $row['order_id'] ?>">Lihat Invoice</a>
-
+                                    <a class="button-link-invoice" href="nota.php?order_id=<?php echo $row['order_id'] ?>">Lihat Nota </a>
                                 <?php } ?>
-
-
-
-
-
-
                             </td>
                         </tr>
                     </tbody>
@@ -198,14 +193,7 @@ if (!isset($_SESSION['user_id'])) {
             <strong>Untuk informasi lebih lanjut, silakan hubungi tim support Griya via e-mail liefalzzzzzz@gmail.com atau whatsapp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order.</strong>
         </p>
 
-        <p>jika sudah melakukan pembayaran -> status pembayaran berubah jadi paid (sudah melakukan pembayaran) -> DONE</p>
-        <p>jika sudah membayar, Anda akan menerima notifikasi. Admin akan melakukan validasi pembayaran Anda. Mohon ditunggu.</p>
-        <p>ADD A NOTA FOR EACH ID (DONE)</p>
-        <p>Coloring the buttons yuck</p>
-        <p>jika bukti pembayaran tidak valid, status pembayaran akan ditolak dan dana akan hangus. (done)</p>
-        <p>add a timer?</p>
-        <p>as for the status that are rejected, stops (DONE)</p>
-        <p>FORMATIN DONG KAK (DONE)</p>
+        <p>add a timer? if the timer is expired, automatically the status is rejected / batal (done)</p>
         <p>Rubah status paid unpaid, rejected processed etc</p>
     </div>
 </body>

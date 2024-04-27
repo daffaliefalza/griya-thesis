@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include '../server/connection.php';
 
 // Get start and end dates from the URL parameters
@@ -7,7 +9,13 @@ $startDate = $_GET['start_date'];
 $endDate = $_GET['end_date'];
 
 // Construct the SQL query with date filtering
-$query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate'";
+// $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate'";
+
+
+// INI FILTER HANYA STATUS DONE & SUDAH PAID
+$query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'done' AND payment_status = 'paid'";
+
+
 $result = mysqli_query($conn, $query);
 
 // Set headers for CSV file download
@@ -18,12 +26,12 @@ header('Content-Disposition: attachment; filename="exported_data.csv"');
 $output = fopen('php://output', 'w');
 
 // Write CSV headers
-fputcsv($output, array('No', 'Pelanggan', 'Tanggal', 'Jumlah', 'Status Pesanan', 'Status Pembayaran'));
+fputcsv($output, array('No', 'Pelanggan', 'Tanggal', 'Jumlah', 'Status Pesanan', 'Status Pembayaran', 'total yang telah selesai dan lunas'));
 
 // Write data rows
 $no = 1;
 while ($row = mysqli_fetch_assoc($result)) {
-    fputcsv($output, array($no++, $row['fullname'], $row['order_date'], $row['total_price'], $row['status'], $row['payment_status']));
+    fputcsv($output, array($no++, $row['fullname'], $row['order_date'], $row['total_price'], $row['status'], $row['payment_status'], $_SESSION['total_price_transaksi']));
 }
 
 // Close file handle

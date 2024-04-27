@@ -72,7 +72,7 @@
               </li>
               <li style="display: flex; align-items: center;  gap: 0.4rem;">
                   <a href="data-pelanggan.php" style="display: flex; gap: 0.5rem; align-items: center;">
-                      <img src="../img/transaction-history.png" width="25">
+                      <img src="../img/user.png" width="25">
                       <span>Data Pelanggan</span>
                   </a>
               </li>

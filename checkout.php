@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Jakarta');
 
 include 'server/connection.php';
 
@@ -41,8 +42,14 @@ if (isset($_POST['order_btn'])) {
     // Generate unique order number
     $order_number = generateOrderNumber();
 
-    // Insert order into orders table
-    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, province, city, detail_address, postal_code, total_price) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$province', '$city', '$detail_address', '$postal_code', '$total')";
+    // Get current timestamp
+    $order_date = date('Y-m-d H:i:s');
+
+    // Calculate payment expiry (24 hours from order date)
+    $payment_expiry = date('Y-m-d H:i:s', strtotime($order_date . ' +1 day'));
+
+    // Insert order into orders table with order creation timestamp and payment expiry
+    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, province, city, detail_address, postal_code, total_price, order_date, payment_expiry) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$province', '$city', '$detail_address', '$postal_code', '$total', '$order_date', '$payment_expiry')";
     if (mysqli_query($conn, $insert_order_query)) {
         // Get the last inserted order ID
         $order_id = mysqli_insert_id($conn);
