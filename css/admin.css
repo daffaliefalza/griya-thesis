@@ -15,7 +15,7 @@ body {
 /* Wrapper styles */
 .wrapper {
   display: grid;
-  grid-template-columns: 250px repeat(3, 1fr);
+  grid-template-columns: 230px repeat(3, 1fr);
   grid-template-rows: auto auto 1fr auto;
   grid-template-areas:
     "sidebar topbar topbar topbar"

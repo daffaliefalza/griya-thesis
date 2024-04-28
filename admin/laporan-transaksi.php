@@ -167,6 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             <h2>Only totaling the paid and the status is done itu udah, tapi di export nya belum berhasil</h2>
             <h2>Filter hanya yang sudah paid & done saja???</h2>
+            <h2>Tanggal disini tanggal apa? transaksi kah? pembayaran kah? pelunasakan kah?</h2>
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza

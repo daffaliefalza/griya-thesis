@@ -175,6 +175,10 @@ if (!isset($_SESSION['user_id'])) {
                                 <?php if ($row['payment_status'] == 'unpaid' && $row['status'] != 'rejected') { ?>
                                     <a class="button-link" href="payment.php?order_id=<?php echo $row['order_id'] ?>">Selesaikan pembayaran</a>
                                     <?php echo $payment_notification; ?>
+
+                                    <!-- else { 
+                                        payment notif buat batal & logic
+                                    } -->
                                 <?php } ?>
 
                                 <?php if ($row['payment_status'] == 'paid') { ?>
