@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page
+    header("Location: login.php");
+    exit(); // Ensure script execution stops here
+}
+
+
 date_default_timezone_set('Asia/Jakarta');
 
 include 'server/connection.php';
@@ -41,7 +49,7 @@ if (mysqli_num_rows($select_cart) > 0) {
 }
 
 // Handle form submission
-if (isset($_POST['order_btn'])) {
+if ($total > 0 && isset($_POST['order_btn'])) {
     // Collect order details
     $fullname = $_POST['fullname'];
     $phone_number = $_POST['phone_number'];

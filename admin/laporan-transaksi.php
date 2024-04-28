@@ -2,14 +2,12 @@
 
 session_start();
 
-
-
 include '../server/connection.php';
 
 // Initialize variables
 $result = null;
 $_SESSION['total_price_transaksi'] = 0;
-
+$message = "";
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,24 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    // $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate'";
-
-    // INI FILTER HANYA STATUS DONE & SUDAH PAID
     $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'done' AND payment_status = 'paid'";
-
 
     $result = mysqli_query($conn, $query);
 
-
-    // $result_payment_date = mysqli_query($conn, "SELECT * FROM payment WHERE") 
-
-    // Calculate total price
-    while ($row = mysqli_fetch_assoc($result)) {
-        if ($row['status'] == 'done' && $row['payment_status'] == 'paid') {
-            $_SESSION['total_price_transaksi'] += $row['total_price']; // Add price to total
+    // Check if any rows are returned
+    if (mysqli_num_rows($result) == 0) {
+        $message = "Tidak ada riwayat transaksi. Saran: filter tanggal dari 01/01/2024 - 12/30/2024.";
+    } else {
+        // Calculate total price
+        while ($row = mysqli_fetch_assoc($result)) {
+            $_SESSION['total_price_transaksi'] += $row['total_price'];
         }
-
-        // $totalPrice += $row['total_price'];
     }
 }
 
@@ -169,6 +161,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </tr>
                     </tfoot>
                 </table>
+            <?php endif; ?>
+
+            <?php if (!empty($message)) : ?>
+                <div class="message"><?php echo $message; ?></div>
             <?php endif; ?>
 
         </main>
