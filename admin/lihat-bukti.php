@@ -74,7 +74,7 @@ if (isset($_POST['proses'])) {
             <label for="">Status</label>
             <select name="status" id="" class="form-control">
                 <option selected disabled>Pilih Status</option>
-                <option value=" rejected">rejected</option>
+                <option value="rejected">rejected</option>
                 <option value="processed">processed</option>
                 <option value="delivered">delivered</option>
                 <option value="done">done</option>
