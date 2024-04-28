@@ -13,6 +13,17 @@ function generateOrderNumber()
 
 // Fetch cart items for the current user
 $user_id = $_SESSION['user_id'];
+
+
+$select_user = mysqli_query($conn, "SELECT fullname, email FROM users WHERE id_users = '$user_id'");
+
+
+while ($select = mysqli_fetch_assoc($select_user)) {
+    $_SESSION['fullname'] = $select['fullname'];
+    $_SESSION['user_email'] = $select['email'];
+}
+
+
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
 $total = 0;
 
@@ -114,7 +125,7 @@ if (isset($_POST['order_btn'])) {
                 <div class="flex">
                     <div class="inputBox">
                         <span>Nama Lengkap</span>
-                        <input type="text" placeholder="Masukkan Nama Lengkap.." name="fullname" required>
+                        <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>">
                     </div>
                     <div class="inputBox">
                         <span>No. Telpon</span>
@@ -122,15 +133,15 @@ if (isset($_POST['order_btn'])) {
                     </div>
                     <div class="inputBox">
                         <span>Alamat Email</span>
-                        <input type="email" placeholder="Masukkan Alamat Email.." name="email" required>
+                        <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>">
                     </div>
                     <div class="inputBox">
                         <span>Provinsi</span>
-                        <input type="text" placeholder="e.g. maharashtra" name="province" required>
+                        <input type="text" placeholder="Jawa Barat" name="province" required>
                     </div>
                     <div class="inputBox">
                         <span>Kota</span>
-                        <input type="text" placeholder="e.g. mumbai" name="city" required>
+                        <input type="text" placeholder="Bandung" name="city" required>
                     </div>
                     <br>
                     <div class="inputBox">

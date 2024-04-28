@@ -3,6 +3,7 @@ require('server/connection.php');
 
 if (isset($_POST['register'])) {
     $username = $_POST['username'];
+    $fullname = $_POST['fullname'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -20,7 +21,7 @@ if (isset($_POST['register'])) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert user into the database
-        $insert_query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+        $insert_query = "INSERT INTO users (username, fullname, email, password) VALUES ('$username', '$fullname', '$email', '$hashed_password')";
         $insert_result = mysqli_query($conn, $insert_query);
 
         if ($insert_result) {
@@ -32,20 +33,3 @@ if (isset($_POST['register'])) {
         }
     }
 }
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-</body>
-
-</html>

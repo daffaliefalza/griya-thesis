@@ -92,7 +92,7 @@ $result = mysqli_query($conn, "SELECT * FROM orders ");
                         <td><?php echo $row['order_date'] ?></td>
                         <td><?php echo $row['status'] ?></td>
                         <td><?php echo $row['payment_status'] ?></td>
-                        <td><?php echo number_format($row['total_price']) ?></td>
+                        <td>Rp. <?php echo number_format($row['total_price']) ?></td>
                         <td>
                             <!-- <a class="status-button">Ubah status pesanan</a> -->
 

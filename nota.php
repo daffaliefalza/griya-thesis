@@ -179,6 +179,7 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
                     <?php while ($row_pemesanan  = mysqli_fetch_assoc($result_pemesanan)) { ?>
                         <p>No pemesanan: <?php echo $row_pemesanan['order_number'] ?></p>
                         <p>Tanggal pemesanan: <?php echo $row_pemesanan['order_date'] ?></p>
+                        <p>Status Pembayaran: <?php echo $row_pemesanan['payment_status'] ?></p>
                     <?php } ?>
                 </div>
 
@@ -191,7 +192,7 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
                     <?php } ?>
                 </div>
 
-                <h2>Alamat Pelanggan</h2>
+                <!-- <h2>Alamat Pelanggan</h2> -->
             </div>
 
 

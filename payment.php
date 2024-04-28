@@ -3,7 +3,8 @@ include 'server/connection.php';
 
 $order_id = $_GET['order_id'];
 
-$result = mysqli_query($conn, "SELECT * FROM orders WHERE order_id= '$order_id'");
+$result_one = mysqli_query($conn, "SELECT * FROM orders WHERE order_id= '$order_id'");
+$result_two = mysqli_query($conn, "SELECT * FROM orders WHERE order_id= '$order_id'");
 
 
 
@@ -171,14 +172,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" id="nama_penyetor" name="nama_penyetor" required>
 
             <label for="payment_amount">Total Pembayaran:</label>
-            <input type="text" id="payment_amount" name="payment_amount" required>
-
+            <?php while ($price = mysqli_fetch_assoc($result_one)) { ?>
+                <input type="text" id="payment_amount" name="payment_amount" readonly value="<?php echo number_format($price['total_price']) ?>">
+            <?php } ?>
             <label for="payment_proof">Bukti Pembayaran:</label>
             <input type="file" id="payment_proof" name="payment_proof" required>
 
             <input type="submit" value="Submit">
         </form>
-        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <?php while ($row = mysqli_fetch_assoc($result_two)) { ?>
 
 
             <p style="font-weight: bold; font-style: italic;">* Nominal yang harus dibayarkan: Rp <?php echo number_format($row['total_price'], 0, ',', '.'); ?>

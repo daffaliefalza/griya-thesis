@@ -102,6 +102,8 @@
     <form action="register_process.php" method="post">
         <label>Username</label>
         <input type="text" name="username" placeholder="Username" required>
+        <label>Nama Lengkap</label>
+        <input type="text" name="fullname" required>
         <label>Email</label>
 
         <input type="email" name="email" placeholder="Email" required>

@@ -37,6 +37,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                 <thead>
                     <th>No</th>
                     <th>Username</th>
+                    <th>Nama Lengkap</th>
                     <th>Email</th>
                 </thead>
                 <?php
@@ -48,6 +49,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                     <tbody>
                         <td><?php echo $no++ ?></td>
                         <td><?php echo $row['username'] ?></td>
+                        <td><?php echo $row['fullname'] ?></td>
                         <td><?php echo $row['email'] ?></td>
 
                     </tbody>
