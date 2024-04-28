@@ -101,12 +101,12 @@
 
     <form action="register_process.php" method="post">
         <label>Username</label>
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Jambrong" required>
         <label>Nama Lengkap</label>
-        <input type="text" name="fullname" required>
+        <input type="text" name="fullname" placeholder="Jambrong Hermawan" required>
         <label>Email</label>
 
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="jambrong@gmail.com" required>
         <label>Password</label>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" name="register">Daftar</button>

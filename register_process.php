@@ -15,7 +15,7 @@ if (isset($_POST['register'])) {
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        echo "Username or email already exists";
+        echo "<script>alert('Username atau email telah terdaftar'); window.location.href = 'register.php';</script>";
     } else {
         // Hash the password before storing it in the database
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);

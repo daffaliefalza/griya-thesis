@@ -11,6 +11,12 @@ if (isset($_POST['login'])) {
     $username = mysqli_real_escape_string($conn, $username);
     $password = mysqli_real_escape_string($conn, $password);
 
+    // Check if username and password are not empty
+    if (empty($username) || empty($password)) {
+        echo "<script>alert('Mohon lengkapi username dan password'); window.location.href = 'login.php';</script>";
+        exit();
+    }
+
     // Query to fetch user from database
     $query = "SELECT * FROM users WHERE username = '$username' OR email = '$username'";
     $result = mysqli_query($conn, $query);
@@ -27,14 +33,12 @@ if (isset($_POST['login'])) {
             exit();
         } else {
             // Incorrect password
-            $_SESSION['error'] = "Incorrect username/email or password";
-            header("Location: login.php");
+            echo "<script>alert('Login gagal, masukkan username atau email dan password yang benar'); window.location.href = 'login.php';</script>";
             exit();
         }
     } else {
         // User not found
-        $_SESSION['error'] = "User not found";
-        header("Location: login.php");
+        echo "<script>alert('User tidak ditemukan'); window.location.href = 'login.php';</script>";
         exit();
     }
 }

@@ -14,28 +14,29 @@ function generateOrderNumber()
 // Fetch cart items for the current user
 $user_id = $_SESSION['user_id'];
 
-
 $select_user = mysqli_query($conn, "SELECT fullname, email FROM users WHERE id_users = '$user_id'");
-
 
 while ($select = mysqli_fetch_assoc($select_user)) {
     $_SESSION['fullname'] = $select['fullname'];
     $_SESSION['user_email'] = $select['email'];
 }
 
-
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
 $total = 0;
 
-$product_names = array(); // Initialize an empty array to store product names
-$quantities = array();
+$product_details = array(); // Initialize an empty array to store product details
 
 if (mysqli_num_rows($select_cart) > 0) {
     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
         $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
         $total += $total_price; // Accumulate total price
-        $product_names[] = $fetch_cart['name'];
-        $quantities[] = $fetch_cart['quantity'];
+
+        // Store product details with individual total price
+        $product_details[] = array(
+            'name' => $fetch_cart['name'],
+            'quantity' => $fetch_cart['quantity'],
+            'total_price' => $total_price // Calculate individual total price for each product
+        );
     }
 }
 
@@ -53,7 +54,7 @@ if (isset($_POST['order_btn'])) {
     // Generate unique order number
     $order_number = generateOrderNumber();
 
-    // Get current timestamp
+    // Get current timestamp                            
     $order_date = date('Y-m-d H:i:s');
 
     // Calculate payment expiry (24 hours from order date)
@@ -66,10 +67,10 @@ if (isset($_POST['order_btn'])) {
         $order_id = mysqli_insert_id($conn);
 
         // Insert items into order_items table
-        for ($i = 0; $i < count($product_names); $i++) {
-            $product_name = $product_names[$i];
-            $quantity = $quantities[$i];
-            $total_price = $total;
+        foreach ($product_details as $product) {
+            $product_name = $product['name'];
+            $quantity = $product['quantity'];
+            $total_price = $product['total_price']; // Individual total price for each product
             $insert_item_query = "INSERT INTO order_items (order_id, product_name, quantity, total_price) VALUES ('$order_id', '$product_name', '$quantity', $total_price)";
             if (!mysqli_query($conn, $insert_item_query)) {
                 echo "Error inserting item: " . mysqli_error($conn);
@@ -112,11 +113,11 @@ if (isset($_POST['order_btn'])) {
                 <div class="display-order">
                     <?php
                     // Display cart items for the current user
-                    for ($i = 0; $i < count($product_names); $i++) {
-                        echo "<p>$product_names[$i] - Jumlah: $quantities[$i]</p>"; // Output each product name and its quantity
+                    foreach ($product_details as $product) {
+                        echo "<p>{$product['name']} - Jumlah: {$product['quantity']}, Harga: Rp " . number_format($product['total_price'], 0, ',', '.') . ",-</p>"; // Output each product name, its quantity, and individual total price
                     }
                     if ($total > 0) {
-                        echo "<span>Total Price: Rp " . number_format($total, 0, ',', '.') . ",-</span>";
+                        echo "<span><strong>Total Harga: Rp " . number_format($total, 0, ',', '.') . ",-</strong></span>";
                     } else {
                         echo "<div class='display-order'><span>Your cart is empty!</span></div>";
                     }
@@ -125,7 +126,10 @@ if (isset($_POST['order_btn'])) {
                 <div class="flex">
                     <div class="inputBox">
                         <span>Nama Lengkap</span>
-                        <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>">
+                        <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
                     </div>
                     <div class="inputBox">
                         <span>No. Telpon</span>
@@ -133,7 +137,10 @@ if (isset($_POST['order_btn'])) {
                     </div>
                     <div class="inputBox">
                         <span>Alamat Email</span>
-                        <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>">
+                        <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
                     </div>
                     <div class="inputBox">
                         <span>Provinsi</span>

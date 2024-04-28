@@ -32,8 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check file size
-    if ($_FILES["payment_proof"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
+    if (
+        $_FILES["payment_proof"]["size"] > 500000
+    ) {
+        echo "<script>alert('Maaf, file terlalu besar. Usahakan jangan lebih dari 500kb.'); window.location.href = 'payment.php?order_id=" . $order_id . "'; </script>";
         $uploadOk = 0;
     }
 
@@ -42,14 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif"
     ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        echo "<script>alert('Maaf, hanya JPG, JPEG, PNG & GIF yang boleh diupload'); window.location.href = 'payment.php?order_id=" . $order_id . "'; </script>";
         $uploadOk = 0;
     }
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
+        echo "<script>alert('Maaf, Terdapat kesalahan. Silahkan Ulangi'); window.location.href = 'payment.php?order_id=" . $order_id . "'; </script>";
     } else {
         if (move_uploaded_file($_FILES["payment_proof"]["tmp_name"], $target_file)) {
             // File uploaded successfully, insert payment information into database
@@ -173,7 +174,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="payment_amount">Total Pembayaran:</label>
             <?php while ($price = mysqli_fetch_assoc($result_one)) { ?>
-                <input type="text" id="payment_amount" name="payment_amount" readonly value="<?php echo number_format($price['total_price']) ?>">
+                <input type="text" class="readonly-input" id="payment_amount" name="payment_amount" readonly value="<?php echo $price['total_price'] ?>" style=" background-color: #f4f4f4; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
             <?php } ?>
             <label for="payment_proof">Bukti Pembayaran:</label>
             <input type="file" id="payment_proof" name="payment_proof" required>

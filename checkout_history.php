@@ -29,6 +29,7 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Pembelian</title>
     <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/produk.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -121,6 +122,26 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
 
 <body>
 
+    <!-- header start -->
+    <header>
+        <div class="container">
+            <a href="index.php">
+                <img src="./img/logo.png" alt="Logo Griya" />
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li><a href="index.php#tentang-kami">Tentang-kami</a></li>
+                    <li><a href="produk.php">Produk</a></li>
+                    <li><a href="artikel.php">Artikel</a></li>
+
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- header end -->
+
     <div class="container">
         <h1>Riwayat Pemesanan <?php echo $fullname ?></h1>
 
@@ -171,10 +192,7 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
             <p class="no-history">Tidak ada riwayat pemesanan.</p>
         <?php } ?>
 
-        <!-- Additional information -->
-        <p>
-            <strong>Untuk informasi lebih lanjut, silakan hubungi tim support Griya via e-mail liefalzzzzzz@gmail.com atau whatsapp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order.</strong>
-        </p>
+
 
     </div>
 </body>

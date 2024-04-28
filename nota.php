@@ -1,15 +1,18 @@
 <?php
 
-
 include 'server/connection.php';
 
 $order_id = $_GET['order_id'];
+
 
 $result = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order_id'");
 
 
 $result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
+
+$result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id= '$order_id'");
+
 
 
 
@@ -180,6 +183,7 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
                         <p>No pemesanan: <?php echo $row_pemesanan['order_number'] ?></p>
                         <p>Tanggal pemesanan: <?php echo $row_pemesanan['order_date'] ?></p>
                         <p>Status Pembayaran: <?php echo $row_pemesanan['payment_status'] ?></p>
+                        <p>Status Pesanan: <?php echo $row_pemesanan['status'] ?></p>
                     <?php } ?>
                 </div>
 
@@ -201,7 +205,7 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
                     <tr>
                         <th>Nama Produk</th>
                         <th>Quantity</th>
-                        <th>Total yang dibayar</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,6 +216,16 @@ $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$
                             <td>Rp <?php echo number_format($row['total_price'], 0, ',', '.'); ?></td>
                         </tr>
                     <?php } ?>
+                    <tr>
+                        <td colspan="2" style="text-align: right;"><strong>Total yang dibayar</strong></td>
+
+                        <?php
+                        while ($row_total = mysqli_fetch_assoc($result_total_harga)) {
+                        ?>
+                            <td colspan="2"><strong>Rp <?php echo number_format($row_total['total_payment'], 0, ',', '.'); ?></strong></td> <!-- Display total of all items -->
+
+                        <?php } ?>
+                    </tr>
                 </tbody>
             </table>
 

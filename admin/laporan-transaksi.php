@@ -2,6 +2,8 @@
 
 session_start();
 
+
+
 include '../server/connection.php';
 
 // Initialize variables
@@ -23,6 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $result = mysqli_query($conn, $query);
+
+
+    // $result_payment_date = mysqli_query($conn, "SELECT * FROM payment WHERE") 
 
     // Calculate total price
     while ($row = mysqli_fetch_assoc($result)) {
@@ -136,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <thead>
                         <th>No</th>
                         <th>Pelanggan</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal Pemesanan</th>
                         <th>Jumlah</th>
                         <th>Status Pesanan</th>
                         <th>Status Pembayaran</th>
@@ -165,9 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tfoot>
                 </table>
             <?php endif; ?>
-            <h2>Only totaling the paid and the status is done itu udah, tapi di export nya belum berhasil</h2>
-            <h2>Filter hanya yang sudah paid & done saja???</h2>
-            <h2>Tanggal disini tanggal apa? transaksi kah? pembayaran kah? pelunasakan kah?</h2>
+
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza

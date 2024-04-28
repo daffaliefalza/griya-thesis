@@ -74,7 +74,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <li <?php if ($current_page === 'kelola-blog.php') echo 'class="active"'; ?>>
-                <a href="kelola-blog.php">
+                <a href="kelola-artikel.php">
                     <img src="../img/blog-icon.svg" width="25">
                     <span>Kelola Artikel</span>
                 </a>
