@@ -4,17 +4,20 @@ include 'server/connection.php';
 
 $user_id = $_SESSION['user_id'];
 
-$result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'");
+// Retrieve username
 $get_username = mysqli_query($conn, "SELECT username from users WHERE id_users='$user_id'");
-
 $username = null;
 while ($row = mysqli_fetch_assoc($get_username)) {
     $username = $row['username'];
 }
 
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('location: produk.php');
 }
+
+// Get orders for the user
+$result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'");
 
 ?>
 
@@ -134,70 +137,72 @@ if (!isset($_SESSION['user_id'])) {
                         <th>Opsi</th>
                     </tr>
                 </thead>
+                <?php $no = 1; ?>
+                <?php while ($row = mysqli_fetch_assoc($result)) {
+                    // Calculate payment expiry date and time
+                    $payment_expiry = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($row['order_date'])));
 
-                <?php
-                $current_time = time();
-                $expiry_time = 24 * 60 * 60; // 24 hours in seconds
+                    // Get current date and time
+                    $current_datetime = date('Y-m-d H:i:s');
 
-                $no = 1;
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $order_timestamp = strtotime($row['order_date']);
-                    $payment_expiry = $order_timestamp + $expiry_time; // Calculate payment expiry from order date
-                    $time_difference = $payment_expiry - $current_time;
-
-                    // If payment is due within the next 24 hours, display the deadline
-                    if ($time_difference > 0) {
-                        $payment_deadline = date('d F Y H:i:s', $payment_expiry);
-                        $payment_notification = "<p>Bayar sebelum: $payment_deadline</p>";
+                    // Check if current date and time is beyond the payment expiry date and time
+                    if ($current_datetime > $payment_expiry && $row['status'] != 'paid') {
+                        // Update order status to rejected
+                        mysqli_query($conn, "UPDATE orders SET status='rejected' WHERE order_id='" . $row['order_id'] . "'");
+                        // Display notification for rejected payment
+                        $status_text = "Pesanan dibatalkan karena bukti pembayaran tidak valid atau melebihi batas waktu.";
+                        $status_class = "disabled-text";
+                        $button_text = "Pesanan dibatalkan karena bukti pembayaran tidak valid atau melebihi batas waktu.";
                     } else {
-                        $payment_notification = "<a class='disabled-text' disabled>* Pesanan dibatalkan karena bukti tidak valid atau melebihi batas waktu yang ditentukan</a>";
-                        // Update the status to rejected if payment deadline has passed and payment status is unpaid
-                        if ($row['payment_status'] == 'unpaid') {
-                            $order_id = $row['order_id'];
-                            mysqli_query($conn, "UPDATE orders SET status = 'rejected' WHERE order_id = '$order_id'");
+                        // Display notification for payment expiry
+                        $status_text = "Selesaikan pembayaran sebelum " . date('d F Y H:i:s', strtotime($payment_expiry));
+                        // Display button to complete payment if the status is not paid
+                        if ($row['payment_status'] != 'paid') {
+                            $status_class = "button-link";
+                            $status_link = "payment.php?order_id=" . $row['order_id'];
+                            $button_text = "Selesaikan pembayaran sebelum " . date('d F Y H:i:s', strtotime($payment_expiry));
+                        } else {
+                            // Display button to view invoice if the order is not rejected
+                            if ($row['status'] != 'rejected') {
+                                $status_text = "Lihat Nota";
+                                $status_class = "button-link-invoice";
+                                $status_link = "nota.php?order_id=" . $row['order_id'];
+                                $button_text = "Lihat Nota";
+                            } else {
+                                // Display notification for rejected orders
+                                $status_text = "Pesanan dibatalkan";
+                                $status_class = "disabled-text";
+                                $button_text = "* Pesanan dibatalkan karena bukti pembayaran tidak valid atau melebihi batas waktu.";
+                            }
                         }
                     }
-
                 ?>
                     <tbody>
                         <tr>
-                            <td><?php echo  $no++ ?></td>
-                            <td><?php echo $row['order_number'] ?></td>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $row['order_number']; ?></td>
                             <td>Rp <?php echo number_format($row['total_price'], 0, ',', '.'); ?></td>
                             <td><?php echo date('d F Y H:i:s', strtotime($row['order_date'])); ?></td>
-                            <td><?php echo $row['status'] ?></td>
-                            <td><?php echo $row['payment_status'] ?></td>
+                            <td><?php echo $row['status']; ?></td>
+                            <td><?php echo $row['payment_status']; ?></td>
                             <td>
-                                <?php if ($row['status'] == 'rejected') { ?>
-                                    <a class="disabled-text" disabled>* Pesanan dibatalkan karena bukti tidak valid atau melebihi batas waktu yang ditentukan</a>
-                                <?php } ?>
-
-                                <?php if ($row['payment_status'] == 'unpaid' && $row['status'] != 'rejected') { ?>
-                                    <a class="button-link" href="payment.php?order_id=<?php echo $row['order_id'] ?>">Selesaikan pembayaran</a>
-                                    <?php echo $payment_notification; ?>
-
-                                    <!-- else { 
-                                        payment notif buat batal & logic
-                                    } -->
-                                <?php } ?>
-
-                                <?php if ($row['payment_status'] == 'paid') { ?>
-                                    <a class="button-link-invoice" href="nota.php?order_id=<?php echo $row['order_id'] ?>">Lihat Nota </a>
-                                <?php } ?>
+                                <a class="<?php echo $status_class; ?>" href="<?php echo $status_link; ?>"><?php echo $button_text; ?></a>
                             </td>
                         </tr>
                     </tbody>
                 <?php } ?>
             </table>
         <?php } else { ?>
+            <!-- Display message if no orders found -->
             <p class="no-history">Tidak ada riwayat pemesanan.</p>
         <?php } ?>
 
+        <!-- Additional information -->
         <p>
             <strong>Untuk informasi lebih lanjut, silakan hubungi tim support Griya via e-mail liefalzzzzzz@gmail.com atau whatsapp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order.</strong>
         </p>
-
-        <p>add a timer? if the timer is expired, automatically the status is rejected / batal (done)</p>
+        <!-- Additional notes -->
+        <p>Add a timer? If the timer is expired, automatically the status is rejected / batal (done)</p>
         <p>Rubah status paid unpaid, rejected processed etc</p>
     </div>
 </body>
