@@ -6,13 +6,13 @@ include '../server/connection.php';
 $order_id = $_GET['order_id'];
 
 $result_payment = mysqli_query($conn, "SELECT * FROM payment WHERE order_id='$order_id'");
-
 $result_order = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order_id'");
-
-
 $result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
 $result_trigger = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
+$result_pengiriman = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
+$result_ongkir = mysqli_query($conn, "SELECT shipping FROM orders WHERE order_id='$order_id'");
+$result_total_harga = mysqli_query($conn, "SELECT total_price FROM orders WHERE order_id='$order_id'");
 
 $disable_proses_button = false;
 
@@ -101,9 +101,7 @@ if (isset($_POST['proses'])) {
             margin-bottom: 20px;
         }
 
-        .col {
-            flex: 0 0 48%;
-        }
+
 
         table {
             width: 100%;
@@ -211,7 +209,18 @@ if (isset($_POST['proses'])) {
                     <?php } ?>
                 </div>
 
-                <h2>Alamat</h2>
+                <div class="col">
+                    <h3>Alamat Pengiriman</h3>
+                    <?php while ($row_pengiriman = mysqli_fetch_assoc($result_pengiriman)) { ?>
+                        <p>Provinsi: <?php echo $row_pengiriman['province'] ?></p>
+                        <p>Distrik: <?php echo $row_pengiriman['district'] ?></p>
+                        <p>Alamat Lengkap: <?php echo $row_pengiriman['detail_address'] ?></p>
+                        <p style="border-bottom: 2px solid #aaa;">Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
+
+                        <p><strong>Ongkos Kirim: Rp. <?php echo number_format($row_pengiriman['shipping']) ?></strong></p>
+                    <?php } ?>
+                </div>
+
 
             </div>
 
@@ -228,7 +237,7 @@ if (isset($_POST['proses'])) {
                     <?php
                     $total_amount = 0; // Initialize total amount
                     while ($row_produk = mysqli_fetch_assoc($result_order)) {
-                        $total_amount += $row_produk['total_price']; // Accumulate total amount
+
                     ?>
                         <tr>
                             <td><?php echo $row_produk['product_name'] ?></td>
@@ -238,9 +247,22 @@ if (isset($_POST['proses'])) {
                     <?php } ?>
                 </tbody>
                 <tfoot>
+
+                    <tr>
+                        <td colspan="2" style="text-align: right;"><strong>Ongkos Kirim</strong></td>
+                        <?php while ($row_ongkir = mysqli_fetch_assoc($result_ongkir)) { ?>
+                            <td colspan="2"><strong>Rp <?php echo number_format($row_ongkir['shipping'], 0, ',', '.'); ?></strong></td>
+                        <?php } ?>
+                    </tr>
+                    <?php
+
+
+                    ?>
                     <tr>
                         <td colspan="2" style="text-align: right;"><strong>Total yang harus dibayar customer:</strong></td>
-                        <td><strong>Rp <?php echo number_format($total_amount, 0, ',', '.'); ?></strong></td>
+                        <?php while ($row_total = mysqli_fetch_assoc($result_total_harga)) { ?>
+                            <td><strong>Rp <?php echo number_format($row_total['total_price'], 0, ',', '.'); ?></strong></td>
+                        <?php } ?>
                     </tr>
                 </tfoot>
             </table>

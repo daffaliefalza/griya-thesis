@@ -10,8 +10,13 @@ $result = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order
 
 $result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
+$result_pengiriman = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
 
+
+$result_ongkir = mysqli_query($conn, "SELECT shipping FROM orders WHERE order_id='$order_id'");
 $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id= '$order_id'");
+
+
 
 
 
@@ -54,7 +59,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             width: 80%;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 20px;
 
         }
@@ -69,7 +74,9 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
         .row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            /* align-items: center; */
+            gap: 2rem;
+
         }
 
         table {
@@ -196,7 +203,19 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
                     <?php } ?>
                 </div>
 
-                <!-- <h2>Alamat Pelanggan</h2> -->
+                <div class="col">
+                    <h3>Informasi Pengiriman</h3>
+                    <?php while ($row_pengiriman = mysqli_fetch_assoc($result_pengiriman)) { ?>
+                        <p>Provinsi: <?php echo $row_pengiriman['province'] ?></p>
+                        <p>Distrik: <?php echo $row_pengiriman['district'] ?></p>
+                        <p>Alamat Lengkap: <?php echo $row_pengiriman['detail_address'] ?></p>
+                        <p style="border-bottom: 2px solid #aaa;">Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
+                        <p>Paket: <?php echo $row_pengiriman['packet'] ?></p>
+                        <p>Estimasi sampai: <?php echo $row_pengiriman['estimation'] ?></p>
+                        <p><strong>Ongkos Kirim: Rp. <?php echo number_format($row_pengiriman['shipping']) ?></strong></p>
+                    <?php } ?>
+                </div>
+
             </div>
 
 
@@ -217,13 +236,15 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
                         </tr>
                     <?php } ?>
                     <tr>
+                        <td colspan="2" style="text-align: right;"><strong>Ongkos Kirim</strong></td>
+                        <?php while ($row_ongkir = mysqli_fetch_assoc($result_ongkir)) { ?>
+                            <td colspan="2"><strong>Rp <?php echo number_format($row_ongkir['shipping'], 0, ',', '.'); ?></strong></td>
+                        <?php } ?>
+                    </tr>
+                    <tr>
                         <td colspan="2" style="text-align: right;"><strong>Total yang dibayar</strong></td>
-
-                        <?php
-                        while ($row_total = mysqli_fetch_assoc($result_total_harga)) {
-                        ?>
-                            <td colspan="2"><strong>Rp <?php echo number_format($row_total['total_payment'], 0, ',', '.'); ?></strong></td> <!-- Display total of all items -->
-
+                        <?php while ($row_total = mysqli_fetch_assoc($result_total_harga)) { ?>
+                            <td colspan="2"><strong>Rp <?php echo number_format($row_total['total_payment'], 0, ',', '.'); ?></strong></td>
                         <?php } ?>
                     </tr>
                 </tbody>

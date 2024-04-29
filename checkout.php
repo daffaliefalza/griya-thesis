@@ -69,55 +69,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     $ongkir = $_POST['ongkir'];
     $estimasi = $_POST['estimasi'];
 
-    $total_order = $total + $ongkir;
-    echo "<br>";
-    echo $total_order;
-    echo "<br>";
-
-    echo $totalberat;
-    echo "<br>";
-
-    echo $provinsi;
-    echo "<br>";
-
-    echo $distrik;
-    echo "<br>";
-
-    echo $tipe;
-    echo "<br>";
-
-    echo $kodepos;
-
-    echo "<br>";
-    echo $ekspedisi;
-
-    echo "<br>";
-
-    echo $paket;
-    echo "<br>";
-
-    echo $ongkir;
-    echo "<br>";
-
-    echo $estimasi;
-    echo "<br>";
-
-    echo $detail_address;
-    echo "<br>";
-
-    echo $phone_number;
-    echo "<br>";
-
-    echo $fullname;
-    echo "<br>";
-
-
-    echo $email;
-    echo "<br>";
-
-
-    die();
-
+    $total_dengan_ongkir = $total +  $ongkir;
 
     // Generate unique order number
     $order_number = generateOrderNumber();
@@ -129,7 +81,8 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     $payment_expiry = date('Y-m-d H:i:s', strtotime($order_date . ' +1 day'));
 
     // Insert order into orders table with order creation timestamp and payment expiry
-    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, province, city, detail_address, postal_code, total_price, order_date, payment_expiry) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$province', '$city', '$detail_address', '$postal_code', '$total', '$order_date', '$payment_expiry')";
+    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, weight, province, district, type, detail_address, postal_code, expedition, packet, shipping, estimation, total_price, order_date, payment_expiry) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$totalberat', '$provinsi', '$distrik', '$tipe', '$detail_address', '$kodepos', '$ekspedisi', '$paket', '$ongkir', '$estimasi', '$total_dengan_ongkir', '$order_date', '$payment_expiry')";
+
     if (mysqli_query($conn, $insert_order_query)) {
         // Get the last inserted order ID
         $order_id = mysqli_insert_id($conn);
@@ -150,7 +103,8 @@ if ($total > 0 && isset($_POST['order_btn'])) {
         mysqli_query($conn, "DELETE FROM `cart` WHERE id_users = '$user_id'");
 
         // Redirect to checkout history or any other page
-        header("Location: checkout_history.php");
+        echo "<script>alert('Pemesanan Berhasil'); window.location.href = 'checkout_history.php';</script>";
+
         exit();
     } else {
         // Error occurred while inserting order
@@ -263,7 +217,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     </a>
 
     <div class="container">
-        <h1>Halaman Checkout</h1>
+        <h1>Form Pemesanan</h1>
         <?php if (empty($product_details)) : ?>
             <p>Cart belanja anda kosong, <a href="produk.php">silahkan belanja</a></p>
         <?php else : ?>
@@ -353,15 +307,15 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
             <?php $totalberat = 0; ?>
             <div class="selected-data">
-                <input type="text" name="total_berat" value="250">
-                <input type="text" name="provinsi">
-                <input type="text" name="distrik">
-                <input type="text" name="tipe">
-                <input type="text" name="kodepos">
-                <input type="text" name="ekspedisi">
-                <input type="text" name="paket">
-                <input type="text" name="ongkir">
-                <input type="text" name="estimasi">
+                <input type="hidden" name="total_berat" value="1000">
+                <input type="hidden" name="provinsi">
+                <input type="hidden" name="distrik">
+                <input type="hidden" name="tipe">
+                <input type="hidden" name="kodepos">
+                <input type="hidden" name="ekspedisi">
+                <input type="hidden" name="paket">
+                <input type="hidden" name="ongkir">
+                <input type="hidden" name="estimasi">
 
             </div>
 
