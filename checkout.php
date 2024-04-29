@@ -54,10 +54,70 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     $fullname = $_POST['fullname'];
     $phone_number = $_POST['phone_number'];
     $email = $_POST['email'];
-    $province = $_POST['province'];
-    $city = $_POST['city'];
+    // $province = $_POST['province'];
+    // $city = $_POST['city'];
     $detail_address = $_POST['detail_address'];
-    $postal_code = $_POST['postal_code'];
+    // $postal_code = $_POST['postal_code'];
+
+    $totalberat = $_POST['total_berat'];
+    $provinsi = $_POST['provinsi'];
+    $distrik = $_POST['distrik'];
+    $tipe = $_POST['tipe'];
+    $kodepos = $_POST['kodepos'];
+    $ekspedisi = $_POST['ekspedisi'];
+    $paket = $_POST['paket'];
+    $ongkir = $_POST['ongkir'];
+    $estimasi = $_POST['estimasi'];
+
+    $total_order = $total + $ongkir;
+    echo "<br>";
+    echo $total_order;
+    echo "<br>";
+
+    echo $totalberat;
+    echo "<br>";
+
+    echo $provinsi;
+    echo "<br>";
+
+    echo $distrik;
+    echo "<br>";
+
+    echo $tipe;
+    echo "<br>";
+
+    echo $kodepos;
+
+    echo "<br>";
+    echo $ekspedisi;
+
+    echo "<br>";
+
+    echo $paket;
+    echo "<br>";
+
+    echo $ongkir;
+    echo "<br>";
+
+    echo $estimasi;
+    echo "<br>";
+
+    echo $detail_address;
+    echo "<br>";
+
+    echo $phone_number;
+    echo "<br>";
+
+    echo $fullname;
+    echo "<br>";
+
+
+    echo $email;
+    echo "<br>";
+
+
+    die();
+
 
     // Generate unique order number
     $order_number = generateOrderNumber();
@@ -110,11 +170,292 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/checkouts.css">
+    <script src="js/jquery.min.js"></script>
+
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #22afff;
+        }
+
+        .back {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            color: #fff !important;
+            margin-left: 15px;
+            margin-top: 10px;
+            background-color: #007bff;
+            border-radius: 50%;
+
+            padding: 5px 10px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
 </head>
 
 <body>
 
+    <a href="cart.php" style="text-decoration: none;" class="back">
+        ⬅
+    </a>
+
     <div class="container">
+        <h1>Halaman Checkout</h1>
+        <?php if (empty($product_details)) : ?>
+            <p>Cart belanja anda kosong, <a href="produk.php">silahkan belanja</a></p>
+        <?php else : ?>
+            <table>
+                <thead>
+                    <th>No</th>
+                    <th>Produk</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Sub harga</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $counter = 1; // Initialize a counter variable
+                    foreach ($product_details as $product) {
+                        echo "<tr>";
+                        echo "<td>" . $counter++ . "</td>"; // Display product number
+                        echo "<td>" . $product['name'] . "</td>"; // Display product name
+                        echo "<td>Rp " . number_format($product['total_price'] / $product['quantity'], 0, ',', '.') . "</td>"; // Display price per unit
+                        echo "<td>" . $product['quantity'] . "</td>"; // Display quantity
+                        echo "<td>Rp " . number_format($product['total_price'], 0, ',', '.') . "</td>"; // Display total price
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;"><strong>Total Harga:</strong></td>
+                        <td><strong>Rp <?php echo number_format($total, 0, ',', '.'); ?></strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        <?php endif; ?>
+
+        <form action="" method="post">
+
+
+
+            <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
+
+            <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
+
+            <div class="phone-wrappe">
+                <h4 style="margin-top: 10px;">No. Telepon</h4>
+                <input type="number" placeholder="Masukkan no telp.." name="phone_number" required>
+            </div>
+
+
+            <div class="alamat-wrapper">
+                <h4>Alamat Lengkap Pengiriman</h4>
+                <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman"></textarea>
+            </div>
+
+            <div class="province-wrapper">
+                <h4>Provinsi</h4>
+                <select name="nama_provinsi" id="">
+
+                </select>
+            </div>
+
+            <div class="district-wrapper">
+                <h4>Distrik</h4>
+                <select name="nama_distrik" id="">
+
+                </select>
+            </div>
+
+            <div class="expedition-wrapper">
+                <h4>Ekspedisi</h4>
+                <select name="nama_ekspedisi" id="" class="form-control">
+
+                </select>
+            </div>
+
+            <div class="paket-wrapper">
+                <h4>Paket</h4>
+                <select name="nama_paket" id="" class="form-control">
+
+                </select>
+            </div>
+
+            <?php $totalberat = 0; ?>
+            <div class="selected-data">
+                <input type="text" name="total_berat" value="250">
+                <input type="text" name="provinsi">
+                <input type="text" name="distrik">
+                <input type="text" name="tipe">
+                <input type="text" name="kodepos">
+                <input type="text" name="ekspedisi">
+                <input type="text" name="paket">
+                <input type="text" name="ongkir">
+                <input type="text" name="estimasi">
+
+            </div>
+
+
+            <button type="submit" name="order_btn">Checkout</button>
+        </form>
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: 'post',
+                url: 'dataprovinsi.php',
+                success: function(hasil_provinsi) {
+                    $("select[name=nama_provinsi]").html(hasil_provinsi);
+                }
+            });
+
+            $("select[name=nama_provinsi]").on("change", function() {
+                // Ambil id_provinsi ynag dipilih (dari atribut pribadi)
+                var id_provinsi_terpilih = $("option:selected", this).attr("id_provinsi");
+                $.ajax({
+                    type: 'post',
+                    url: 'datadistrik.php',
+                    data: 'id_provinsi=' + id_provinsi_terpilih,
+                    success: function(hasil_distrik) {
+                        $("select[name=nama_distrik]").html(hasil_distrik);
+                    }
+                })
+            });
+
+            $.ajax({
+                type: 'post',
+                url: 'jasaekspedisi.php',
+                success: function(hasil_ekspedisi) {
+                    $("select[name=nama_ekspedisi]").html(hasil_ekspedisi);
+                }
+            });
+
+            $("select[name=nama_ekspedisi]").on("change", function() {
+                // Mendapatkan data ongkos kirim
+
+                // Mendapatkan ekspedisi yang dipilih
+                var ekspedisi_terpilih = $("select[name=nama_ekspedisi]").val();
+                // Mendapatkan id_distrik yang dipilih
+                var distrik_terpilih = $("option:selected", "select[name=nama_distrik]").attr("id_distrik");
+                // Mendapatkan toatal berat dari inputan
+                $total_berat = $("input[name=total_berat]").val();
+                $.ajax({
+                    type: 'post',
+                    url: 'datapaket.php',
+                    data: 'ekspedisi=' + ekspedisi_terpilih + '&distrik=' + distrik_terpilih + '&berat=' + $total_berat,
+                    success: function(hasil_paket) {
+                        // console.log(hasil_paket);
+                        $("select[name=nama_paket]").html(hasil_paket);
+
+                        // Meletakkan nama ekspedisi terpilih di input ekspedisi
+                        $("input[name=ekspedisi]").val(ekspedisi_terpilih);
+                    }
+                })
+            });
+
+            $("select[name=nama_distrik]").on("change", function() {
+                var prov = $("option:selected", this).attr('nama_provinsi');
+                var dist = $("option:selected", this).attr('nama_distrik');
+                var tipe = $("option:selected", this).attr('tipe_distrik');
+                var kodepos = $("option:selected", this).attr('kodepos');
+
+                $("input[name=provinsi]").val(prov);
+                $("input[name=distrik]").val(dist);
+                $("input[name=tipe]").val(tipe);
+                $("input[name=kodepos]").val(kodepos);
+            });
+
+            $("select[name=nama_paket]").on("change", function() {
+                var paket = $("option:selected", this).attr("paket");
+                var ongkir = $("option:selected", this).attr("ongkir");
+                var etd = $("option:selected", this).attr("etd");
+
+                $("input[name=paket]").val(paket);
+                $("input[name=ongkir]").val(ongkir);
+                $("input[name=estimasi]").val(etd);
+            })
+        });
+    </script>
+
+
+</body>
+
+</html>
+
+<!-- 
+ <div class="container">
         <section class="checkout-form">
             <h1 class="heading">Isi formulir pemesanan</h1>
             <form action="" method="post">
@@ -173,6 +514,5 @@ if ($total > 0 && isset($_POST['order_btn'])) {
         </section>
     </div>
 
-</body>
 
-</html>
+ -->
