@@ -8,10 +8,8 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-
 $sql = "SELECT * FROM produk";
 $result = mysqli_query($conn, $sql);
-
 
 // Fetch the count of orders
 $sql_order = "SELECT COUNT(*) AS total_orders FROM orders";
@@ -19,17 +17,13 @@ $result_order = mysqli_query($conn, $sql_order);
 $row_order = mysqli_fetch_assoc($result_order);
 $total_orders = $row_order['total_orders'];
 
-
-
-
 // Fetch the count of customer
 $sql_customer = "SELECT COUNT(*) AS total_customer FROM users";
 $result_customer = mysqli_query($conn, $sql_customer);
 $row_customer = mysqli_fetch_assoc($result_customer);
 $total_customer = $row_customer['total_customer'];
 
-// fetch the count of transaction done
-
+// Fetch the count of transaction done
 $sql_transaction = "SELECT COUNT(*) AS total_transaction FROM orders WHERE status = 'done' AND payment_status = 'paid'";
 $result_transaction = mysqli_query($conn, $sql_transaction);
 $row_transaction = mysqli_fetch_assoc($result_transaction);
@@ -42,6 +36,24 @@ $res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'done' AND payme
 while ($row = mysqli_fetch_assoc($res)) {
     $total_price += $row['total_price'];
 }
+
+// Pagination
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$limit = 3;
+$start = ($page - 1) * $limit;
+
+// Fetch transaction data with pagination
+$sql_transactions = "SELECT * FROM orders WHERE status = 'done' AND payment_status = 'paid' LIMIT $start, $limit";
+$result_transactions = mysqli_query($conn, $sql_transactions);
+
+// Count total number of transactions
+$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'done' AND payment_status = 'paid'";
+$result_count = mysqli_query($conn, $sql_count);
+$row_count = mysqli_fetch_assoc($result_count);
+$total_records = $row_count['total'];
+
+// Calculate total number of pages
+$total_pages = ceil($total_records / $limit);
 
 ?>
 
@@ -76,8 +88,8 @@ while ($row = mysqli_fetch_assoc($res)) {
 
 
         .main-content-header {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            align-items: flex-end;
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -101,17 +113,68 @@ while ($row = mysqli_fetch_assoc($res)) {
             font-size: 1rem;
         }
 
+        .main-content-header div:nth-child(1) {
+            background-color: #34495e;
+            /* Data pesanan */
+        }
+
+        .main-content-header div:nth-child(2) {
+            background-color: #34495e;
+            /* Data pelanggan */
+        }
+
+        .main-content-header div:nth-child(3) {
+            background-color: #34495e;
+            /* Status transaksi selesai */
+        }
+
+        .main-content-header div:nth-child(4) {
+            background-color: #34495e;
+            /* Total pendapatan */
+        }
+
+        /* CSS for table */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color: #fff;
+            background-color: blue;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         table thead {
+            background-color: #0c3366;
+            color: #fff;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid blue;
+            text-align: left;
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Hover effect for table rows */
+        table tbody tr:hover {
             background-color: #f2f2f2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background-color: #34495e;
         }
 
         table th,
@@ -132,18 +195,21 @@ while ($row = mysqli_fetch_assoc($res)) {
             margin-top: 20px;
         }
 
-        .pagination button {
-            padding: 10px 20px;
-            background-color: #10439F;
+        .pagination a {
+            padding: 10px 15px;
+            background-color: #34495e;
             color: #fff;
-            border: none;
             border-radius: 4px;
             cursor: pointer;
             margin: 0 5px;
-            transition: background-color 0.3s ease;
+            text-decoration: none;
         }
 
-        .pagination button:hover {
+        .pagination a.active {
+            background-color: #0c3366;
+        }
+
+        .pagination a:hover {
             background-color: #0c3366;
         }
     </style>
@@ -160,31 +226,31 @@ while ($row = mysqli_fetch_assoc($res)) {
         </div>
         <main class="main-content">
             <div class="main-content-header">
-                <div>
-                    <h2>Jumlah data pesanan</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div onclick="window.location.href = 'data-pesanan.php'" style="cursor: pointer;">
+                    <h2 style="color: #fff;">Jumlah data pesanan</h2>
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
                         <p><?php echo $total_orders; ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div>
-                    <h2>Jumlah data pelanggan</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;">
+                    <h2 style="color: #fff;">Jumlah data pelanggan</h2>
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
 
                         <p><?php echo $total_customer ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div>
-                    <h2>Status transaksi selesai</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div onclick="window.location.href = 'laporan-transaksi.php'" style="cursor: pointer;">
+                    <h2 style="color: #fff;">Status transaksi selesai</h2>
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
                         <p><?php echo $total_transaction ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
                     <h2>Total Pendapatan</h2>
-                    <p>Rp. <?php echo number_format($total_price) ?></p>
+                    <p><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                 </div>
             </div>
             <table>
@@ -192,22 +258,42 @@ while ($row = mysqli_fetch_assoc($res)) {
                 <thead>
                     <tr>
                         <th>No</th>
-                        <!-- Add more table headers here if needed -->
+                        <th>Pelanggan</th>
+                        <th>Tanggal Pemesanan</th>
+                        <th>Jumlah</th>
+                        <th>Status Pesanan</th>
+                        <th>Status Pembayaran</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <!-- Add more table cells here if needed -->
-                    </tr>
+                    <?php
+                    $transaction_number = ($page - 1) * $limit + 1;
+                    while ($row = mysqli_fetch_assoc($result_transactions)) {
+                    ?>
+                        <tr>
+                            <td><?php echo $transaction_number++; ?></td>
+                            <td><?php echo $row['fullname']; ?></td>
+                            <td><?php echo $row['order_date']; ?></td>
+                            <td>Rp. <?php echo number_format($row['total_price']); ?></td>
+                            <td><?php echo $row['status']; ?></td>
+                            <td><?php echo $row['payment_status']; ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
+            <!-- Pagination links -->
             <div class="pagination">
-                <button>prev</button>
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <button>next</button>
+                <?php if ($page > 1) : ?>
+                    <a href="index.php?page=<?php echo ($page - 1); ?>">Previous</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                    <a href="index.php?page=<?php echo $i; ?>" <?php echo ($i == $page) ? 'class="active"' : ''; ?>><?php echo $i; ?></a>
+                <?php endfor; ?>
+
+                <?php if ($page < $total_pages) : ?>
+                    <a href="index.php?page=<?php echo ($page + 1); ?>">Next</a>
+                <?php endif; ?>
             </div>
         </main>
         <footer class="admin-footer">
