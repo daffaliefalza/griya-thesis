@@ -251,7 +251,7 @@ $total_pages = ceil($total_records / $limit);
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div onclick="window.location.href = 'laporan-transaksi.php'" class="box-wrapper" style="cursor: pointer; background-color: #34495e; padding: 20px; border-radius: 8px; text-align: center;">
+                <div class="box-wrapper" style=" background-color: #34495e; padding: 20px; border-radius: 8px; text-align: center;">
                     <h2 style="color: #fff; margin-bottom: 10px;">Total Pendapatan</h2>
                     <div class="detail-boxes">
                         <p style="font-size: 1.2rem; color: #fff; margin: 0; text-decoration: underline;"><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
