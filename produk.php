@@ -126,6 +126,39 @@ if (isset($_POST['logout'])) {
       /* Darker blue color on hover */
     }
 
+    .wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .welcome {
+      margin-right: 10px;
+    }
+
+    .logout-button {}
+
+    .login-link {
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    .cart-link {
+      color: #000;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    .cart-count {
+      background-color: #f44336;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-size: 12px;
+    }
+
+
 
     /* Style for out-of-stock products */
     .out-of-stock {
@@ -150,6 +183,25 @@ if (isset($_POST['logout'])) {
     /* Disabled button cursor */
     .pesan[disabled] {
       cursor: not-allowed !important;
+    }
+
+    .elegant-link {
+      color: #333;
+      /* Dark gray */
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      /* Light gray */
+      transition: all 0.3s ease;
+    }
+
+    .elegant-link:hover {
+      background-color: #e0e0e0;
+      /* Lighter gray on hover */
+      color: #000;
+      /* Black on hover */
     }
   </style>
 
@@ -201,7 +253,7 @@ if (isset($_POST['logout'])) {
           <?php
 
           if (isset($_SESSION['user_id'])) {
-            echo "<li><a href='checkout_history.php'>Riwayat Pemesanan</a></li>";
+            echo "<li><a href='checkout_history.php' class='elegant-link'>Riwayat Pemesanan</a></li>";
           }
 
 
@@ -210,7 +262,23 @@ if (isset($_POST['logout'])) {
       </nav>
       <div class="wrapper">
         <?php echo $username ? "<span>Welcome, $username</span>" : ""; ?>
-        <?php echo $username ? '<form action="" method="post"><button type="submit" name="logout">Logout</button></form>' : '<a href="login.php">Login</a>'; ?>
+        <?php echo $username ? '<form action="" method="post"><button type="submit" name="logout" style="  background-color: #d35400 !important;
+      color: white !important;
+      border: none !important;
+      padding: 8px 16px !important;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+
+      margin-right: 10px;">Logout</button></form>' : '<a href="login.php" style="text-decoration: none; color: #000;  background-color: #d35400 !important;
+      color: white !important;
+      border: none !important;
+      padding: 8px 16px !important;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;">Login</a>'; ?>
         <?php $row_count = count($cart_items); ?>
         <a style="color: #000; text-decoration: none;" href="cart.php" class="cart">cart <span><?php echo $row_count; ?></span> </a>
 

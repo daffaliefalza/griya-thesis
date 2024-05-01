@@ -93,12 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: bold;
         }
 
-        table th:first-child,
-        table td:first-child {
-
-            border: 1px solid red !important;
-            /* Set a fixed width for the "No" column */
-        }
 
 
         .export-button {

@@ -95,10 +95,11 @@ if (isset($_POST['proses'])) {
         }
 
         .row {
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
+            gap: 1.5rem
         }
 
 
@@ -215,7 +216,7 @@ if (isset($_POST['proses'])) {
                         <p>Provinsi: <?php echo $row_pengiriman['province'] ?></p>
                         <p>Distrik: <?php echo $row_pengiriman['district'] ?></p>
                         <p>Alamat Lengkap: <?php echo $row_pengiriman['detail_address'] ?></p>
-                        <p style="border-bottom: 2px solid #aaa;">Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
+                        <p>Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
 
                         <p><strong>Ongkos Kirim: Rp. <?php echo number_format($row_pengiriman['shipping']) ?></strong></p>
                     <?php } ?>
@@ -249,7 +250,7 @@ if (isset($_POST['proses'])) {
                 <tfoot>
 
                     <tr>
-                        <td colspan="2" style="text-align: right;"><strong>Ongkos Kirim</strong></td>
+                        <td colspan=" 2" style="text-align: right;"><strong>Ongkos Kirim</strong></td>
                         <?php while ($row_ongkir = mysqli_fetch_assoc($result_ongkir)) { ?>
                             <td colspan="2"><strong>Rp <?php echo number_format($row_ongkir['shipping'], 0, ',', '.'); ?></strong></td>
                         <?php } ?>

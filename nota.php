@@ -36,6 +36,10 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
 
 
     <style>
+        body {
+            line-height: 1.7;
+        }
+
         /* body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -76,6 +80,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
             justify-content: space-between;
             /* align-items: center; */
             gap: 2rem;
+            margin-top: 10px;
 
         }
 
@@ -209,7 +214,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
                         <p>Provinsi: <?php echo $row_pengiriman['province'] ?></p>
                         <p>Distrik: <?php echo $row_pengiriman['district'] ?></p>
                         <p>Alamat Lengkap: <?php echo $row_pengiriman['detail_address'] ?></p>
-                        <p style="border-bottom: 2px solid #aaa;">Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
+                        <p>Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
                         <p>Paket: <?php echo $row_pengiriman['packet'] ?></p>
                         <p>Estimasi sampai: <?php echo $row_pengiriman['estimation'] ?></p>
                         <p><strong>Ongkos Kirim: Rp. <?php echo number_format($row_pengiriman['shipping']) ?></strong></p>

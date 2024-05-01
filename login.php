@@ -70,9 +70,9 @@
 </head>
 
 <body>
-    <div style="position: absolute; left: 1rem; top: 3rem;">
+    <!-- <div style="position: absolute; left: 1rem; top: 3rem;">
         <a href="produk.php">Kembali</a>
-    </div>
+    </div> -->
     <div class="login-container">
         <h2>Login</h2>
         <!-- Your login form -->

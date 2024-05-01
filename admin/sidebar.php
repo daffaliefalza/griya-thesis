@@ -104,11 +104,21 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <li <?php if ($current_page === 'logout.php') echo 'class="active"'; ?>>
-                <a href="logout.php">
+                <a href="logout.php" onclick="confirmLogout(event)">
                     <img src="../img/logout.png" width="25">
                     <span>Logout</span>
                 </a>
             </li>
+
+            <script>
+                function confirmLogout(event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    var confirmation = confirm("Apakah Anda ingin logout?");
+                    if (confirmation) {
+                        window.location.href = "logout.php"; // Redirect to logout.php
+                    }
+                }
+            </script>
         </ul>
     </div>
 </aside>
