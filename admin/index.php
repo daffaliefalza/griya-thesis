@@ -89,17 +89,31 @@ $total_pages = ceil($total_records / $limit);
 
         .main-content-header {
             display: flex;
-            align-items: flex-end;
+            flex-wrap: wrap;
+            justify-content: space-between;
             gap: 20px;
             margin-bottom: 20px;
         }
 
         .main-content-header div {
-            background-color: #fff;
-            padding: 20px;
+            flex: 1;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+
+
+
+        .main-content-header div:nth-child(1),
+        .main-content-header div:nth-child(2),
+        .main-content-header div:nth-child(3) {
+            flex-basis: calc(33.33% - 20px);
+            background-color: #34495e;
+            color: black;
+        }
+
+
 
         .main-content-header div h2 {
             margin-top: 0;
@@ -113,24 +127,18 @@ $total_pages = ceil($total_records / $limit);
             font-size: 1rem;
         }
 
-        .main-content-header div:nth-child(1) {
-            background-color: #34495e;
-            /* Data pesanan */
-        }
-
-        .main-content-header div:nth-child(2) {
-            background-color: #34495e;
-            /* Data pelanggan */
-        }
-
-        .main-content-header div:nth-child(3) {
-            background-color: #34495e;
-            /* Status transaksi selesai */
-        }
-
         .main-content-header div:nth-child(4) {
-            background-color: #34495e;
-            /* Total pendapatan */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .main-content-header div:nth-child(4) h2 {
+            margin: 0;
+        }
+
+        .main-content-header div:nth-child(4) p {
+            margin: 0;
         }
 
         /* CSS for table */
@@ -226,32 +234,32 @@ $total_pages = ceil($total_records / $limit);
         </div>
         <main class="main-content">
             <div class="main-content-header">
-                <div onclick="window.location.href = 'data-pesanan.php'" style="cursor: pointer;">
+                <div onclick="window.location.href = 'data-pesanan.php'" style="cursor: pointer;" class="box-wrapper">
                     <h2 style="color: #fff;">Jumlah data pesanan</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
                         <p><?php echo $total_orders; ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;">
+                <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;" class="box-wrapper">
                     <h2 style="color: #fff;">Jumlah data pelanggan</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
 
                         <p><?php echo $total_customer ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div onclick="window.location.href = 'laporan-transaksi.php'" style="cursor: pointer;">
+                <div onclick="window.location.href = 'laporan-transaksi.php'" style="cursor: pointer;" class="box-wrapper">
                     <h2 style="color: #fff;">Status transaksi selesai</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
                         <p><?php echo $total_transaction ?></p>
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
+                <!-- <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
                     <h2>Total Pendapatan</h2>
                     <p><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
-                </div>
+                </div> -->
             </div>
             <table>
                 <h2>Data Transaksi</h2>
