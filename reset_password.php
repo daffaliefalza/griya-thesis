@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Update the user's password in the database
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-        $update_query = "UPDATE users SET password = '$hashed_password' WHERE email = '$email'";
+        $update_query = "UPDATE users SET password = '$hashed_password' ";
         $update_result = mysqli_query($conn, $update_query);
 
         if ($update_result && mysqli_affected_rows($conn) > 0) {
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
             } else {
                 // Password successfully updated and email sent
-                echo '<script>alert("Your password has been successfully reset."); window.location = "login.php";</script>';
+                echo '<script>alert("Password berhasil direset."); window.location = "login.php";</script>';
                 exit(); // Ensure that no further code is executed after the redirection
             }
         } else {

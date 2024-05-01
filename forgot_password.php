@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo 'Message could not be sent.';
         echo 'Mailer Error: ' . $mail->ErrorInfo;
     } else {
-        $message = 'An email with instructions to reset your password has been sent to your email address';
+        $message = ' Email dengan instruksi untuk me-reset password telah dikirim ke email anda sesuai dari email yang telah didaftarkan.';
     }
 }
 ?>
