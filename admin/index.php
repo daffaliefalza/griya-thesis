@@ -192,6 +192,8 @@ $total_pages = ceil($total_records / $limit);
             text-align: left;
         }
 
+
+
         table tbody tr:last-child td {
             border-bottom: none;
         }
@@ -249,11 +251,10 @@ $total_pages = ceil($total_records / $limit);
                         <p>Lihat detail</p>
                     </div>
                 </div>
-                <div onclick="window.location.href = 'laporan-transaksi.php'" style="cursor: pointer;" class="box-wrapper">
-                    <h2 style="color: #fff;">Status transaksi selesai</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
-                        <p><?php echo $total_transaction ?></p>
-                        <p>Lihat detail</p>
+                <div onclick="window.location.href = 'laporan-transaksi.php'" class="box-wrapper" style="cursor: pointer; background-color: #34495e; padding: 20px; border-radius: 8px; text-align: center;">
+                    <h2 style="color: #fff; margin-bottom: 10px;">Total Pendapatan</h2>
+                    <div class="detail-boxes">
+                        <p style="font-size: 1.2rem; color: #fff; margin: 0; text-decoration: underline;"><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                     </div>
                 </div>
                 <!-- <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
@@ -261,8 +262,8 @@ $total_pages = ceil($total_records / $limit);
                     <p><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                 </div> -->
             </div>
+            <h2 style="margin-top: 25px;">Data Transaksi</h2>
             <table>
-                <h2>Data Transaksi</h2>
                 <thead>
                     <tr>
                         <th>No</th>
@@ -288,9 +289,15 @@ $total_pages = ceil($total_records / $limit);
                         </tr>
                     <?php } ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+
+                        <td><a href="laporan-transaksi.php" style="color: #000">Lihat Selengkapnya</a></td>
+                    </tr>
+                </tfoot>
             </table>
             <!-- Pagination links -->
-            <div class="pagination">
+            <!-- <div class="pagination">
                 <?php if ($page > 1) : ?>
                     <a href="index.php?page=<?php echo ($page - 1); ?>">Previous</a>
                 <?php endif; ?>
@@ -302,7 +309,7 @@ $total_pages = ceil($total_records / $limit);
                 <?php if ($page < $total_pages) : ?>
                     <a href="index.php?page=<?php echo ($page + 1); ?>">Next</a>
                 <?php endif; ?>
-            </div>
+            </div> -->
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza

@@ -45,8 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <style>
         form {
+            margin-top: 20px;
             margin-bottom: 20px;
-            text-align: center;
         }
 
         label {
@@ -76,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-collapse: collapse;
         }
 
+
         table,
         th,
         td {
@@ -91,6 +92,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         tfoot {
             font-weight: bold;
         }
+
+        table th:first-child,
+        table td:first-child {
+
+            border: 1px solid red !important;
+            /* Set a fixed width for the "No" column */
+        }
+
 
         .export-button {
             padding: 10px 20px;
@@ -116,6 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <main class="main-content">
             <!-- Form for date filtering -->
+            <h3>Filter data transaksi dari tanggal mulai - tanggal berakhir</h3>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <label for="start_date">Tanggal Mulai:</label>
                 <input type="date" id="start_date" name="start_date">
