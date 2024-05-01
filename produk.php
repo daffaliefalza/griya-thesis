@@ -260,9 +260,11 @@ if (isset($_POST['logout'])) {
           ?>
         </ul>
       </nav>
+
+
       <div class="wrapper">
         <?php echo $username ? "<span>Welcome, $username</span>" : ""; ?>
-        <?php echo $username ? '<form action="" method="post"><button type="submit" name="logout" style="  background-color: #d35400 !important;
+        <?php echo $username ? '<a href="logout.php"  onclick="confirmLogout(event)" name="logout" style="  background-color: #d35400 !important;
       color: white !important;
       border: none !important;
       padding: 8px 16px !important;
@@ -270,8 +272,9 @@ if (isset($_POST['logout'])) {
       text-decoration: none;
       display: inline-block;
       font-size: 16px;
+      cursor: pointer;
 
-      margin-right: 10px;">Logout</button></form>' : '<a href="login.php" style="text-decoration: none; color: #000;  background-color: #d35400 !important;
+      margin-right: 10px;">Logout</a></form>' : '<a href="login.php" style="text-decoration: none; color: #000;  background-color: #d35400 !important;
       color: white !important;
       border: none !important;
       padding: 8px 16px !important;
@@ -357,7 +360,15 @@ if (isset($_POST['logout'])) {
 
   <!-- footer end -->
 
-
+  <script>
+    function confirmLogout(event) {
+      event.preventDefault(); // Prevent the default link behavior
+      var confirmation = confirm("Apakah Anda ingin logout?");
+      if (confirmation) {
+        window.location.href = "logout.php"; // Redirect to logout.php
+      }
+    }
+  </script>
 </body>
 
 </html>
