@@ -65,13 +65,13 @@ $result = mysqli_query($conn, $sql);
         ?>
           <tbody>
             <td><?php echo $no++ ?></td>
-            <td><?php echo $row['nama_produk'] ?></td>
-            <td><?php echo $row['kategori_produk'] ?></td>
+            <td><?php echo $row['product_name'] ?></td>
+            <td><?php echo $row['product_category'] ?></td>
             <td>
-              <img src="../img/<?php echo $row['image']; ?>" alt="wedang kencur" />
+              <img src="upload_file/<?php echo $row['image']; ?>" />
             </td>
-            <td><?php echo 'Rp ' . number_format($row['harga'], 0, ',', '.') ?></td>
-            <td><?php echo $row['deskripsi'] ?></td>
+            <td><?php echo 'Rp ' . number_format($row['price'], 0, ',', '.') ?></td>
+            <td><?php echo $row['description'] ?></td>
             <td><?php echo $row['stok'] ?></td>
             <td>
               <a href="ubah.php?id_produk=<?php echo $row['id_produk'] ?>">Ubah</a>

@@ -13,7 +13,7 @@ if (mysqli_num_rows($select_products) > 0) {
 ?>
         <form action="" method="post">
             <div class="col <?php echo $out_of_stock_class; ?>">
-                <img src="./img/<?php echo $row['image'] ?>" alt="Wedang kencur" />
+                <img style="width: 300px;" src="./admin/upload_file/<?php echo $row['image'] ?>" alt="Wedang kencur" />
                 <h3><?php echo $row['product_name'] ?></h3>
                 <h4 class="harga"><?php echo 'Rp ' . number_format($row['price'], 0, ',', '.') ?></h4>
                 <p><?php echo $row['description'] ?></p>

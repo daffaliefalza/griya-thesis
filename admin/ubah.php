@@ -14,15 +14,30 @@ if (isset($_GET['id_produk'])) {
 
         // Check if form is submitted for updating data
         if (isset($_POST['ubah_data'])) {
-            $nama_produk = $_POST['nama_produk'];
-            $kategori_produk = $_POST['kategori_produk'];
-            $gambar = $_POST['gambar'];
-            $harga = $_POST['harga'];
-            $deskripsi = $_POST['deskripsi'];
-            $stok = $_POST['stok'];
+            $product_name = $_POST['product_name'];
+            $product_category = $_POST['product_category'];
+            $image = $_FILES['image']['name']; // Updated to handle file upload
+            $image_tmp = $_FILES['image']['tmp_name']; // Temporary location of the file
+            $price = $_POST['price'];
+            $description = $_POST['description'];
+            $stock = $_POST['stock'];
+
+            // Get the last image filename
+            $last_image = $row['image'];
+
+            // Define the upload directory
+            $upload_directory = "upload_file/";
+
+            // Move the uploaded file to the defined directory if a new image is uploaded
+            if (!empty($image)) {
+                move_uploaded_file($image_tmp, $upload_directory . $image);
+            } else {
+                // If no new image is uploaded, use the last image filename
+                $image = $last_image;
+            }
 
             // Update the data in the database
-            $sql = "UPDATE produk SET nama_produk='$nama_produk', kategori_produk='$kategori_produk', image='$gambar', harga=$harga, deskripsi='$deskripsi', stok=$stok WHERE id_produk='$id_produk'";
+            $sql = "UPDATE produk SET product_name='$product_name', product_category='$product_category', image='$image', price=$price, description='$description', stok=$stock WHERE id_produk='$id_produk'";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
@@ -47,6 +62,26 @@ if (isset($_GET['id_produk'])) {
     <link rel="stylesheet" href="../css/default.css">
     <link rel="stylesheet" href="../css/form-admin.css">
 
+    <style>
+        /* Style for input file */
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-input-wrapper label {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -54,25 +89,32 @@ if (isset($_GET['id_produk'])) {
     <a href="./index.php" class="back">Kembali</a>
     <h1 style="text-align: center;">Ubah Data Produk</h1>
 
-    <form action="" method="post">
-        <label for="nama_produk">Nama Produk</label><br>
-        <input type="text" name="nama_produk" id="nama_produk" value="<?php echo $row['nama_produk']; ?>"><br>
+    <form action="" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" is required for file uploads -->
+        <label for="product_name">Nama Produk</label><br>
+        <input type="text" name="product_name" id="product_name" value="<?php echo $row['product_name']; ?>"><br>
 
-        <label for="kategori_produk">Kategori Produk</label><br>
-        <input type="text" name="kategori_produk" id="kategori_produk" value="<?php echo $row['kategori_produk']; ?>"><br>
+        <label for="product_category">Kategori Produk</label><br>
+        <select name="product_category" id="product_category">
+            <option value="Jamu" <?php if ($row['product_category'] == 'Jamu') echo 'selected'; ?>>Jamu</option>
+            <option value="Instan" <?php if ($row['product_category'] == 'Instan') echo 'selected'; ?>>Instan</option>
+        </select><br>
 
 
-        <label for="gambar">Gambar</label><br>
-        <input type="text" name="gambar" id="gambar" value="<?php echo $row['image']; ?>"><br>
+        <label for="image">Gambar</label><br>
+        <div class="file-input-wrapper">
+            <input type="file" name="image" id="image">
+            <label for="image" class="file-label">Choose File</label>
+        </div>
+        <br>
 
-        <label for="harga">Harga</label><br>
-        <input type="number" name="harga" id="harga" value="<?php echo $row['harga']; ?>"><br>
+        <label for="price">Harga</label><br>
+        <input type="number" name="price" id="price" value="<?php echo $row['price']; ?>"><br>
 
-        <label for="deskripsi">Deskripsi</label><br>
-        <textarea name="deskripsi" id="deskripsi" cols="30" rows="10"><?php echo $row['deskripsi']; ?></textarea><br>
+        <label for="description">Deskripsi</label><br>
+        <textarea name="description" id="description" cols="30" rows="10"><?php echo $row['description']; ?></textarea><br>
 
-        <label for="stok">Stok</label><br>
-        <input type="number" name="stok" id="stok" value="<?php echo $row['stok']; ?>"><br>
+        <label for="stock">Stok</label><br>
+        <input type="number" name="stock" id="stock" value="<?php echo $row['stok']; ?>"><br>
 
         <button type="submit" name="ubah_data">Ubah!</button>
     </form>
