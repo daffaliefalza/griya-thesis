@@ -175,9 +175,9 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
                                 <?php
                                 if ($row['status'] == 'rejected') {
                                     echo '<a class="disabled-text" disabled>* Pesanan dibatalkan karena bukti tidak valid</a>';
-                                } elseif ($row['payment_status'] == 'unpaid' && $row['status'] != 'rejected') {
+                                } elseif ($row['payment_status'] == 'Menunggu Pembayaran' && $row['status'] != 'rejected') {
                                     echo '<a class="button-link" href="payment.php?order_id=' . $row['order_id'] . '">Selesaikan pembayaran</a>';
-                                } elseif ($row['payment_status'] == 'paid') {
+                                } elseif ($row['payment_status'] == 'Sudah Dibayar') {
                                     echo '<a class="button-link-invoice" href="nota.php?order_id=' . $row['order_id'] . '">Lihat Nota</a>';
                                 }
                                 ?>

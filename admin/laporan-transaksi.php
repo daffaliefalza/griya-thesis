@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'done' AND payment_status = 'paid'";
+    $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'done' AND payment_status = 'Sudah Dibayar'";
 
     $result = mysqli_query($conn, $query);
 

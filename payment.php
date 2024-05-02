@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Update payment status in checkout_history table
                 // $order_id = $_GET['order_id'];
 
-                $update_sql = "UPDATE orders SET payment_status = 'Paid' WHERE order_id = '$order_id'";
+                $update_sql = "UPDATE orders SET payment_status = 'Sudah Dibayar' WHERE order_id = '$order_id'";
                 if (mysqli_query($conn, $update_sql)) {
                     echo "<script>
                             alert('Terimakasih!');
