@@ -137,7 +137,7 @@ if (isset($_POST['ubah_password'])) {
 </head>
 
 <body>
-    <div style="">
+    <div>
         <marquee>
             For testing purpose, you're not allowed to change the password :-)
             <br>

@@ -136,8 +136,6 @@ if (isset($_POST['logout'])) {
       margin-right: 10px;
     }
 
-    .logout-button {}
-
     .login-link {
       color: #007bff;
       text-decoration: none;
