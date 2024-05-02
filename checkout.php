@@ -41,7 +41,7 @@ if (mysqli_num_rows($select_cart) > 0) {
 
         // Store product details with individual total price
         $product_details[] = array(
-            'name' => $fetch_cart['name'],
+            'name' => $fetch_cart['product_name'],
             'quantity' => $fetch_cart['quantity'],
             'total_price' => $total_price // Calculate individual total price for each product
         );

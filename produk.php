@@ -24,7 +24,7 @@ function fetchUsername($user_id)
 $cart_items = [];
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
-  $select_cart = mysqli_query($conn, "SELECT id, name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
+  $select_cart = mysqli_query($conn, "SELECT id, product_name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
   if (mysqli_num_rows($select_cart) > 0) {
     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
       $cart_items[] = $fetch_cart;
@@ -47,7 +47,7 @@ if (isset($_POST['add_to_cart'])) {
   $product_quantity = 1;
 
   // Retrieve the id_produk of the product from the produk table
-  $select_produk = mysqli_query($conn, "SELECT id_produk FROM `produk` WHERE nama_produk = '$product_name'");
+  $select_produk = mysqli_query($conn, "SELECT id_produk FROM `produk` WHERE product_name = '$product_name'");
   if ($select_produk && mysqli_num_rows($select_produk) > 0) {
     $row = mysqli_fetch_assoc($select_produk);
     $id_produk = $row['id_produk'];
@@ -59,7 +59,7 @@ if (isset($_POST['add_to_cart'])) {
       echo '<script>window.location.href = "produk.php";</script>';
     } else {
       // Add the item to the cart with the user ID and id_produk
-      $insert_product = mysqli_query($conn, "INSERT INTO `cart`(id_produk, name, price, image, quantity, id_users) VALUES('$id_produk', '$product_name', '$product_price', '$product_image', '$product_quantity', '$user_id')");
+      $insert_product = mysqli_query($conn, "INSERT INTO `cart`(id_produk, product_name, price, image, quantity, id_users) VALUES('$id_produk', '$product_name', '$product_price', '$product_image', '$product_quantity', '$user_id')");
       echo "<script>alert('Produk berhasil ditambahkan!'); window.location.href = 'produk.php';</script>";
     }
   } else {

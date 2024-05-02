@@ -57,7 +57,7 @@ if (isset($_GET['delete_all'])) {
             <?php
             $user_id = $_SESSION['user_id']; // Get the user ID from the session
 
-            $select_cart = mysqli_query($conn, "SELECT id, name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
+            $select_cart = mysqli_query($conn, "SELECT id, product_name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
 
             $grand_total = 0;
             if (mysqli_num_rows($select_cart) > 0) {
@@ -82,7 +82,7 @@ if (isset($_GET['delete_all'])) {
                         ?>
                             <tr>
                                 <td><img src="img/<?php echo $fetch_cart['image'] ?>" height="100" alt=""></td>
-                                <td><?php echo $fetch_cart['name']; ?></td>
+                                <td><?php echo $fetch_cart['product_name']; ?></td>
                                 <td><?php echo $harga_formatted; ?></td>
                                 <td>
                                     <form action="" method="post">
