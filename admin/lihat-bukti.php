@@ -17,7 +17,7 @@ $result_total_harga = mysqli_query($conn, "SELECT total_price FROM orders WHERE 
 $disable_proses_button = false;
 
 while ($row_order = mysqli_fetch_assoc($result_trigger)) {
-    if ($row_order['status'] == 'done') {
+    if ($row_order['status'] == 'Seelesai') {
         $disable_proses_button = true;
     }
 }
@@ -32,7 +32,7 @@ if (isset($_POST['proses'])) {
     mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE order_id='$order_id'");
 
     // Decrease the product stock if the status is processed
-    if ($status == 'processed') {
+    if ($status == 'Diproses') {
         // Retrieve order details
         $order_query = mysqli_query($conn, "SELECT product_name, quantity FROM order_items WHERE order_id='$order_id'");
         while ($row = mysqli_fetch_assoc($order_query)) {
@@ -282,10 +282,10 @@ if (isset($_POST['proses'])) {
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
                             <option selected disabled>Pilih Status</option>
-                            <option value="rejected">Rejected</option>
-                            <option value="processed">Processed</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="done">Done</option>
+                            <option value="Dibatalkan">Batalkan</option>
+                            <option value="Diproses">Proses</option>
+                            <option value="Sedang Dikirim">Sedang Dikirim</option>
+                            <option value="Selesai">Selesai</option>
                         </select>
                     </div>
                     <?php if (!$disable_proses_button) { ?>

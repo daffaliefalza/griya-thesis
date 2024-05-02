@@ -24,14 +24,14 @@ $row_customer = mysqli_fetch_assoc($result_customer);
 $total_customer = $row_customer['total_customer'];
 
 // Fetch the count of transaction done
-$sql_transaction = "SELECT COUNT(*) AS total_transaction FROM orders WHERE status = 'done' AND payment_status = 'Sudah Dibayar'";
+$sql_transaction = "SELECT COUNT(*) AS total_transaction FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
 $result_transaction = mysqli_query($conn, $sql_transaction);
 $row_transaction = mysqli_fetch_assoc($result_transaction);
 $total_transaction = $row_transaction['total_transaction'];
 
 $total_price = 0;
 
-$res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'done' AND payment_status = 'Sudah Dibayar'");
+$res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'");
 
 while ($row = mysqli_fetch_assoc($res)) {
     $total_price += $row['total_price'];
@@ -43,11 +43,11 @@ $limit = 3;
 $start = ($page - 1) * $limit;
 
 // Fetch transaction data with pagination
-$sql_transactions = "SELECT * FROM orders WHERE status = 'done' AND payment_status = 'Sudah Dibayar' LIMIT $start, $limit";
+$sql_transactions = "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' LIMIT $start, $limit";
 $result_transactions = mysqli_query($conn, $sql_transactions);
 
 // Count total number of transactions
-$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'done' AND payment_status = 'Sudah Dibayar'";
+$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
 $result_count = mysqli_query($conn, $sql_count);
 $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];

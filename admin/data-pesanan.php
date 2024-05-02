@@ -98,7 +98,7 @@ $result = mysqli_query($conn, "SELECT * FROM orders ");
 
 
 
-                            <?php if ($row['status'] == 'rejected') { ?>
+                            <?php if ($row['status'] == 'Dibatalkan') { ?>
                                 <p>-</p>
                             <?php } else { ?>
                                 <a class="payment-button" href="lihat-bukti.php?order_id=<?php echo $row['order_id']; ?>">Detail</a>
