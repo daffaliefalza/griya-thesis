@@ -73,12 +73,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span>Kelola Produk</span>
                 </a>
             </li>
-            <li <?php if ($current_page === 'kelola-blog.php') echo 'class="active"'; ?>>
+            <!-- <li <?php if ($current_page === 'kelola-blog.php') echo 'class="active"'; ?>>
                 <a href="kelola-artikel.php">
                     <img src="../img/blog-icon.svg" width="25">
                     <span>Kelola Artikel</span>
                 </a>
-            </li>
+            </li> -->
             <li <?php if ($current_page === 'data-pesanan.php') echo 'class="active"'; ?>>
                 <a href="data-pesanan.php">
                     <img src="../img/checkout.png" width="25">

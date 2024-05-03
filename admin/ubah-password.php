@@ -1,5 +1,5 @@
 <?php
-/*
+
 session_start();
 
 require('../server/connection.php');
@@ -47,7 +47,6 @@ if (isset($_POST['ubah_password'])) {
         }
     }
 }
-*/
 ?>
 
 <!DOCTYPE html>
@@ -113,7 +112,7 @@ if (isset($_POST['ubah_password'])) {
             border: none;
             padding: 12px 20px;
             border-radius: 5px;
-            cursor: not-allowed;
+            /* cursor: not-allowed; */
             font-size: 16px;
             width: 100%;
             display: block;
@@ -130,9 +129,9 @@ if (isset($_POST['ubah_password'])) {
         }
 
 
-        input[disabled] {
+        /* input[disabled] {
             cursor: not-allowed;
-        }
+        } */
     </style>
 </head>
 
@@ -156,18 +155,18 @@ if (isset($_POST['ubah_password'])) {
             <ul>
                 <li>
                     <label for="password_lama">Password Lama:</label>
-                    <input type="password" name="password_lama" id="password_lama" required disabled>
+                    <input type="password" name="password_lama" id="password_lama" required>
                 </li>
                 <li>
                     <label for="password_baru">Password Baru:</label>
-                    <input type="password" name="password_baru" id="password_baru" required disabled>
+                    <input type="password" name="password_baru" id="password_baru" required>
                 </li>
                 <li>
                     <label for="konfirmasi_password">Konfirmasi Password Baru:</label>
-                    <input type="password" name="konfirmasi_password" id="konfirmasi_password" required disabled>
+                    <input type="password" name="konfirmasi_password" id="konfirmasi_password" required>
                 </li>
                 <li>
-                    <button type="submit" name="ubah_password" disabled>Ubah Password</button>
+                    <button type="submit" name="ubah_password">Ubah Password</button>
                 </li>
             </ul>
         </form>

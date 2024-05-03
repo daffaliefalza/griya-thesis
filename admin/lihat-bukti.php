@@ -17,7 +17,7 @@ $result_total_harga = mysqli_query($conn, "SELECT total_price FROM orders WHERE 
 $disable_proses_button = false;
 
 while ($row_order = mysqli_fetch_assoc($result_trigger)) {
-    if ($row_order['status'] == 'Seelesai') {
+    if ($row_order['status'] == 'Selesai') {
         $disable_proses_button = true;
     }
 }

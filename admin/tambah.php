@@ -21,7 +21,7 @@ if (isset($_POST['tambah_data'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        echo '<script>alert("Data produk berhasil ditambah."); window.location = "index.php";</script>';
+        echo '<script>alert("Data produk berhasil ditambah."); window.location = "kelola-produk.php";</script>';
     } else {
         echo '<script>alert("Gagal menambahkan data!");</script>';
     }
@@ -79,7 +79,7 @@ if (isset($_POST['tambah_data'])) {
 
 <body>
 
-    <a href="./index.php" class="back">Kembali</a>
+    <!-- <a href="./index.php" class="back">Kembali</a> -->
 
     <h1 style="text-align: center;">Tambah Data Produk</h1>
 

@@ -25,9 +25,9 @@ if (isset($_POST['register'])) {
         $insert_result = mysqli_query($conn, $insert_query);
 
         if ($insert_result) {
-            echo "User registered successfully";
+            echo "<script>alert('Registrasi berhasil');</script>";
             // Redirect to login page or dashboard
-            header('Location: login.php');
+            echo "<script>window.location = 'login.php';</script>";
         } else {
             echo "Error registering user";
         }

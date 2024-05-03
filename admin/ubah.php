@@ -41,7 +41,7 @@ if (isset($_GET['id_produk'])) {
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
-                echo '<script>alert("Data produk berhasil diubah."); window.location = "index.php";</script>';
+                echo '<script>alert("Data produk berhasil diubah."); window.location = "kelola-produk.php";</script>';
             } else {
                 echo '<script>alert("Gagal mengubah data!");</script>';
             }
@@ -86,7 +86,7 @@ if (isset($_GET['id_produk'])) {
 
 <body>
 
-    <a href="./index.php" class="back">Kembali</a>
+    <!-- <a href="./kelola-produk.php" class="back">Kembali</a> -->
     <h1 style="text-align: center;">Ubah Data Produk</h1>
 
     <form action="" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" is required for file uploads -->
