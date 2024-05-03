@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 include '../server/connection.php';
@@ -120,12 +119,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <main class="main-content">
             <!-- Form for date filtering -->
             <h3>Filter data transaksi dari tanggal mulai - tanggal berakhir</h3>
+            <p style="font-style: italic;">Contoh filter tanggal dari 01/01/2024 - 12/30/2024.</p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <label for="start_date">Tanggal Mulai:</label>
                 <input type="date" id="start_date" name="start_date">
                 <label for="end_date">Tanggal Berakhir:</label>
                 <input type="date" id="end_date" name="end_date">
-                <button type="submit">Cari</button>
+                <!-- Add id attribute to the "Cari" button -->
+                <button type="submit" id="search_button" disabled>Cari</button>
                 <!-- Export button -->
                 <?php if ($result) : ?>
                     <a href="export_data.php?start_date=<?php echo $startDate ?>&end_date=<?php echo $endDate ?>" class="export-button">Export Data</a>
@@ -176,6 +177,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Made with &hearts; - Andi Daffa Liefalza
         </footer>
     </div>
+
+    <!-- Add JavaScript code -->
+    <script>
+        // JavaScript function to check if both start and end dates are filled
+        function checkDates() {
+            // Get start and end date input elements
+            var startDate = document.getElementById('start_date');
+            var endDate = document.getElementById('end_date');
+
+            // Get the "Cari" button
+            var searchButton = document.getElementById('search_button');
+
+            // Check if both start and end dates are filled
+            if (startDate.value !== '' && endDate.value !== '') {
+                // Enable the "Cari" button
+                searchButton.disabled = false;
+            } else {
+                // Disable the "Cari" button
+                searchButton.disabled = true;
+            }
+        }
+
+        // Call the checkDates function when either of the date inputs changes
+        document.getElementById('start_date').addEventListener('change', checkDates);
+        document.getElementById('end_date').addEventListener('change', checkDates);
+    </script>
 </body>
 
 </html>
