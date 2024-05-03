@@ -4,6 +4,7 @@ require('server/connection.php');
 if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $fullname = $_POST['fullname'];
+    $phone = $_POST['phone'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -21,7 +22,7 @@ if (isset($_POST['register'])) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert user into the database
-        $insert_query = "INSERT INTO users (username, fullname, email, password) VALUES ('$username', '$fullname', '$email', '$hashed_password')";
+        $insert_query = "INSERT INTO users (username, fullname, phone_number,email, password) VALUES ('$username', '$fullname', '$phone','$email', '$hashed_password')";
         $insert_result = mysqli_query($conn, $insert_query);
 
         if ($insert_result) {

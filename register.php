@@ -36,6 +36,7 @@
         input[type="text"],
         input[type="email"],
         input[type="password"],
+        input[type="number"],
         button {
             width: calc(100% - 20px);
             padding: 12px;
@@ -104,8 +105,10 @@
         <input type="text" name="username" placeholder="Jambrong" required>
         <label>Nama Lengkap</label>
         <input type="text" name="fullname" placeholder="Jambrong Hermawan" required>
-        <label>Email</label>
 
+        <label>No Telp</label>
+        <input type="number" name="phone" placeholder="0812xxxxx" required>
+        <label>Email</label>
         <input type="email" name="email" placeholder="jambrong@gmail.com" required>
         <label>Password</label>
         <input type="password" name="password" placeholder="Password" required>

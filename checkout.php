@@ -22,10 +22,11 @@ function generateOrderNumber()
 // Fetch cart items for the current user
 $user_id = $_SESSION['user_id'];
 
-$select_user = mysqli_query($conn, "SELECT fullname, email FROM users WHERE id_users = '$user_id'");
+$select_user = mysqli_query($conn, "SELECT fullname, phone_number, email FROM users WHERE id_users = '$user_id'");
 
 while ($select = mysqli_fetch_assoc($select_user)) {
     $_SESSION['fullname'] = $select['fullname'];
+    $_SESSION['phone'] = $select['phone_number'];
     $_SESSION['user_email'] = $select['email'];
 }
 
@@ -51,9 +52,6 @@ if (mysqli_num_rows($select_cart) > 0) {
 // Handle form submission
 if ($total > 0 && isset($_POST['order_btn'])) {
     // Collect order details
-    $fullname = $_POST['fullname'];
-    $phone_number = $_POST['phone_number'];
-    $email = $_POST['email'];
     // $province = $_POST['province'];
     // $city = $_POST['city'];
     $detail_address = $_POST['detail_address'];
@@ -81,7 +79,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     $payment_expiry = date('Y-m-d H:i:s', strtotime($order_date . ' +1 day'));
 
     // Insert order into orders table with order creation timestamp and payment expiry
-    $insert_order_query = "INSERT INTO orders (order_number, id_users, fullname, phone_number, email, weight, province, district, type, detail_address, postal_code, expedition, packet, shipping, estimation, total_price, order_date, payment_expiry) VALUES ('$order_number', '$user_id', '$fullname', '$phone_number', '$email', '$totalberat', '$provinsi', '$distrik', '$tipe', '$detail_address', '$kodepos', '$ekspedisi', '$paket', '$ongkir', '$estimasi', '$total_dengan_ongkir', '$order_date', '$payment_expiry')";
+    $insert_order_query = "INSERT INTO orders (order_number, id_users, weight, province, district, type, detail_address, postal_code, expedition, packet, shipping, estimation, total_price, order_date, payment_expiry) VALUES ('$order_number', '$user_id', '$totalberat', '$provinsi', '$distrik', '$tipe', '$detail_address', '$kodepos', '$ekspedisi', '$paket', '$ongkir', '$estimasi', '$total_dengan_ongkir', '$order_date', '$payment_expiry')";
 
     if (mysqli_query($conn, $insert_order_query)) {
         // Get the last inserted order ID
@@ -268,7 +266,10 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
             <div class="phone-wrappe">
                 <h4 style="margin-top: 10px;">No. Telepon</h4>
-                <input type="number" placeholder="Masukkan no telp.." name="phone_number" required>
+                <input type="number" value="<?php echo $_SESSION['phone'] ?>" name="phone_number" required readonly style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
             </div>
 
 
