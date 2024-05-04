@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = 'griya';
+$database = 'griya2';
 
 $conn = mysqli_connect($servername, $username, $password, $database);
 

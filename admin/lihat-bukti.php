@@ -7,11 +7,14 @@ $order_id = $_GET['order_id'];
 
 $result_payment = mysqli_query($conn, "SELECT * FROM payment WHERE order_id='$order_id'");
 $result_order = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order_id'");
-$result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
+$result_pelanggan = mysqli_query($conn, "SELECT * FROM users WHERE id_users IN (SELECT id_users FROM orders WHERE order_id='$order_id')");
+
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
 $result_trigger = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
-$result_pengiriman = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
-$result_ongkir = mysqli_query($conn, "SELECT shipping FROM orders WHERE order_id='$order_id'");
+$result_pengiriman = mysqli_query($conn, "SELECT * FROM delivery WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
+
+
+$result_ongkir = mysqli_query($conn, "SELECT shipping FROM delivery WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
 $result_total_harga = mysqli_query($conn, "SELECT total_price FROM orders WHERE order_id='$order_id'");
 
 $disable_proses_button = false;

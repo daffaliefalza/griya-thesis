@@ -2,10 +2,16 @@
 
 session_start();
 
+
+
 include '../server/connection.php';
 
 
-$result = mysqli_query($conn, "SELECT * FROM orders ");
+
+
+$result = mysqli_query($conn, "SELECT orders.*, users.fullname 
+                                FROM orders 
+                                LEFT JOIN users ON orders.id_users = users.id_users");
 
 
 ?>

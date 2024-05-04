@@ -43,8 +43,20 @@ $limit = 3;
 $start = ($page - 1) * $limit;
 
 // Fetch transaction data with pagination
-$sql_transactions = "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' LIMIT $start, $limit";
+$sql_transactions = "SELECT orders.*, users.fullname 
+                     FROM orders 
+                     LEFT JOIN users ON orders.id_users = users.id_users
+                     WHERE orders.status = 'Selesai' AND orders.payment_status = 'Sudah Dibayar'
+                     LIMIT $start, $limit";
 $result_transactions = mysqli_query($conn, $sql_transactions);
+
+
+
+// $result = mysqli_query($conn, "SELECT orders.*, users.fullname 
+//                                 FROM orders 
+//                                 LEFT JOIN users ON orders.id_users = users.id_users");
+
+
 
 // Count total number of transactions
 $sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'";

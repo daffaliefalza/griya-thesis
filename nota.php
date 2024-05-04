@@ -1,19 +1,19 @@
 <?php
 
 include 'server/connection.php';
-
 $order_id = $_GET['order_id'];
 
 
 $result = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order_id'");
 
 
-$result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
+$result_pelanggan = mysqli_query($conn, "SELECT * FROM users WHERE id_users IN (SELECT id_users FROM orders WHERE order_id='$order_id')");
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
-$result_pengiriman = mysqli_query($conn, "SELECT o.*, d.* FROM orders o INNER JOIN delivery d ON o.id_delivery = d.id_delivery WHERE o.order_id='$order_id'");
+$result_pengiriman = mysqli_query($conn, "SELECT * FROM delivery WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
 
 
-$result_ongkir = mysqli_query($conn, "SELECT shipping FROM orders WHERE order_id='$order_id'");
+$result_ongkir = mysqli_query($conn, "SELECT shipping FROM delivery WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
+
 $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id= '$order_id'");
 
 

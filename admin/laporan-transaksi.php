@@ -15,8 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    $query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
-
+    $query = "SELECT orders.*, users.fullname 
+          FROM orders 
+          INNER JOIN users ON orders.id_users = users.id_users 
+          WHERE order_date BETWEEN '$startDate' AND '$endDate' 
+          AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
     $result = mysqli_query($conn, $query);
 
     // Check if any rows are returned

@@ -9,7 +9,11 @@ $startDate = $_GET['start_date'];
 $endDate = $_GET['end_date'];
 
 // Construct the SQL query with date filtering and status conditions
-$query = "SELECT * FROM orders WHERE order_date BETWEEN '$startDate' AND '$endDate' AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
+$query = "SELECT orders.*, users.fullname 
+          FROM orders 
+          LEFT JOIN users ON orders.id_users = users.id_users 
+          WHERE order_date BETWEEN '$startDate' AND '$endDate' 
+          AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
 
 $result = mysqli_query($conn, $query);
 
