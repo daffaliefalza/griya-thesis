@@ -50,7 +50,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                         <td><?php echo $no++ ?></td>
                         <td><?php echo $row['username'] ?></td>
                         <td><?php echo $row['fullname'] ?></td>
-                        <td><?php echo $row['email'] ?></td>
+                        <td><?php echo "Email di hide untuk kenyamanan bersama." ?></td>
 
                     </tbody>
 

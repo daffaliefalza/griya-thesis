@@ -10,7 +10,7 @@ $result = mysqli_query($conn, "SELECT * FROM order_items  WHERE order_id='$order
 
 $result_pelanggan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
 $result_pemesanan = mysqli_query($conn, "SELECT * FROM orders WHERE order_id ='$order_id'");
-$result_pengiriman = mysqli_query($conn, "SELECT * FROM orders WHERE order_id='$order_id'");
+$result_pengiriman = mysqli_query($conn, "SELECT o.*, d.* FROM orders o INNER JOIN delivery d ON o.id_delivery = d.id_delivery WHERE o.order_id='$order_id'");
 
 
 $result_ongkir = mysqli_query($conn, "SELECT shipping FROM orders WHERE order_id='$order_id'");
