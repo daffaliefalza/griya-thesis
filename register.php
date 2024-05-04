@@ -102,7 +102,7 @@
 
     <form action="register_process.php" method="post">
         <label>Username</label>
-        <input type="text" name="username" placeholder="Jambrong" required>
+        <input type="text" name="username" placeholder="" required>
         <label>Nama Lengkap</label>
         <input type="text" name="fullname" placeholder="Jambrong Hermawan" required>
 
