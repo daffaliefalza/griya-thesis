@@ -15,11 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    $query = "SELECT orders.*, users.fullname 
+    $query = "SELECT orders.*, users.fullname, GROUP_CONCAT(order_items.product_name SEPARATOR ', ') AS product_names, SUM(order_items.quantity) AS total_quantity
           FROM orders 
           INNER JOIN users ON orders.id_users = users.id_users 
+          INNER JOIN order_items ON orders.order_id = order_items.order_id
           WHERE order_date BETWEEN '$startDate' AND '$endDate' 
-          AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
+          AND status = 'Selesai' AND payment_status = 'Sudah Dibayar'
+          GROUP BY orders.order_id";
     $result = mysqli_query($conn, $query);
 
     // Check if any rows are returned
@@ -142,7 +144,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th>No</th>
                         <th>Pelanggan</th>
                         <th>Tanggal Pemesanan</th>
-                        <th>Jumlah</th>
+                        <th>Produk yang Dipesan</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
                         <th>Status Pesanan</th>
                         <th>Status Pembayaran</th>
                     </thead>
@@ -156,7 +160,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <td><?php echo $no++ ?></td>
                                 <td><?php echo $row['fullname'] ?></td>
                                 <td><?php echo $row['order_date'] ?></td>
-                                <td>Rp. <?php echo number_format($row['total_price']) ?></td>
+                                <td><?php echo $row['product_names'] ?></td>
+                                <td><?php echo $row['total_quantity'] ?></td>
+                                <td><?php echo $row['total_price'] ?></td>
                                 <td><?php echo $row['status'] ?></td>
                                 <td><?php echo $row['payment_status'] ?></td>
                             </tr>
@@ -164,8 +170,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="3">Total</th>
+                            <th colspan="4">Total</th>
                             <td><strong>Rp. <?php echo number_format($_SESSION['total_price_transaksi']) ?></strong></td>
+                            <td colspan="2"></td>
                         </tr>
                     </tfoot>
                 </table>

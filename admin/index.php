@@ -279,7 +279,7 @@ $total_pages = ceil($total_records / $limit);
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Pelanggan</th>
+                        <th>Nama Pelanggan</th>
                         <th>Tanggal Pemesanan</th>
                         <th>Jumlah</th>
                         <th>Status Pesanan</th>
