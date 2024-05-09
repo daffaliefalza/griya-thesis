@@ -29,6 +29,10 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
         .action-buttons button {
             margin-right: 5px;
         }
+
+        input[disabled] {
+            cursor: not-allowed;
+        }
     </style>
 
 </head>

@@ -28,6 +28,7 @@ $result = mysqli_query($conn, $sql);
 
 
 
+
 </head>
 
 <body>
@@ -65,7 +66,7 @@ $result = mysqli_query($conn, $sql);
         ?>
           <tbody>
             <td><?php echo $no++ ?></td>
-            <td><?php echo $row['product_name'] ?></td>
+            <td><?php echo $row['product_name'] ?> </td>
             <td><?php echo $row['product_category'] ?></td>
             <td>
               <img src="upload_file/<?php echo $row['image']; ?>" />
@@ -74,7 +75,7 @@ $result = mysqli_query($conn, $sql);
             <td><?php echo $row['description'] ?></td>
             <td><?php echo $row['stok'] ?></td>
             <td style="display: flex; align-items: center; height: 200px">
-              <a href="ubah.php?id_produk=<?php echo $row['id_produk'] ?>">Ubah</a>
+              <a href="ubah.php?id_produk=<?php echo $row['id_produk'] ?>" disabled>Ubah</a>
               <a onclick="return confirm('Apakah kamu ingin menghapus data?')" href="hapus.php?id_produk=<?php echo $row['id_produk'] ?>" style="color: rgb(158, 20, 20)">Hapus</a>
             </td>
           </tbody>

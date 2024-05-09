@@ -8,30 +8,35 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
+// Default year is the current year
+$current_year = date("Y");
+
+// Check if a year is selected
+if (isset($_GET['year']) && !empty($_GET['year'])) {
+    $selected_year = $_GET['year'];
+} else {
+    // If no year is selected, use the current year
+    $selected_year = $current_year;
+}
+
 $sql = "SELECT * FROM produk";
 $result = mysqli_query($conn, $sql);
 
-// Fetch the count of orders
-$sql_order = "SELECT COUNT(*) AS total_orders FROM orders";
+// Fetch the count of orders for the selected year
+$sql_order = "SELECT COUNT(*) AS total_orders FROM orders WHERE YEAR(order_date) = $selected_year";
 $result_order = mysqli_query($conn, $sql_order);
 $row_order = mysqli_fetch_assoc($result_order);
 $total_orders = $row_order['total_orders'];
 
-// Fetch the count of customer
-$sql_customer = "SELECT COUNT(*) AS total_customer FROM users";
-$result_customer = mysqli_query($conn, $sql_customer);
-$row_customer = mysqli_fetch_assoc($result_customer);
-$total_customer = $row_customer['total_customer'];
-
-// Fetch the count of transaction done
-$sql_transaction = "SELECT COUNT(*) AS total_transaction FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
-$result_transaction = mysqli_query($conn, $sql_transaction);
-$row_transaction = mysqli_fetch_assoc($result_transaction);
-$total_transaction = $row_transaction['total_transaction'];
+// Fetch the count of completed transactions for the selected year
+$sql_completed_transactions = "SELECT COUNT(*) AS total_completed_transactions FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year";
+$result_completed_transactions = mysqli_query($conn, $sql_completed_transactions);
+$row_completed_transactions = mysqli_fetch_assoc($result_completed_transactions);
+$total_completed_transactions = $row_completed_transactions['total_completed_transactions'];
 
 $total_price = 0;
 
-$res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'");
+$res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year");
 
 while ($row = mysqli_fetch_assoc($res)) {
     $total_price += $row['total_price'];
@@ -42,24 +47,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 3;
 $start = ($page - 1) * $limit;
 
-// Fetch transaction data with pagination
+// Fetch transaction data with pagination for the selected year
 $sql_transactions = "SELECT orders.*, users.fullname 
                      FROM orders 
                      LEFT JOIN users ON orders.id_users = users.id_users
-                     WHERE orders.status = 'Selesai' AND orders.payment_status = 'Sudah Dibayar'
+                     WHERE orders.status = 'Selesai' AND orders.payment_status = 'Sudah Dibayar' AND YEAR(orders.order_date) = $selected_year
                      LIMIT $start, $limit";
 $result_transactions = mysqli_query($conn, $sql_transactions);
 
-
-
-// $result = mysqli_query($conn, "SELECT orders.*, users.fullname 
-//                                 FROM orders 
-//                                 LEFT JOIN users ON orders.id_users = users.id_users");
-
-
-
-// Count total number of transactions
-$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar'";
+// Count total number of transactions for the selected year
+$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year";
 $result_count = mysqli_query($conn, $sql_count);
 $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];
@@ -248,80 +245,121 @@ $total_pages = ceil($total_records / $limit);
         </div>
         <main class="main-content">
             <div class="main-content-header">
-                <div onclick="window.location.href = 'data-pesanan.php'" style="cursor: pointer;" class="box-wrapper">
+                <div <?php if ($total_orders > 0) echo 'onclick="window.location.href = \'data-pesanan.php\'"'; ?> style="cursor: <?php echo ($total_orders > 0) ? 'pointer' : 'not-allowed'; ?>" class="box-wrapper">
                     <h2 style="color: #fff;">Jumlah data pesanan</h2>
                     <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
                         <p><?php echo $total_orders; ?></p>
-                        <p>Lihat detail</p>
+                        <p><?php echo ($total_orders > 0) ? 'Lihat detail' : 'Tidak ada pesanan'; ?></p>
                     </div>
                 </div>
-                <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;" class="box-wrapper">
+                <!-- <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;" class="box-wrapper">
                     <h2 style="color: #fff;">Jumlah data pelanggan</h2>
                     <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
 
                         <p><?php echo $total_customer ?></p>
                         <p>Lihat detail</p>
                     </div>
+                </div> -->
+
+                <div <?php if ($total_completed_transactions > 0) echo 'onclick="window.location.href = \'laporan-transaksi.php\'"'; ?> style="cursor: <?php echo ($total_completed_transactions > 0) ? 'pointer' : 'not-allowed'; ?>" class="box-wrapper">
+                    <h2 style="color: #fff;">Status Transaksi Selesai</h2>
+                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
+                        <p><?php echo $total_completed_transactions ?></p>
+                        <p><?php echo ($total_completed_transactions > 0) ? 'Lihat detail' : 'Tidak ada transaksi'; ?></p>
+                    </div>
                 </div>
+
                 <div class="box-wrapper" style=" background-color: #34495e; padding: 20px; border-radius: 8px; text-align: center;">
                     <h2 style="color: #fff; margin-bottom: 10px;">Total Pendapatan</h2>
                     <div class="detail-boxes">
                         <p style="font-size: 1.2rem; color: #fff; margin: 0; text-decoration: underline;"><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                     </div>
                 </div>
+                <section>
+                    <h2>Filter Tahun Penjualan</h2>
+                    <select onchange="location = this.value;" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; color: #333;">
+                        <?php for ($year = $current_year; $year >= 2020; $year--) { ?>
+                            <option value="?year=<?php echo $year; ?>" <?php if ($selected_year == $year) echo "selected"; ?>><?php echo $year; ?></option>
+                        <?php } ?>
+                    </select>
+                </section>
                 <!-- <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
                     <h2>Total Pendapatan</h2>
                     <p><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                 </div> -->
             </div>
-            <h2 style="margin-top: 25px;">Data Transaksi</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Tanggal Pemesanan</th>
-                        <th>Jumlah</th>
-                        <th>Status Pesanan</th>
-                        <th>Status Pembayaran</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $transaction_number = ($page - 1) * $limit + 1;
-                    while ($row = mysqli_fetch_assoc($result_transactions)) {
-                    ?>
+            <?php
+            // Check if there are transactions for the selected year
+            if (mysqli_num_rows($result_transactions) > 0) {
+            ?>
+                <h2 style="margin-top: 25px;">Data Transaksi</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo $transaction_number++; ?></td>
-                            <td><?php echo $row['fullname']; ?></td>
-                            <td><?php echo $row['order_date']; ?></td>
-                            <td>Rp. <?php echo number_format($row['total_price']); ?></td>
-                            <td><?php echo $row['status']; ?></td>
-                            <td><?php echo $row['payment_status']; ?></td>
+                            <th>No</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Tanggal Pemesanan</th>
+                            <th>Jumlah</th>
+                            <th>Status Pesanan</th>
+                            <th>Status Pembayaran</th>
                         </tr>
-                    <?php } ?>
-                </tbody>
-                <tfoot>
-                    <tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $transaction_number = ($page - 1) * $limit + 1;
+                        while ($row = mysqli_fetch_assoc($result_transactions)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $transaction_number++; ?></td>
+                                <td><?php echo $row['fullname']; ?></td>
+                                <td><?php echo $row['order_date']; ?></td>
+                                <td>Rp. <?php echo number_format($row['total_price']); ?></td>
+                                <td><?php echo $row['status']; ?></td>
+                                <td><?php echo $row['payment_status']; ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <?php
+                            // Display "Lihat Selengkapnya" link if there are completed transactions
+                            if ($total_completed_transactions > 0) {
+                            ?>
+                                <td><a href="laporan-transaksi.php" style="color: #000">Lihat Selengkapnya</a></td>
+                            <?php
+                            }
+                            ?>
+                        </tr>
+                    </tfoot>
+                </table>
+                <?php
+                // Display pagination links if needed
+                if ($total_records > $limit) {
+                ?>
+                    <div class="pagination">
+                        <?php if ($page > 1) : ?>
+                            <a href="index.php?page=<?php echo ($page - 1); ?>">Previous</a>
+                        <?php endif; ?>
 
-                        <td><a href="laporan-transaksi.php" style="color: #000">Lihat Selengkapnya</a></td>
-                    </tr>
-                </tfoot>
-            </table>
-            <!-- Pagination links -->
-            <!-- <div class="pagination">
-                <?php if ($page > 1) : ?>
-                    <a href="index.php?page=<?php echo ($page - 1); ?>">Previous</a>
-                <?php endif; ?>
+                        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                            <a href="index.php?page=<?php echo $i; ?>" <?php echo ($i == $page) ? 'class="active"' : ''; ?>><?php echo $i; ?></a>
+                        <?php endfor; ?>
 
-                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                    <a href="index.php?page=<?php echo $i; ?>" <?php echo ($i == $page) ? 'class="active"' : ''; ?>><?php echo $i; ?></a>
-                <?php endfor; ?>
-
-                <?php if ($page < $total_pages) : ?>
-                    <a href="index.php?page=<?php echo ($page + 1); ?>">Next</a>
-                <?php endif; ?>
-            </div> -->
+                        <?php if ($page < $total_pages) : ?>
+                            <a href="index.php?page=<?php echo ($page + 1); ?>">Next</a>
+                        <?php endif; ?>
+                    </div>
+                <?php
+                }
+            } else {
+                ?>
+                <!-- Display message if no transactions found -->
+                <p>Tidak ada riwayat transaksi untuk tahun <?php echo $selected_year; ?></p>
+            <?php
+            }
+            ?>
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza
