@@ -8,11 +8,17 @@ if (!isset($_SESSION["login"])) {
   exit;
 }
 
+// Check if the search query is submitted
+if (isset($_GET['search'])) {
+  $search = $_GET['search'];
+  // Modify the SQL query to include a WHERE clause for searching product_name or product_category
+  $sql = "SELECT * FROM produk WHERE product_name LIKE '%$search%' OR product_category LIKE '%$search%'";
+} else {
+  // Default SQL query to fetch all products
+  $sql = "SELECT * FROM produk";
+}
 
-$sql = "SELECT * FROM produk";
 $result = mysqli_query($conn, $sql);
-
-
 
 ?>
 
@@ -25,10 +31,6 @@ $result = mysqli_query($conn, $sql);
   <title>Admin - Produk</title>
   <link rel="stylesheet" href="../css/default.css" />
   <link rel="stylesheet" href="../css/admin.css">
-
-
-
-
 </head>
 
 <body>
@@ -44,7 +46,11 @@ $result = mysqli_query($conn, $sql);
       <div class="main-content-header">
         <h3>Data Produk</h3>
         <a href="tambah.php" class="admin-produk" style="text-decoration: none;">+ Tambah Produk</a>
-        <input type="search" placeholder="Cari data produk" />
+        <!-- Add a form for searching -->
+        <form action="" method="get" style="display: flex;">
+          <input type="text" name="search" placeholder="Cari berdasarkan nama atau kategori" style="  width: 300px; padding: 10px; border-radius: 5px 0 0 5px; border: 1px solid #ccc;">
+          <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 0 5px 5px 0; cursor: pointer;">Search</button>
+        </form>
       </div>
 
       <table class="content">
@@ -59,10 +65,8 @@ $result = mysqli_query($conn, $sql);
           <th>Aksi</th>
         </thead>
         <?php
-
         $no = 1;
         while ($row = mysqli_fetch_assoc($result)) {
-
         ?>
           <tbody>
             <td><?php echo $no++ ?></td>
@@ -79,7 +83,6 @@ $result = mysqli_query($conn, $sql);
               <a onclick="return confirm('Apakah kamu ingin menghapus data?')" href="hapus.php?id_produk=<?php echo $row['id_produk'] ?>" style="color: rgb(158, 20, 20)">Hapus</a>
             </td>
           </tbody>
-
         <?php } ?>
       </table>
     </main>
