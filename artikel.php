@@ -1,16 +1,3 @@
-<?php
-
-require('server/connection.php');
-
-$result = mysqli_query($conn, "SELECT * FROM artikel");
-
-
-
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +6,11 @@ $result = mysqli_query($conn, "SELECT * FROM artikel");
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog</title>
 
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
   <link rel="stylesheet" href="css/default.css" />
-  <link rel="stylesheet" href="css/blog.css" />
+  <link rel="stylesheet" href="css/artikel.css" />
 </head>
 
 <body>
@@ -28,7 +18,7 @@ $result = mysqli_query($conn, "SELECT * FROM artikel");
 
   <header>
     <div class="container">
-      <a href="index.php">
+      <a href="#">
         <img src="./img/logo.png" alt="Logo Griya" />
       </a>
       <nav>
@@ -54,24 +44,66 @@ $result = mysqli_query($conn, "SELECT * FROM artikel");
   <section class="blog-wrapper">
     <div class="container">
       <article class="blog">
-
-        <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-
-          <div class="blog-post">
-            <img src="./img/<?php echo $row['image'] ?>" alt="" />
-            <div class="blog-content">
-              <h4 class="blog-date"><?php echo $row['date_post'] ?></h4>
-              <h3 class="blog-title"><?php echo $row['title'] ?></h3>
-              <p class="blog-description">
-                <?php echo $row['content'] ?>
-              </p>
-            </div>
+        <div class="blog-post">
+          <img src="./img/ginger.jpg" alt="ginger" />
+          <div class="blog-content">
+            <h4 class="blog-date">20 Maret, 2024</h4>
+            <h3 class="blog-title">Jahe: Rempah Ajaib untuk Kesehatan</h3>
+            <p class="blog-description">
+              Jahe, dengan aroma dan rasa yang khas, bukan hanya sebagai bumbu
+              dapur, tetapi juga memiliki manfaat luar biasa bagi kesehatan.
+              Kandungan anti-inflamasi dan antioksidannya membantu
+              meningkatkan sistem kekebalan tubuh, serta meredakan masalah
+              pencernaan dan mual.
+            </p>
           </div>
-
-
-        <?php } ?>
+        </div>
+        <div class="blog-post">
+          <img src="./img/kencur.jpg" alt="galangal" />
+          <div class="blog-content">
+            <h4 class="blog-date">27 Maret, 2024</h4>
+            <h3 class="blog-title">
+              Kencur: Rempah Alami yang kaya akan manfaat
+            </h3>
+            <p class="blog-description">
+              Kencur, dengan keharumannya yang khas, tidak hanya menjadi bumbu
+              dalam masakan tradisional, tetapi juga penuh dengan manfaat
+              kesehatan yang luar biasa. Dikenal karena sifatnya yang
+              merangsang pencernaan dan memberikan energi alami, kencur telah
+              lama digunakan dalam pengobatan tradisional.
+            </p>
+          </div>
+        </div>
+        <div class="blog-post">
+          <img src="./img/rosella.jpg" alt="rosella" />
+          <div class="blog-content">
+            <h4 class="blog-date">3 April, 2024</h4>
+            <h3 class="blog-title">Rosella: Bunga Merah Penyegar Tubuh</h3>
+            <p class="blog-description">
+              Rosella, dengan warnanya yang mencolok dan rasa yang
+              menyegarkan, bukan hanya sekadar hiasan, tetapi juga menyimpan
+              beragam manfaat kesehatan. Tinggi akan vitamin C dan
+              antioksidan, rosella membantu meningkatkan sistem kekebalan
+              tubuh dan menjaga kesehatan jantung.
+            </p>
+          </div>
+        </div>
+        <div class="blog-post">
+          <img src="./img/kunyit.jpg" alt="turmeric" />
+          <div class="blog-content">
+            <h4 class="blog-date">16 April, 2024</h4>
+            <h3 class="blog-title">
+              Kunyit: Rahasia Kesehatan dalam Rempah Tradisional
+            </h3>
+            <p class="blog-description">
+              Kunyit, dengan warna kuning yang khas dan rasa rempah yang kuat,
+              telah dikenal sebagai emas dalam dunia pengobatan tradisional.
+              Kandungan kurkumin di dalamnya memiliki sifat anti-inflamasi dan
+              antioksidan yang kuat, membantu melawan radikal bebas dan
+              menjaga kesehatan sendi serta otak.
+            </p>
+          </div>
+        </div>
       </article>
     </div>
   </section>
@@ -98,8 +130,9 @@ $result = mysqli_query($conn, "SELECT * FROM artikel");
           <ul>
             <li>
               <p>
-                ✉️ Srengseng Sawah, Kec. Jagakarsa, <br />Kota Jakarta
-                Selatan, Daerah Khusus Ibukota Jakarta 12640
+                ✉️ Jl. H. Shibi No.7, RT.7/RW.1, Srengseng Sawah, Kec.
+                Jagakarsa, <br />Kota Jakarta Selatan, Daerah Khusus Ibukota
+                Jakarta 12640
               </p>
             </li>
             <li>
@@ -117,7 +150,7 @@ $result = mysqli_query($conn, "SELECT * FROM artikel");
 
   <!-- footer end -->
 
-  <script src="js/app.js"></script>
+  <script src="./js/app.js"></script>
 </body>
 
 </html>
