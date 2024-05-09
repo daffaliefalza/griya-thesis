@@ -43,6 +43,7 @@
   text-align: center;
   max-width: 1500px;
   margin-inline: auto;
+  padding-inline: 1rem;
 }
 
 .header .hero h1 {
@@ -153,18 +154,23 @@
 }
 
 .produk-kami .row {
-  display: grid;
-  gap: 0.5rem;
+  display: flex;
+  /* flex-wrap: wrap; */
+  gap: 2rem;
   margin-top: 4rem;
-  text-align: center;
-  place-items: center;
-  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  /* grid-template-columns: repeat(3, 1fr); */
 }
 
 .produk-kami .row .col {
   padding: 2rem;
-  border: 1px solid #ddd;
+  text-align: center;
+  border: 2px solid #ddd;
 }
+
+/* .produk-kami .col img {
+  max-width: 100%;
+} */
 
 .produk-kami .row .col h3 {
   margin-top: 10px;
@@ -187,7 +193,13 @@
   border-radius: 10px;
   padding: 1rem 2rem;
   margin-inline: auto;
+  transition: 0.5s;
 }
+
+.produk-kami .lihat-selengkapnya:hover {
+  background-color: #c7a312;
+}
+
 /* produk kami style end */
 
 /* kenapa kami style */
@@ -218,17 +230,26 @@
 .testimoni {
   background-color: #f8f8f8;
   padding: 10rem 2rem;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 
 .testimoni .wrapper {
   background-color: #fff;
   text-align: center;
-  padding: 5rem 1rem;
+  padding: 2rem 1rem;
   margin-inline: auto;
-  max-width: 1100px;
+  max-width: 1200px;
+  border-radius: 10px;
+}
+
+.testimoni .wrapper .wrapper-content {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  height: 200px;
 }
 
 .testimoni h2 {
@@ -251,8 +272,8 @@
 }
 
 .testimoni button {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   background-color: var(--orange-text);
@@ -338,3 +359,151 @@ footer .footer-bottom {
 }
 
 /* footer style end */
+
+/* responsive */
+
+@media (max-width: 1000px) {
+  /* .testimoni .wrapper {
+    border: 1px solid red !important;
+  } */
+
+  .produk-kami .row {
+    flex-wrap: wrap;
+  }
+
+  .produk-kami .col {
+    width: 45%;
+  }
+
+  .tentang-kami .container .row p {
+    font-size: 24px;
+    width: 100%;
+  }
+
+  .testimoni .wrapper h2 {
+    font-size: 52px;
+  }
+
+  .testimoni .wrapper p {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  header .container {
+    flex-direction: column;
+  }
+
+  header .hero-title {
+    font-size: 2.2rem !important;
+  }
+
+  header .hero-text {
+    font-size: 1.2rem !important;
+    text-align: justify;
+  }
+
+  .header .slogan {
+    height: 200px;
+  }
+
+  .header .slogan h3 {
+    font-size: 32px !important;
+  }
+
+  .header .slogan p {
+    font-size: 22px !important;
+  }
+
+  .produk-kami .col {
+    width: 100%;
+  }
+
+  .tentang-kami .container .row {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .produk-kami .row {
+    grid-template-columns: 1fr;
+  }
+
+  .kenapa-kami h2 {
+    font-size: 48px !important;
+  }
+
+  .kenapa-kami p {
+    font-size: 24px !important;
+  }
+
+  /* .testimoni .wrapper {
+    border: 1px solid green !important;
+  } */
+
+  .testimoni .wrapper h2 {
+    /* font-size: 22px; */
+  }
+
+  .testimoni .wrapper p {
+    font-size: 20px;
+  }
+
+  .temukan-kami-title {
+    font-size: 48px !important;
+  }
+
+  footer .row {
+    flex-direction: column;
+  }
+
+  footer .row .col:first-child p {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .container {
+    padding-inline: 1.3rem !important;
+  }
+
+  h2 {
+    line-height: 1.1;
+  }
+
+  header .hero-title {
+    text-align: start;
+    font-size: 2rem !important;
+  }
+
+  .header .slogan {
+    height: 180px;
+  }
+
+  .header .slogan h3 {
+    font-size: 28px !important;
+  }
+
+  .header .slogan p {
+    font-size: 16px !important;
+  }
+
+  .tentang-kami-title {
+    margin-bottom: 20px !important;
+  }
+
+  .tentang-kami .container .row img {
+    width: 100%;
+  }
+
+  .testimoni {
+    padding-inline: 0 !important;
+  }
+
+  .testimoni .wrapper {
+    width: 100% !important;
+  }
+
+  .testimoni .wrapper p {
+    font-size: 16px !important;
+  }
+}

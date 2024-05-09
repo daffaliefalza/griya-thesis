@@ -7,18 +7,28 @@
   <meta name="title" content="Griya Jamoe Klasik" />
   <meta name="description" content="Kami merupakan produsen UMKM yang berdedikasi memproduksi minuman jamu tradisional dan bahan rempah pilihan. Dengan komitmen pada kesehatan dan kearifan lokal, kami hadir untuk menyajikan produk berkualitas tinggi yang merangkul warisan tradisi dan memberikan manfaat kesehatan melalui setiap tetes dan sajian kami." />
   <title>Griya Jamoe Klasik</title>
-  <link rel="icon" type="image/x-icon" href="./img/logo.png" />
 
-  <link rel="stylesheet" href="css/default.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- scroll reveal -->
+  <script src="https://unpkg.com/scrollreveal@4"></script>
+
+  <!-- animate css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <link rel="icon" type="image/x-icon" href="./assets/logo.png" />
+
+  <link rel="stylesheet" href="./css/default.css" />
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
   <!-- header section start -->
   <header class="header">
-    <div class="container">
+    <div class="container animate__animated animate__fadeInDown">
       <nav>
-        <a href="index.php" id="brand"><span style="color: #fff">Griya</span> Jamoe Klasik</a>
+        <a href="#" id="brand"><span style="color: #fff">Griya</span> Jamoe Klasik</a>
       </nav>
 
       <ul>
@@ -28,15 +38,15 @@
         <li><a href="artikel.php">Artikel</a></li>
       </ul>
     </div>
-    <div class="hero" id="hero">
+    <div class="hero animate__animated animate__fadeIn animate__slow" id="hero">
       <h1 class="hero-title">
         Minuman Tradisional <br />
         Rempah Klasik, Rasa Autentik
       </h1>
       <p class="hero-text">
         Jelajahi kelezatan rempah dan minuman tradisional melalui hidangan
-        kami yang unik. <br />Setiap sajian mengundang Anda untuk merasakan
-        sentuhan khas cita rasa dan aroma yang tak terlupakan
+        kami yang unik. Setiap sajian mengundang Anda untuk merasakan sentuhan
+        khas cita rasa dan aroma yang tak terlupakan
       </p>
     </div>
 
@@ -89,28 +99,30 @@
           <img src="./img/wedang-kencur.png" alt="wedang kencur" />
           <h3>Wedang Kencur</h3>
           <p>
-            We provide a variety of cupcakes for any party made with
-            high-quality natural Ingredients and no preservatives.
+            Wedang kencur adalah minuman tradisional Indonesia yang dikenal
+            sebagai penyegar dan penguat stamina, serta dipercaya memiliki
+            manfaat kesehatan seperti meredakan masuk angin atau perut
+            kembung.
           </p>
-          <!-- <a href="produk.html" class="pesan">Pesan</a> -->
         </div>
         <div class="col">
-          <img src="./img/kunyit-asam.png" alt="wedang kencur" />
-          <h3>Kunyit Asam</h3>
+          <img src="./img/teh-rosella.png" alt="Rosella" />
+          <h3>Teh Rosella</h3>
           <p>
-            We provide a variety of cupcakes for any party made with
-            high-quality natural Ingredients and no preservatives.
+            Teh rosella adalah minuman herbal yang terbuat dari bunga rosella
+            kering yang dikenal karena kandungan antioksidannya yang tinggi
+            serta kemampuannya untuk menurunkan tekanan darah dan kolesterol.
           </p>
-          <!-- <a href="produk.html" class="pesan">Pesan</a> -->
         </div>
         <div class="col">
-          <img src="./img/wedang-mpon.png" alt="wedang kencur" />
+          <img src="./img/wedang-mpon.png" alt="wedang mpon" />
           <h3>Wedang Mpon-mpon</h3>
           <p>
-            We provide a variety of cupcakes for any party made with
-            high-quality natural Ingredients and no preservatives.
+            Wedang mpon-mpon, minuman tradisional dari Indonesia, dibuat dari
+            campuran jahe, serai, dan rempah-rempah lainnya. Disajikan hangat,
+            populer untuk menghangatkan tubuh saat cuaca dingin atau musim
+            hujan.
           </p>
-          <!-- <a href="produk.html" class="pesan">Pesan</a> -->
         </div>
       </div>
       <a href="produk.php" class="lihat-selengkapnya">Lihat Selengkapnya</a>
@@ -142,19 +154,25 @@
 
   <!-- testimoni section start -->
   <section id="testimoni" class="testimoni">
-    <button class="left" style="transform: rotate(180deg); line-height: 50px">
-      ➔
-    </button>
     <div class="wrapper">
       <h2 class="testimoni-title">Testimoni</h2>
       <div class="line"></div>
-      <p class="testimoni-quote">
-        “Paket mendarat aman sampe bandung, bisa untuk masak bumbu jamu dan
-        praktis. Good packaging dan juga sudah ada sertifikasi halal dan pirt”
-      </p>
+      <div class="wrapper-content">
+        <button class="left" style="transform: rotate(180deg); line-height: 50px">
+          ➔
+        </button>
+
+        <p class="testimoni-quote">
+          “Paket mendarat aman sampe bandung, bisa untuk masak bumbu jamu dan
+          praktis. Good packaging dan juga sudah ada sertifikasi halal dan
+          pirt”
+        </p>
+
+        <button class="right">➔</button>
+      </div>
+
       <h4 class="testimoni-person">Icha</h4>
     </div>
-    <button class="left">➔</button>
   </section>
   <!-- testimoni section end -->
 
@@ -166,7 +184,7 @@
     </h2>
     <div class="line"></div>
     <div class="iframe-wrapper">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.329147754293!2d106.83250787316943!3d-6.351415362134014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ec3a1f9ce731%3A0xdce374a4203448ea!2sJl.%20H.%20Shibi%20No.7%2C%20RT.7%2FRW.1%2C%20Srengseng%20Sawah%2C%20Kec.%20Jagakarsa%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2010550!5e0!3m2!1sid!2sid!4v1711047481205!5m2!1sid!2sid" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.329147754293!2d106.83250787316943!3d-6.351415362134014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ec3a1f9ce731%3A0xdce374a4203448ea!2sJl.%20H.%20Shibi%20No.7%2C%20RT.7%2FRW.1%2C%20Srengseng%20Sawah%2C%20Kec.%20Jagakarsa%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2010550!5e0!3m2!1sid!2sid!4v1711047481205!5m2!1sid!2sid" style="border: 0" allowfullscreen="" loading="lazy" title="maps" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </section>
 
@@ -194,8 +212,9 @@
           <ul>
             <li>
               <p>
-                ✉️ Srengseng Sawah, Kec. Jagakarsa, <br />Kota Jakarta
-                Selatan, Daerah Khusus Ibukota Jakarta 12640
+                ✉️ Jl. H. Shibi No.7, RT.7/RW.1, Srengseng Sawah, Kec.
+                Jagakarsa, <br />Kota Jakarta Selatan, Daerah Khusus Ibukota
+                Jakarta 12640
               </p>
             </li>
             <li>
@@ -211,7 +230,72 @@
     </p>
   </footer>
 
+  <script>
+    // scroll reveals index
+    ScrollReveal().reveal(".slogan", {
+      delay: 1000,
+      origin: "left",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".tentang-kami-title", {
+      delay: 1000,
+      origin: "top",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".tentang-kami-text", {
+      delay: 1200,
+      origin: "left",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".produk-kami-title", {
+      delay: 1200,
+      origin: "top",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".produk-kami .line", {
+      delay: 1200,
+      origin: "top",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".produk-kami .col", {
+      delay: 1500,
+      origin: "left",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".kenapa-kami-title", {
+      delay: 1000,
+      origin: "top",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".kenapa-kami .line", {
+      delay: 1200,
+      origin: "top",
+      distance: "100px",
+    });
+
+    ScrollReveal().reveal(".kenapa-kami-text", {
+      delay: 1700,
+      origin: "left",
+      distance: "100px",
+    });
+
+    // ScrollReveal().reveal(".testimoni .wrapper", {
+    //   delay: 1700,
+    //   origin: "left",
+    //   distance: "100px",
+    // });
+  </script>
+
   <!-- footer end -->
+
+  <script src="js/data.js"></script>
 </body>
 
 </html>
