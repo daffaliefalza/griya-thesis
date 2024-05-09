@@ -281,33 +281,33 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
             <div class="alamat-wrapper">
                 <h4>Alamat Lengkap Pengiriman</h4>
-                <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman"></textarea>
+                <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
             </div>
 
             <div class="province-wrapper">
                 <h4>Provinsi</h4>
-                <select name="nama_provinsi" id="">
+                <select name="nama_provinsi" id="" required>
 
                 </select>
             </div>
 
             <div class="district-wrapper">
                 <h4>Distrik</h4>
-                <select name="nama_distrik" id="">
+                <select name="nama_distrik" id="" required>
 
                 </select>
             </div>
 
             <div class="expedition-wrapper">
                 <h4>Ekspedisi</h4>
-                <select name="nama_ekspedisi" id="" class="form-control">
+                <select name="nama_ekspedisi" id="" class="form-control" required>
 
                 </select>
             </div>
 
             <div class="paket-wrapper">
                 <h4>Paket</h4>
-                <select name="nama_paket" id="" class="form-control">
+                <select name="nama_paket" id="" class="form-control" required>
 
                 </select>
             </div>

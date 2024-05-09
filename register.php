@@ -96,9 +96,7 @@
 
 <body>
 
-    <div style="position: absolute; left: 1rem; top: 3rem;">
-        <a href="produk.php">Kembali</a>
-    </div>
+
 
     <form action="register_process.php" method="post">
         <label>Username</label>

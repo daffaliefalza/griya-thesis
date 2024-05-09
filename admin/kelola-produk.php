@@ -73,7 +73,7 @@ $result = mysqli_query($conn, $sql);
             <td><?php echo 'Rp ' . number_format($row['price'], 0, ',', '.') ?></td>
             <td><?php echo $row['description'] ?></td>
             <td><?php echo $row['stok'] ?></td>
-            <td>
+            <td style="display: flex; align-items: center; height: 200px">
               <a href="ubah.php?id_produk=<?php echo $row['id_produk'] ?>">Ubah</a>
               <a onclick="return confirm('Apakah kamu ingin menghapus data?')" href="hapus.php?id_produk=<?php echo $row['id_produk'] ?>" style="color: rgb(158, 20, 20)">Hapus</a>
             </td>

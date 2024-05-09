@@ -142,13 +142,13 @@ body {
 }
 
 .content td a[href*="ubah.php"] {
-  background-color: #3498db; /* Blue background for "Ubah" button */
+  background-color: #3498db;
   color: #fff;
 }
 
 .content td a[href*="hapus.php"] {
-  background-color: #e74c3c; /* Red background for "Hapus" button */
-  color: #fff;
+  background-color: #e74c3c;
+  color: #fff !important;
 }
 
 .content td a:hover {
