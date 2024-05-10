@@ -117,6 +117,59 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
             pointer-events: none;
             cursor: default;
         }
+
+        @media (max-width: 768px) {
+
+
+
+            table {
+                overflow-x: auto;
+            }
+
+            th,
+            td {
+                white-space: nowrap;
+                min-width: 120px;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            th:nth-child(1),
+            td:nth-child(1) {
+                min-width: 50px;
+            }
+
+            th:nth-child(2),
+            td:nth-child(2) {
+                min-width: 150px;
+            }
+
+            th:nth-child(3),
+            td:nth-child(3) {
+                min-width: 120px;
+            }
+
+            th:nth-child(4),
+            td:nth-child(4) {
+                min-width: 160px;
+            }
+
+            th:nth-child(5),
+            td:nth-child(5) {
+                min-width: 120px;
+            }
+
+            th:nth-child(6),
+            td:nth-child(6) {
+                min-width: 160px;
+            }
+
+            th:nth-child(7),
+            td:nth-child(7) {
+                min-width: 120px;
+            }
+        }
     </style>
 </head>
 

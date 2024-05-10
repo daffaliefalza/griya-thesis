@@ -51,7 +51,7 @@ if (isset($_GET['delete_all'])) {
 <body>
 
     <div class="container">
-        <section class="shopping-cart">
+        <section class="shopping-cart" style="overflow-x: auto;">
             <h1 class="heading">Keranjang Belanja</h1>
 
             <?php

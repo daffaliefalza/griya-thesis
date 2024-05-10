@@ -187,6 +187,18 @@ if (isset($_POST['proses'])) {
             cursor: not-allowed;
             /* Change cursor to indicate not clickable */
         }
+
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column !important;
+                ;
+            }
+
+            img {
+                width: 100% !important;
+            }
+        }
     </style>
 
 </head>

@@ -128,6 +128,12 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
 
         }
 
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column !important;
+            }
+        }
+
 
         @media print {
             body * {

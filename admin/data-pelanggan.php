@@ -52,7 +52,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                     <th>Username</th>
                     <th>Nama Lengkap</th>
                     <th>Email</th>
-                    <th>Aksi</th>
+                    <!-- <th>Aksi</th> -->
                 </thead>
                 <?php
 
@@ -65,7 +65,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                         <td><?php echo $row['username'] ?></td>
                         <td><?php echo $row['fullname'] ?></td>
                         <td><?php echo "Email di hide untuk kenyamanan bersama." ?></td>
-                        <td class="action-buttons">
+                        <!-- <td class="action-buttons">
                             <form action="edit_user.php" method="POST">
                                 <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
                                 <button type="submit" style="background-color: #3498db; color: #fff; padding: 5px 10px; margin-right: 5px;border: none; cursor: pointer; border-radius: 3px;">Ubah</button>
@@ -74,7 +74,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
                                 <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
                                 <button type="submit" style="background-color: #e74c3c; color: #fff; padding: 5px 10px; margin-right: 5px;border: none; cursor: pointer; border-radius: 3px;">Hapus</button>
                             </form>
-                        </td>
+                        </td> -->
                     </tbody>
 
                 <?php } ?>

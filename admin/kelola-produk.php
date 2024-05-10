@@ -31,6 +31,15 @@ $result = mysqli_query($conn, $sql);
   <title>Admin - Produk</title>
   <link rel="stylesheet" href="../css/default.css" />
   <link rel="stylesheet" href="../css/admin.css">
+
+  <style>
+    @media (max-width: 908px) {
+      .main-content-header {
+        flex-direction: column !important;
+      }
+    }
+  </style>
+
 </head>
 
 <body>

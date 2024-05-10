@@ -111,6 +111,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .export-button:hover {
             background-color: #45a049;
         }
+
+
+        @media (max-width: 768px) {
+            .main-content form {
+                padding: 1rem;
+            }
+
+            .main-content form input,
+            .main-content form a {
+                margin-top: 10px !important;
+            }
+        }
     </style>
 
 </head>
@@ -134,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" id="search_button" disabled>Cari</button>
                 <!-- Export button -->
                 <?php if ($result) : ?>
-                    <a href="export_data.php?start_date=<?php echo $startDate ?>&end_date=<?php echo $endDate ?>" class="export-button">Export Data</a>
+                    <a style="margin-top: 10px; display: inline-block" href="export_data.php?start_date=<?php echo $startDate ?>&end_date=<?php echo $endDate ?>" class="export-button">Export Data</a>
                 <?php endif; ?>
             </form>
             <br>

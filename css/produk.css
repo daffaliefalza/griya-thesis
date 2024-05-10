@@ -154,7 +154,18 @@ footer .footer-bottom {
 
 /* footer style end */
 
-@media (max-width: 768px) {
+@media (max-width: 1040px) {
+  header .container {
+    row-gap: 2rem;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  header .container nav {
+    font-size: 10px !important;
+  }
+
   .container {
     padding-inline: 1.3rem !important;
   }
@@ -162,12 +173,11 @@ footer .footer-bottom {
   footer .row {
     flex-direction: column;
   }
-}
-
-@media (max-width: 450px) {
   header .container {
     row-gap: 1rem;
     flex-direction: column;
+    font-size: 14px !important;
+    justify-content: space-evenly;
   }
 
   header .container nav ul li a {

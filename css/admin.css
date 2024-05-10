@@ -175,3 +175,13 @@ body {
 .admin-produk:hover {
   background-color: #2980b9; /* Darker blue on hover */
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    grid-template-areas:
+      "topbar topbar topbar topbar"
+      "sidebar sidebar sidebar sidebar"
+      "main main main main"
+      "footer footer footer footer";
+  }
+}
