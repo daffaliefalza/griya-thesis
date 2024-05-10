@@ -21,9 +21,39 @@
 
   <link rel="stylesheet" href="./css/default.css" />
   <link rel="stylesheet" href="./css/style.css" />
+
+
+  <style>
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      /* Semi-transparent white background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      /* Ensure the overlay is above all other elements */
+    }
+
+    .loading-text {
+      font-size: 24px;
+      color: #333;
+    }
+  </style>
+
 </head>
 
 <body>
+
+  <!-- Loading overlay -->
+  <div class="loading-overlay">
+    <p class="loading-text">Loading...</p>
+  </div>
+
   <!-- header section start -->
   <header class="header">
     <div class="container animate__animated animate__fadeInDown">
@@ -291,6 +321,11 @@
     //   origin: "left",
     //   distance: "100px",
     // });
+
+    // Hide loading overlay when the page finishes loading
+    window.addEventListener('load', function() {
+      document.querySelector('.loading-overlay').style.display = 'none';
+    });
   </script>
 
   <!-- footer end -->
