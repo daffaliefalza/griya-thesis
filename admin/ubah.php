@@ -65,7 +65,11 @@ if (isset($_GET['id_produk'])) {
     <style>
         /* Style for input file */
         input[type="file"] {
-            display: none;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
         }
 
         .file-input-wrapper {
@@ -73,15 +77,18 @@ if (isset($_GET['id_produk'])) {
             width: 100%;
         }
 
-        .file-input-wrapper label {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+
+        /* Style for select */
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
             border-radius: 5px;
-            cursor: pointer;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 10px;
         }
     </style>
-
 </head>
 
 <body>
@@ -101,7 +108,7 @@ if (isset($_GET['id_produk'])) {
 
 
         <label for="image">Gambar</label><br>
-        <div class="file-input-wrapper">
+        <div class="file-input-wrapper" style="margin-top: 15px;">
             <input type="file" name="image" id="image">
             <label for="image" class="file-label">Choose File</label>
         </div>
