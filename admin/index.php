@@ -347,27 +347,10 @@ $total_pages = ceil($total_records / $limit);
                         </tr>
                     </tfoot>
                 </table>
-                <?php
-                // Display pagination links if needed
-                if ($total_records > $limit) {
-                ?>
-                    <div class="pagination">
-                        <?php if ($page > 1) : ?>
-                            <a href="index.php?page=<?php echo ($page - 1); ?>">Previous</a>
-                        <?php endif; ?>
+            <?php
 
-                        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                            <a href="index.php?page=<?php echo $i; ?>" <?php echo ($i == $page) ? 'class="active"' : ''; ?>><?php echo $i; ?></a>
-                        <?php endfor; ?>
-
-                        <?php if ($page < $total_pages) : ?>
-                            <a href="index.php?page=<?php echo ($page + 1); ?>">Next</a>
-                        <?php endif; ?>
-                    </div>
-                <?php
-                }
             } else {
-                ?>
+            ?>
                 <!-- Display message if no transactions found -->
                 <p>Tidak ada riwayat transaksi untuk tahun <?php echo $selected_year; ?></p>
             <?php

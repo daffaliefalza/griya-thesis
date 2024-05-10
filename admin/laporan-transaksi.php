@@ -174,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <td><?php echo $row['order_date'] ?></td>
                                 <td><?php echo $row['product_names'] ?></td>
                                 <td><?php echo $row['total_quantity'] ?></td>
-                                <td><?php echo $row['total_price'] ?></td>
+                                <td style="padding: 1rem;">Rp. <?php echo number_format($row['total_price']) ?></td>
                                 <td><?php echo $row['status'] ?></td>
                                 <td><?php echo $row['payment_status'] ?></td>
                             </tr>
