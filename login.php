@@ -84,7 +84,7 @@
             <br>
             <span>Gak punya akun ya kak?</span>
             <a href="register.php">Daftar Akun</a>
-            <!-- <a class="forgot-password" href="forgot_password.php">Lupa Password?</a> -->
+            <a class="forgot-password" href="forgot_password.php">Lupa Password?</a>
         </form>
     </div>
 </body>

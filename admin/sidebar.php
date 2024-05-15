@@ -97,12 +97,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span>Laporan Transaksi</span>
                 </a>
             </li>
-            <li <?php if ($current_page === 'ubah-password.php') echo 'class="active"'; ?>>
+            <!-- <li <?php if ($current_page === 'ubah-password.php') echo 'class="active"'; ?>>
                 <a href="ubah-password.php">
                     <img src="../img/password-icon.svg" width="25">
                     <span>Ubah Pasword</span>
                 </a>
-            </li>
+            </li> -->
             <li <?php if ($current_page === 'logout.php') echo 'class="active"'; ?>>
                 <a href="logout.php" onclick="confirmLogout(event)">
                     <img src="../img/logout.png" width="25">

@@ -108,7 +108,7 @@ if (isset($_GET['delete_all'])) {
                 </table>
 
                 <div class="checkout-btn">
-                    <a href="<?php echo ($grand_total > 1) ? 'checkout.php' : '#'; ?>" class="btn <?= ($grand_total > 1) ? '' : 'disabled'; ?>">Lanjutkan ke pembayaran
+                    <a href="<?php echo ($grand_total > 1) ? 'checkout.php' : '#'; ?>" class="btn <?= ($grand_total > 1) ? '' : 'disabled'; ?>">Lanjutkan ke form pemesanan
                     </a>
                 </div>
 

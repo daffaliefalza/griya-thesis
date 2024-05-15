@@ -35,6 +35,14 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
         }
     </style>
 
+    <script>
+        function confirmDeletion(event) {
+            if (!confirm("Yakin ingin menghapus?")) {
+                event.preventDefault();
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -42,45 +50,46 @@ $result = mysqli_query($conn, "SELECT * FROM users ");
         <?php include 'sidebar.php' ?>
         <div class="top-bar">
             <h2>Data Pelanggan</h2>
-
         </div>
         <main class="main-content">
-
             <table class="content">
                 <thead>
-                    <th>No</th>
-                    <th>Username</th>
-                    <th>Nama Lengkap</th>
-                    <th>Email</th>
-                    <!-- <th>Aksi</th> -->
+                    <tr>
+                        <th>No</th>
+                        <th>Username</th>
+                        <th>Nama Lengkap</th>
+                        <th>No Telepon</th>
+                        <th>Email</th>
+                        <th>Aksi</th>
+                    </tr>
                 </thead>
                 <?php
-
                 $no = 1;
                 while ($row = mysqli_fetch_assoc($result)) {
-
                 ?>
                     <tbody>
-                        <td><?php echo $no++ ?></td>
-                        <td><?php echo $row['username'] ?></td>
-                        <td><?php echo $row['fullname'] ?></td>
-                        <td><?php echo "Email di hide untuk kenyamanan bersama." ?></td>
-                        <!-- <td class="action-buttons">
-                            <form action="edit_user.php" method="POST">
-                                <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
-                                <button type="submit" style="background-color: #3498db; color: #fff; padding: 5px 10px; margin-right: 5px;border: none; cursor: pointer; border-radius: 3px;">Ubah</button>
-                            </form>
-                            <form action=" delete_user.php" method="POST">
-                                <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
-                                <button type="submit" style="background-color: #e74c3c; color: #fff; padding: 5px 10px; margin-right: 5px;border: none; cursor: pointer; border-radius: 3px;">Hapus</button>
-                            </form>
-                        </td> -->
+                        <tr>
+                            <td><?php echo $no++ ?></td>
+                            <td><?php echo $row['username'] ?></td>
+                            <td><?php echo $row['fullname'] ?></td>
+                            <td><?php echo $row['phone_number'] ?></td>
+                            <td><?php echo $row['email'] ?></td>
+                            <td class="action-buttons">
+                                <form action="edit_user.php" method="POST">
+                                    <input type="hidden" name="id_user" value="<?php echo $row['id_users']; ?>">
+                                    <button type="submit" style="background-color: #3498db; color: #fff; padding: 5px 10px; margin-right: 5px; border: none; cursor: pointer; border-radius: 3px;">Ubah</button>
+                                </form>
+                                <form action="delete_user.php" method="POST" onsubmit="confirmDeletion(event)">
+                                    <input type="hidden" name="id_user" value="<?php echo $row['id_users']; ?>">
+                                    <button type="submit" style="background-color: #e74c3c; color: #fff; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px;">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
-
                 <?php } ?>
             </table>
         </main>
-        <footer class=" admin-footer">
+        <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza
         </footer>
     </div>
