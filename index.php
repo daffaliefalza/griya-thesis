@@ -31,12 +31,10 @@
       width: 100%;
       height: 100%;
       background-color: rgba(255, 255, 255, 0.9);
-      /* Semi-transparent white background */
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      /* Ensure the overlay is above all other elements */
     }
 
     .loading-text {
@@ -316,13 +314,7 @@
       distance: "100px",
     });
 
-    // ScrollReveal().reveal(".testimoni .wrapper", {
-    //   delay: 1700,
-    //   origin: "left",
-    //   distance: "100px",
-    // });
 
-    // Hide loading overlay when the page finishes loading
     window.addEventListener('load', function() {
       document.querySelector('.loading-overlay').style.display = 'none';
     });

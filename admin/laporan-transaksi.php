@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['end_date'];
 
     // Construct the SQL query with date filtering
-    $query = "SELECT orders.*, users.fullname, GROUP_CONCAT(order_items.product_name SEPARATOR ', ') AS product_names, SUM(order_items.quantity) AS total_quantity
+    $query = "SELECT orders.*, users.fullname, GROUP_CONCAT(order_items.product_name SEPARATOR ',') AS product_names, SUM(order_items.quantity) AS total_quantity
           FROM orders 
           INNER JOIN users ON orders.id_users = users.id_users 
           INNER JOIN order_items ON orders.order_id = order_items.order_id
@@ -24,11 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           GROUP BY orders.order_id";
     $result = mysqli_query($conn, $query);
 
-    // Check if any rows are returned
     if (mysqli_num_rows($result) == 0) {
         $message = "Tidak ada riwayat transaksi. Saran: filter tanggal dari 01/01/2024 - 12/30/2024.";
     } else {
-        // Calculate total price
         while ($row = mysqli_fetch_assoc($result)) {
             $_SESSION['total_price_transaksi'] += $row['total_price'];
         }
@@ -200,28 +198,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </footer>
     </div>
 
-    <!-- Add JavaScript code -->
     <script>
-        // JavaScript function to check if both start and end dates are filled
         function checkDates() {
-            // Get start and end date input elements
             var startDate = document.getElementById('start_date');
             var endDate = document.getElementById('end_date');
 
-            // Get the "Cari" button
             var searchButton = document.getElementById('search_button');
 
-            // Check if both start and end dates are filled
             if (startDate.value !== '' && endDate.value !== '') {
-                // Enable the "Cari" button
                 searchButton.disabled = false;
             } else {
-                // Disable the "Cari" button
                 searchButton.disabled = true;
             }
         }
 
-        // Call the checkDates function when either of the date inputs changes
         document.getElementById('start_date').addEventListener('change', checkDates);
         document.getElementById('end_date').addEventListener('change', checkDates);
     </script>

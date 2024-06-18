@@ -1,12 +1,10 @@
 <?php
-// Include connection.php file to establish database connection
 require('server/connection.php');
 
-// Check if a category filter is applied
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
-// Modify the SQL query to select products based on the category filter
 $select_products = mysqli_query($conn, "SELECT * FROM `produk`" . ($category_filter ? " WHERE product_category = '$category_filter'" : ""));
+
 if (mysqli_num_rows($select_products) > 0) {
     while ($row = mysqli_fetch_assoc($select_products)) {
         $out_of_stock_class = ($row['stok'] == 0) ? 'out-of-stock' : '';

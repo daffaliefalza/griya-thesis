@@ -4,21 +4,20 @@ session_start();
 require('server/connection.php');
 
 if (isset($_POST['login'])) {
-    $username = $_POST['username'];
+    $login_input = $_POST['login_input'];
     $password = $_POST['password'];
 
     // Validate the input to prevent SQL injection
-    $username = mysqli_real_escape_string($conn, $username);
+    $login_input = mysqli_real_escape_string($conn, $login_input);
     $password = mysqli_real_escape_string($conn, $password);
 
-    // Check if username and password are not empty
-    if (empty($username) || empty($password)) {
+    if (empty($login_input) || empty($password)) {
         echo "<script>alert('Mohon lengkapi username dan password'); window.location.href = 'login.php';</script>";
         exit();
     }
 
-    // Query to fetch user from database
-    $query = "SELECT * FROM users WHERE username = '$username' OR email = '$username'";
+
+    $query = "SELECT * FROM users WHERE username = '$login_input' OR email = '$login_input'";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {

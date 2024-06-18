@@ -1,13 +1,10 @@
 <?php
 session_start();
 
-// Proceed with adding items to the cart
 require('server/connection.php');
 
-// Check if the user is logged in
 $username = isset($_SESSION['user_id']) ? fetchUsername($_SESSION['user_id']) : null;
 
-// Fetch username from the database based on the user ID
 function fetchUsername($user_id)
 {
   global $conn;
@@ -20,7 +17,6 @@ function fetchUsername($user_id)
   return null;
 }
 
-// Load cart items from the database if the user is logged in
 $cart_items = [];
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
@@ -32,33 +28,28 @@ if (isset($_SESSION['user_id'])) {
   }
 }
 
-// Add item to cart logic
 if (isset($_POST['add_to_cart'])) {
   if (!isset($_SESSION['user_id'])) {
     header('location: login.php');
     exit();
   }
 
-  // Get the user ID from the session
   $user_id = $_SESSION['user_id'];
   $product_name = $_POST['product_name'];
   $product_price = $_POST['product_price'];
   $product_image = $_POST['product_image'];
   $product_quantity = 1;
 
-  // Retrieve the id_produk of the product from the produk table
   $select_produk = mysqli_query($conn, "SELECT id_produk FROM `produk` WHERE product_name = '$product_name'");
   if ($select_produk && mysqli_num_rows($select_produk) > 0) {
     $row = mysqli_fetch_assoc($select_produk);
     $id_produk = $row['id_produk'];
 
-    // Check if the item is already in the cart
     $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_produk = '$id_produk' AND id_users = '$user_id'");
     if (mysqli_num_rows($select_cart) > 0) {
       echo '<script>alert("Produk sudah berada di keranjang");</script>';
       echo '<script>window.location.href = "produk.php";</script>';
     } else {
-      // Add the item to the cart with the user ID and id_produk
       $insert_product = mysqli_query($conn, "INSERT INTO `cart`(id_produk, product_name, price, image, quantity, id_users) VALUES('$id_produk', '$product_name', '$product_price', '$product_image', '$product_quantity', '$user_id')");
       echo "<script>alert('Produk berhasil ditambahkan!'); window.location.href = 'produk.php';</script>";
     }
@@ -67,18 +58,14 @@ if (isset($_POST['add_to_cart'])) {
   }
 }
 
-// Logout functionality
 if (isset($_POST['logout'])) {
-  // Clear the cart session
-  unset($_SESSION['cart']); // Assuming you're storing cart items in $_SESSION['cart']
+  unset($_SESSION['cart']);
 
-  // Unset all other session variables
+
   $_SESSION = array();
-
-  // Destroy the session
   session_destroy();
 
-  // Redirect to the produk.php page
+
   header("Location: produk.php");
   exit();
 }
@@ -96,7 +83,6 @@ if (isset($_POST['logout'])) {
   <link rel="stylesheet" href="css/produk.css" />
 
   <style>
-    /* CSS for Cart Icon */
     .wrapper .cart {
       position: relative;
       color: #000;
@@ -108,9 +94,7 @@ if (isset($_POST['logout'])) {
       top: -8px;
       right: -20px;
       background-color: #3498db;
-      /* Blue background color */
       color: #fff;
-      /* White text color */
       font-size: 12px;
       border-radius: 50%;
       width: 20px;
@@ -120,10 +104,8 @@ if (isset($_POST['logout'])) {
       align-items: center;
     }
 
-    /* Cart icon hover effect */
     .wrapper .cart:hover {
       color: #2980b9;
-      /* Darker blue color on hover */
     }
 
     .wrapper {
@@ -158,11 +140,8 @@ if (isset($_POST['logout'])) {
 
 
 
-    /* Style for out-of-stock products */
     .out-of-stock {
-      /* Example styles to visually indicate that the product is out of stock */
       opacity: 0.6;
-      /* Example: reduce opacity to visually indicate unavailable */
       position: relative;
     }
 
@@ -173,47 +152,37 @@ if (isset($_POST['logout'])) {
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: rgba(255, 255, 255, 0.8);
-      /* Example: semi-transparent white background */
       padding: 5px 10px;
       border-radius: 5px;
     }
 
-    /* Disabled button cursor */
     .pesan[disabled] {
       cursor: not-allowed !important;
     }
 
     .elegant-link {
       color: #333;
-      /* Dark gray */
       text-decoration: none;
       font-weight: bold;
       padding: 8px 12px;
       border-radius: 5px;
       background-color: #f9f9f9;
-      /* Light gray */
       transition: all 0.3s ease;
     }
 
     .elegant-link:hover {
       background-color: #e0e0e0;
-      /* Lighter gray on hover */
       color: #000;
-      /* Black on hover */
     }
   </style>
 
   <script>
-    // Function to filter products based on category
     function filterProducts(category) {
-      // Store the selected category in localStorage
       localStorage.setItem('selectedCategory', category);
 
-      // Send an AJAX request to fetch products of the selected category
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          // Replace the current product grid with the fetched products
           document.getElementById("product-grid").innerHTML = this.responseText;
         }
       };
@@ -221,12 +190,9 @@ if (isset($_POST['logout'])) {
       xhr.send();
     }
 
-    // Function to apply the category filter on page load
     window.onload = function() {
-      // Check if a category filter is stored in localStorage
       var selectedCategory = localStorage.getItem('selectedCategory');
       if (selectedCategory) {
-        // Apply the stored category filter
         filterProducts(selectedCategory);
       }
     };
@@ -310,7 +276,6 @@ if (isset($_POST['logout'])) {
 
       <div id="product-grid" class="row">
         <?php
-        // Include filter_products.php to display initial products
         include("filter_products.php");
         ?>
       </div>

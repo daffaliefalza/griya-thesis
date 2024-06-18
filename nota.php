@@ -40,15 +40,6 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
             line-height: 1.7;
         }
 
-        /* body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-          
-            min-height: 100vh;
-            background-color: #f5f5f5;
-        } */
-
 
         main,
         header {
@@ -78,7 +69,6 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
         .row {
             display: flex;
             justify-content: space-between;
-            /* align-items: center; */
             gap: 2rem;
             margin-top: 10px;
 
@@ -109,7 +99,6 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
             margin-top: 20px;
             font-style: italic;
             background-color: #e6f7ff;
-            /* Changed background color */
             border: 1px solid #e6f7ff;
             padding: 10px;
             font-size: 0.8rem;
@@ -267,7 +256,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
             </div>
 
             <div class="note">
-                <p>Terimakasih atas pesanan Anda. Pesanan telah diteruskan dan akan divalidasi. Untuk informasi lebih lanjut, silakan hubungi tim support Griya melalui email liefalzzzzzz@gmail.com atau WhatsApp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order.</p>
+                <p>Terimakasih atas pesanan Anda. Pesanan telah diteruskan dan akan divalidasi. Untuk informasi lebih lanjut, silakan hubungi tim support Griya melalui email liefalzzzzzz@gmail.com atau WhatsApp +62812132526 dengan melakukan konfirmasi berdasarkan nomor order. (Abaikan jika transaksi telah selesai).</p>
             </div>
         </div>
 
@@ -275,7 +264,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
 
     <script>
         function printPage() {
-            window.print(); // Call the browser's print function
+            window.print();
         }
     </script>
 

@@ -11,11 +11,9 @@ if (!isset($_SESSION["login"])) {
 // Default year is the current year
 $current_year = date("Y");
 
-// Check if a year is selected
 if (isset($_GET['year']) && !empty($_GET['year'])) {
     $selected_year = $_GET['year'];
 } else {
-    // If no year is selected, use the current year
     $selected_year = $current_year;
 }
 
@@ -42,28 +40,12 @@ while ($row = mysqli_fetch_assoc($res)) {
     $total_price += $row['total_price'];
 }
 
-// Pagination
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-$limit = 3;
-$start = ($page - 1) * $limit;
-
-// Fetch transaction data with pagination for the selected year
 $sql_transactions = "SELECT orders.*, users.fullname 
                      FROM orders 
                      LEFT JOIN users ON orders.id_users = users.id_users
                      WHERE orders.status = 'Selesai' AND orders.payment_status = 'Sudah Dibayar' AND YEAR(orders.order_date) = $selected_year
-                     LIMIT $start, $limit";
+                     LIMIT 3";
 $result_transactions = mysqli_query($conn, $sql_transactions);
-
-// Count total number of transactions for the selected year
-$sql_count = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year";
-$result_count = mysqli_query($conn, $sql_count);
-$row_count = mysqli_fetch_assoc($result_count);
-$total_records = $row_count['total'];
-
-// Calculate total number of pages
-$total_pages = ceil($total_records / $limit);
-
 ?>
 
 <!DOCTYPE html>
@@ -83,19 +65,6 @@ $total_pages = ceil($total_records / $limit);
             padding: 0;
         }
 
-        /* 
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        } */
-
-
-
-
-
-
-
         .main-content-header {
             display: flex;
             flex-wrap: wrap;
@@ -111,9 +80,6 @@ $total_pages = ceil($total_records / $limit);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-
-
-
         .main-content-header div:nth-child(1),
         .main-content-header div:nth-child(2),
         .main-content-header div:nth-child(3) {
@@ -121,8 +87,6 @@ $total_pages = ceil($total_records / $limit);
             background-color: #34495e;
             color: black;
         }
-
-
 
         .main-content-header div h2 {
             margin-top: 0;
@@ -176,7 +140,6 @@ $total_pages = ceil($total_records / $limit);
             border-bottom: none;
         }
 
-        /* Hover effect for table rows */
         table tbody tr:hover {
             background-color: #f2f2f2;
         }
@@ -200,8 +163,6 @@ $total_pages = ceil($total_records / $limit);
             border-bottom: 1px solid #ddd;
             text-align: left;
         }
-
-
 
         table tbody tr:last-child td {
             border-bottom: none;
@@ -243,8 +204,6 @@ $total_pages = ceil($total_records / $limit);
             }
         }
     </style>
-
-    </style>
 </head>
 
 <body>
@@ -265,14 +224,6 @@ $total_pages = ceil($total_records / $limit);
                         <p><?php echo ($total_orders > 0) ? 'Lihat detail' : 'Tidak ada pesanan'; ?></p>
                     </div>
                 </div>
-                <!-- <div onclick="window.location.href = 'data-pelanggan.php'" style="cursor: pointer;" class="box-wrapper">
-                    <h2 style="color: #fff;">Jumlah data pelanggan</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff" class="detail-boxes">
-
-                        <p><?php echo $total_customer ?></p>
-                        <p>Lihat detail</p>
-                    </div>
-                </div> -->
 
                 <div <?php if ($total_completed_transactions > 0) echo 'onclick="window.location.href = \'laporan-transaksi.php\'"'; ?> style="cursor: <?php echo ($total_completed_transactions > 0) ? 'pointer' : 'not-allowed'; ?>" class="box-wrapper">
                     <h2 style="color: #fff;">Status Transaksi Selesai</h2>
@@ -296,10 +247,6 @@ $total_pages = ceil($total_records / $limit);
                         <?php } ?>
                     </select>
                 </section>
-                <!-- <div style="display: flex; align-items: center; justify-content: space-between; background-color: #fff">
-                    <h2>Total Pendapatan</h2>
-                    <p><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
-                </div> -->
             </div>
             <?php
             // Check if there are transactions for the selected year
@@ -319,7 +266,7 @@ $total_pages = ceil($total_records / $limit);
                     </thead>
                     <tbody>
                         <?php
-                        $transaction_number = ($page - 1) * $limit + 1;
+                        $transaction_number = 1;
                         while ($row = mysqli_fetch_assoc($result_transactions)) {
                         ?>
                             <tr>
@@ -348,7 +295,6 @@ $total_pages = ceil($total_records / $limit);
                     </tfoot>
                 </table>
             <?php
-
             } else {
             ?>
                 <!-- Display message if no transactions found -->

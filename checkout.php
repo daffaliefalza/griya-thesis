@@ -2,9 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page
     header("Location: login.php");
-    exit(); // Ensure script execution stops here
+    exit();
 }
 
 
@@ -12,10 +11,8 @@ date_default_timezone_set('Asia/Jakarta');
 
 include 'server/connection.php';
 
-// Function to generate a unique order number
 function generateOrderNumber()
 {
-    // Generate a random number and append current timestamp to ensure uniqueness
     return 'ORD' . mt_rand(100000, 999999) . time();
 }
 
@@ -33,7 +30,7 @@ while ($select = mysqli_fetch_assoc($select_user)) {
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
 $total = 0;
 
-$product_details = array(); // Initialize an empty array to store product details
+$product_details = array();
 
 if (mysqli_num_rows($select_cart) > 0) {
     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
@@ -44,14 +41,13 @@ if (mysqli_num_rows($select_cart) > 0) {
         $product_details[] = array(
             'name' => $fetch_cart['product_name'],
             'quantity' => $fetch_cart['quantity'],
-            'total_price' => $total_price // Calculate individual total price for each product
+            'total_price' => $total_price
         );
     }
 }
 
 // Handle form submission
 if ($total > 0 && isset($_POST['order_btn'])) {
-    // Collect order details
     $detail_address = $_POST['detail_address'];
     $totalberat = $_POST['total_berat'];
     $provinsi = $_POST['provinsi'];
@@ -323,7 +319,6 @@ if ($total > 0 && isset($_POST['order_btn'])) {
                 <input type="hidden" name="paket">
                 <input type="hidden" name="ongkir">
                 <input type="hidden" name="estimasi">
-
             </div>
 
 

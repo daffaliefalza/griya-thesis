@@ -144,14 +144,14 @@ if (isset($_POST['login'])) {
     </form>
   </div>
 
-  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+  <!-- <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
     <h3>Gunakan Akun berikut untuk login:</h3>
     <p>username: admin1 password: 12345</p>
     <p>username: admin2 password: 12345</p>
     <p>username: admin3 password: 12345</p>
     <p>username: admin4 password: 12345</p>
     <p>username: admin5 password: 12345</p>
-  </div>
+  </div> -->
 
 </body>
 

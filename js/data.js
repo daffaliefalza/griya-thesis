@@ -11,7 +11,6 @@ const testimoniData = [
   },
 ];
 
-// Function to update testimonial content based on index
 function updateTestimonial(index) {
   const testimonial = testimoniData[index];
   const testimonialQuote = document.querySelector(".testimoni-quote");
@@ -21,17 +20,14 @@ function updateTestimonial(index) {
   testimonialPerson.textContent = testimonial.nama;
 }
 
-// Initial index for testimonial
 let currentIndex = 0;
 updateTestimonial(currentIndex);
 
-// Event listener for next button
 document.querySelector(".left").addEventListener("click", function () {
   currentIndex = (currentIndex + 1) % testimoniData.length;
   updateTestimonial(currentIndex);
 });
 
-// Event listener for previous button
 document.querySelector(".right").addEventListener("click", function () {
   currentIndex =
     (currentIndex - 1 + testimoniData.length) % testimoniData.length;

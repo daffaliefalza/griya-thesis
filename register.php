@@ -111,7 +111,7 @@
         <label>Password</label>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" name="register">Daftar</button>
-        <span>Wah udah punya akun kak? </span>
+        <span>Sudah punya akun? </span>
         <a href="login.php">Login</a>
     </form>
 </body>
