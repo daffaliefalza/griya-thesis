@@ -4,19 +4,19 @@ include 'server/connection.php';
 
 $user_id = $_SESSION['user_id'];
 
-// Retrieve username
+// ngambil username
 $get_username = mysqli_query($conn, "SELECT fullname from users WHERE id_users='$user_id'");
 $fullname = null;
 while ($row = mysqli_fetch_assoc($get_username)) {
     $fullname = $row['fullname'];
 }
 
-// Check if the user is logged in
+// cek udah login belom
 if (!isset($_SESSION['user_id'])) {
     header('location: produk.php');
 }
 
-// Get orders for the user
+// Get orders
 $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'");
 
 ?>
@@ -241,7 +241,6 @@ $result = mysqli_query($conn, "SELECT * FROM orders WHERE id_users= '$user_id'")
                 <?php } ?>
             </table>
         <?php } else { ?>
-            <!-- Display message if no orders found -->
             <p class="no-history">Tidak ada riwayat pemesanan.</p>
         <?php } ?>
 

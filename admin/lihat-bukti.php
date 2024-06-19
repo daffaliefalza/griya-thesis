@@ -31,7 +31,7 @@ while ($row_order = mysqli_fetch_assoc($result_trigger)) {
 if (isset($_POST['proses'])) {
     $status = $_POST['status'];
 
-    // Update the order status
+    // Update order status
     mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE order_id='$order_id'");
 
     // Decrease the product stock if the status is processed
@@ -177,15 +177,11 @@ if (isset($_POST['proses'])) {
 
         .btn:hover {
             background-color: #2980b9;
-            /* New button hover background color */
         }
 
-        /* Additional styling for disabled button */
         .btn[disabled] {
             opacity: 0.6;
-            /* Reduce opacity to indicate disabled state */
             cursor: not-allowed;
-            /* Change cursor to indicate not clickable */
         }
 
 
@@ -251,7 +247,7 @@ if (isset($_POST['proses'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $total_amount = 0; // Initialize total amount
+                    $total_amount = 0;
                     while ($row_produk = mysqli_fetch_assoc($result_order)) {
 
                     ?>

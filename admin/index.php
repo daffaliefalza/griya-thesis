@@ -8,7 +8,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-// Default year is the current year
+// Default year 
 $current_year = date("Y");
 
 if (isset($_GET['year']) && !empty($_GET['year'])) {
@@ -20,13 +20,13 @@ if (isset($_GET['year']) && !empty($_GET['year'])) {
 $sql = "SELECT * FROM produk";
 $result = mysqli_query($conn, $sql);
 
-// Fetch the count of orders for the selected year
+// Jumlah pesanan
 $sql_order = "SELECT COUNT(*) AS total_orders FROM orders WHERE YEAR(order_date) = $selected_year";
 $result_order = mysqli_query($conn, $sql_order);
 $row_order = mysqli_fetch_assoc($result_order);
 $total_orders = $row_order['total_orders'];
 
-// Fetch the count of completed transactions for the selected year
+// Jumlah Status transaksi selesai
 $sql_completed_transactions = "SELECT COUNT(*) AS total_completed_transactions FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year";
 $result_completed_transactions = mysqli_query($conn, $sql_completed_transactions);
 $row_completed_transactions = mysqli_fetch_assoc($result_completed_transactions);

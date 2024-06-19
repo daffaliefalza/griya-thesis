@@ -30,7 +30,6 @@ $result = mysqli_query($conn, "SELECT orders.*, users.fullname
         .status-button {
             padding: 8px 16px;
             background-color: #28a745;
-            /* Green */
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -42,13 +41,11 @@ $result = mysqli_query($conn, "SELECT orders.*, users.fullname
 
         .status-button:hover {
             background-color: #218838;
-            /* Darker green */
         }
 
         .payment-button {
             padding: 8px 16px;
             background-color: #10439F;
-            /* Red */
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -60,7 +57,6 @@ $result = mysqli_query($conn, "SELECT orders.*, users.fullname
 
         .payment-button:hover {
             background-color: #10439F;
-            /* Darker red */
         }
     </style>
 

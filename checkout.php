@@ -35,9 +35,9 @@ $product_details = array();
 if (mysqli_num_rows($select_cart) > 0) {
     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
         $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-        $total += $total_price; // Accumulate total price
+        $total += $total_price;
 
-        // Store product details with individual total price
+        // naro data ke array product details
         $product_details[] = array(
             'name' => $fetch_cart['product_name'],
             'quantity' => $fetch_cart['quantity'],
@@ -46,7 +46,7 @@ if (mysqli_num_rows($select_cart) > 0) {
     }
 }
 
-// Handle form submission
+
 if ($total > 0 && isset($_POST['order_btn'])) {
     $detail_address = $_POST['detail_address'];
     $totalberat = $_POST['total_berat'];
@@ -67,7 +67,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     // Get current timestamp                            
     $order_date = date('Y-m-d H:i:s');
 
-    // Calculate payment expiry (24 hours from order date)
+    // logic expired 1 hari setelahnya
     $payment_expiry = date('Y-m-d H:i:s', strtotime($order_date . ' +1 day'));
 
     // Insert delivery details into delivery table

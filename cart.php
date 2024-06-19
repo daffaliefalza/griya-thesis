@@ -3,7 +3,6 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page if the user is not logged in
     header("Location: login.php");
     exit();
 }
@@ -55,7 +54,7 @@ if (isset($_GET['delete_all'])) {
             <h1 class="heading">Keranjang Belanja</h1>
 
             <?php
-            $user_id = $_SESSION['user_id']; // Get the user ID from the session
+            $user_id = $_SESSION['user_id'];
 
             $select_cart = mysqli_query($conn, "SELECT id, product_name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
 
@@ -75,7 +74,7 @@ if (isset($_GET['delete_all'])) {
                     <tbody>
                         <?php
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                            // Format the price to Indonesian Rupiah
+                            // Format price
                             $harga_formatted = 'Rp ' . number_format($fetch_cart['price'], 0, ',', '.');
                             $sub_total = $fetch_cart['price'] * $fetch_cart['quantity'];
                             $sub_total_formatted = 'Rp ' . number_format($sub_total, 0, ',', '.');

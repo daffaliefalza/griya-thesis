@@ -325,10 +325,10 @@ if (isset($_POST['logout'])) {
 
   <script>
     function confirmLogout(event) {
-      event.preventDefault(); // Prevent the default link behavior
+      event.preventDefault();
       var confirmation = confirm("Apakah Anda ingin logout?");
       if (confirmation) {
-        window.location.href = "logout.php"; // Redirect to logout.php
+        window.location.href = "logout.php";
       }
     }
   </script>

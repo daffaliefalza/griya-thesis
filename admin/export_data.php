@@ -4,11 +4,11 @@ session_start();
 
 include '../server/connection.php';
 
-// Get start and end dates from the URL parameters
+// ngambil / get start dates dan end dates dari  URL parameters
 $startDate = $_GET['start_date'];
 $endDate = $_GET['end_date'];
 
-// Construct the SQL query with date filtering and status conditions
+//   SQL query with date filtering dan status conditions
 $query = "SELECT orders.*, users.fullname, GROUP_CONCAT(order_items.product_name SEPARATOR ', ') AS product_names, SUM(order_items.quantity) AS total_quantity
           FROM orders 
           LEFT JOIN users ON orders.id_users = users.id_users 
@@ -26,10 +26,10 @@ header('Content-Disposition: attachment; filename="exported_data.csv"');
 // Open file handle to write CSV data
 $output = fopen('php://output', 'w');
 
-// Write CSV headers
+//  baris headingnya
 fputcsv($output, array('No', 'Pelanggan', 'Tanggal', 'Produk yang Dipesan', 'Quantity', 'Jumlah', 'Status Pesanan', 'Status Pembayaran'));
 
-// Write data rows
+// data di barisnya
 $no = 1;
 $total_price = 0;
 while ($row = mysqli_fetch_assoc($result)) {

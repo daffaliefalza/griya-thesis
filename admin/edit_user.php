@@ -6,7 +6,7 @@ include '../server/connection.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_user'])) {
     $id_user = $_POST['id_user'];
 
-    // Fetch user data
+    // ngambil / fetch data user
     $query = "SELECT * FROM users WHERE id_users = $id_user";
     $result = mysqli_query($conn, $query);
     $user = mysqli_fetch_assoc($result);
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $phone_number = $_POST['phone_number'];
     $email = $_POST['email'];
 
-    // Update user data
+    // Update data user
     $query = "UPDATE users SET username = '$username', fullname = '$fullname', phone_number = '$phone_number', email = '$email' WHERE id_users = $id_user";
     if (mysqli_query($conn, $query)) {
         echo "<script>

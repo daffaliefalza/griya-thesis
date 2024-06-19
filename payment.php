@@ -8,9 +8,7 @@ $result_two = mysqli_query($conn, "SELECT * FROM orders WHERE order_id= '$order_
 
 
 
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Include database connection
 
     // Get form data
     $payer_name = $_POST['nama_penyetor'];

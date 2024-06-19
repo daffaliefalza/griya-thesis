@@ -63,7 +63,6 @@ if (isset($_GET['id_produk'])) {
     <link rel="stylesheet" href="../css/form-admin.css">
 
     <style>
-        /* Style for input file */
         input[type="file"] {
             width: 100%;
             border: 1px solid #ccc;
@@ -78,7 +77,6 @@ if (isset($_GET['id_produk'])) {
         }
 
 
-        /* Style for select */
         select {
             width: 100%;
             padding: 10px;

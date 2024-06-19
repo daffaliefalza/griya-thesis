@@ -7,7 +7,7 @@ if (isset($_POST['login'])) {
     $login_input = $_POST['login_input'];
     $password = $_POST['password'];
 
-    // Validate the input to prevent SQL injection
+    // Validate buat prevent SQL injection
     $login_input = mysqli_real_escape_string($conn, $login_input);
     $password = mysqli_real_escape_string($conn, $password);
 
@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
         $user = mysqli_fetch_assoc($result);
         // Verify password
         if (password_verify($password, $user['password'])) {
-            // Password is correct, start session and store user data
+            // Password bener, start session
             $_SESSION['user_id'] = $user['id_users'];
             $_SESSION['username'] = $user['username'];
             // Redirect to dashboard or desired page

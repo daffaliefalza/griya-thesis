@@ -3,18 +3,18 @@ session_start();
 
 include '../server/connection.php';
 
-// Initialize variables
+// inisialisasi awal
 $result = null;
 $_SESSION['total_price_transaksi'] = 0;
 $message = "";
 
-// Check if the form is submitted
+// cek form udah di submit apa belom
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the start and end dates from the form
+
     $startDate = $_POST['start_date'];
     $endDate = $_POST['end_date'];
 
-    // Construct the SQL query with date filtering
+    // Construct query with date filtering
     $query = "SELECT orders.*, users.fullname, GROUP_CONCAT(order_items.product_name SEPARATOR ',') AS product_names, SUM(order_items.quantity) AS total_quantity
           FROM orders 
           INNER JOIN users ON orders.id_users = users.id_users 
@@ -132,7 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Data Transaksi</h2>
         </div>
         <main class="main-content">
-            <!-- Form for date filtering -->
             <h3>Filter data transaksi dari tanggal mulai - tanggal berakhir</h3>
             <p style="font-style: italic;">Contoh filter tanggal dari 01/01/2024 - 12/30/2024.</p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -140,7 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="date" id="start_date" name="start_date">
                 <label for="end_date">Tanggal Berakhir:</label>
                 <input type="date" id="end_date" name="end_date">
-                <!-- Add id attribute to the "Cari" button -->
                 <button type="submit" id="search_button" disabled>Cari</button>
                 <!-- Export button -->
                 <?php if ($result) : ?>
@@ -163,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <tbody>
                         <?php
                         $no = 1;
-                        mysqli_data_seek($result, 0); // Reset result pointer
+                        mysqli_data_seek($result, 0);
                         while ($row = mysqli_fetch_assoc($result)) {
                         ?>
                             <tr>
