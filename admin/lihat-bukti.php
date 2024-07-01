@@ -43,7 +43,7 @@ if (isset($_POST['proses'])) {
             $quantity = $row['quantity'];
 
             // Retrieve the product ID based on the product name
-            $product_query = mysqli_query($conn, "SELECT id_produk FROM produk WHERE nama_produk='$product_name'");
+            $product_query = mysqli_query($conn, "SELECT id_produk FROM produk WHERE product_name='$product_name'");
             $product_row = mysqli_fetch_assoc($product_query);
             $product_id = $product_row['id_produk'];
 
