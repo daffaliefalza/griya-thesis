@@ -212,6 +212,7 @@ $result_total_harga = mysqli_query($conn, "SELECT * FROM payment WHERE order_id=
                         <p>Kode Pos: <?php echo $row_pengiriman['postal_code']  ?></p>
                         <p>Paket: <?php echo $row_pengiriman['packet'] ?></p>
                         <p>Estimasi sampai: <?php echo $row_pengiriman['estimation'] ?></p>
+                        <p>Resi pengiriman: <?php echo $row_pengiriman['resi'] ? $row_pengiriman['resi'] : '-' ?></p>
                         <p><strong>Ongkos Kirim: Rp. <?php echo number_format($row_pengiriman['shipping']) ?></strong></p>
                     <?php } ?>
                 </div>

@@ -27,16 +27,25 @@ while ($row_order = mysqli_fetch_assoc($result_trigger)) {
 
 
 
-
 if (isset($_POST['proses'])) {
     $status = $_POST['status'];
 
     // Update order status
     mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE order_id='$order_id'");
 
-    // Decrease the product stock if the status is processed
+    // Check if the status is 'Diproses'
     if ($status == 'Diproses') {
-        // Retrieve order details
+        // Generate unique shipment number (nomor resi)
+        $shipment_number = generate_unique_shipment_number(); // Implementasi fungsi generate_unique_shipment_number() perlu disesuaikan
+
+
+        // Update shipment number into delivery table
+        $update_resi_query = mysqli_query($conn, "UPDATE delivery 
+                                                SET resi = '$shipment_number' 
+                                                WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
+
+        // Decrease the product stock
+        // Retrieve order details and update product stock
         $order_query = mysqli_query($conn, "SELECT product_name, quantity FROM order_items WHERE order_id='$order_id'");
         while ($row = mysqli_fetch_assoc($order_query)) {
             $product_name = $row['product_name'];
@@ -53,10 +62,20 @@ if (isset($_POST['proses'])) {
     }
 
     echo "<script>
-    alert('status pesanan diubah');
+    alert('Status pesanan diubah ');
     window.location.href = 'data-pesanan.php';
     </script>";
 }
+
+function generate_unique_shipment_number()
+{
+    // Contoh implementasi untuk menghasilkan nomor resi unik
+    $date = date('Ymd'); // Tanggal hari ini
+    $random_number = mt_rand(1000, 9999); // Angka acak
+
+    return "RESI$date$random_number"; // Format nomor resi, sesuaikan dengan kebutuhan
+}
+
 
 
 ?>
