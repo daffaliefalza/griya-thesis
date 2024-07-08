@@ -20,7 +20,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     .sidebar-content a {
         text-decoration: none;
         color: #333;
-        padding: 5px 10px;
+        padding: 15px 10px;
         display: flex;
         align-items: center;
     }
@@ -85,16 +85,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span>Data Pesanan</span>
                 </a>
             </li>
-            <li <?php if ($current_page === 'data-pelanggan.php') echo 'class="active"'; ?>>
+            <!-- <li <?php if ($current_page === 'data-pelanggan.php') echo 'class="active"'; ?>>
                 <a href="data-pelanggan.php">
                     <img src="../img/user.png" width="25">
                     <span>Data Pelanggan</span>
                 </a>
-            </li>
+            </li> -->
             <li <?php if ($current_page === 'laporan-transaksi.php') echo 'class="active"'; ?>>
                 <a href="laporan-transaksi.php">
                     <img src="../img/transaction-history.png" width="25">
-                    <span>Laporan Transaksi</span>
+                    <span>Laporan Penjualan</span>
                 </a>
             </li>
             <!-- <li <?php if ($current_page === 'ubah-password.php') echo 'class="active"'; ?>>

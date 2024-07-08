@@ -253,9 +253,6 @@ if ($total > 0 && isset($_POST['order_btn'])) {
         <?php endif; ?>
 
         <form action="" method="post">
-
-
-
             <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>" style=" background-color: #f2f2f8; 
                 border: 1px solid #ddd; 
                 color: #555; 
@@ -268,7 +265,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
             <div class="phone-wrappe">
                 <h4 style="margin-top: 10px;">No. Telepon</h4>
-                <input type="number" value="<?php echo $_SESSION['phone'] ?>" name="phone_number" required readonly style=" background-color: #f2f2f8; 
+                <input type="number" min="10" value="<?php echo $_SESSION['phone'] ?>" name="phone_number" required readonly style=" background-color: #f2f2f8; 
                 border: 1px solid #ddd; 
                 color: #555; 
                 cursor: not-allowed; ">

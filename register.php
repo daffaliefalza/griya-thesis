@@ -105,7 +105,7 @@
         <input type="text" name="fullname" placeholder="Jambrong Hermawan" required>
 
         <label>No Telp</label>
-        <input type="number" name="phone" placeholder="0812xxxxx" required>
+        <input type="number" name="phone" placeholder="0812xxxxx" min="10" required>
         <label>Email</label>
         <input type="email" name="email" placeholder="jambrong@gmail.com" required>
         <label>Password</label>
