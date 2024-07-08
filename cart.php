@@ -56,7 +56,11 @@ if (isset($_GET['delete_all'])) {
             <?php
             $user_id = $_SESSION['user_id'];
 
-            $select_cart = mysqli_query($conn, "SELECT id, product_name, price, image, quantity FROM `cart` WHERE id_users = '$user_id'");
+            $select_cart = mysqli_query($conn, "SELECT cart.id, cart.product_name, cart.price, cart.image, cart.quantity, produk.stok
+                                    FROM cart
+                                    JOIN produk ON cart.id_produk = produk.id_produk
+                                    WHERE cart.id_users = '$user_id'");
+
 
             $grand_total = 0;
             if (mysqli_num_rows($select_cart) > 0) {
@@ -86,7 +90,8 @@ if (isset($_GET['delete_all'])) {
                                 <td>
                                     <form action="" method="post">
                                         <input type="hidden" name="update_quantity_id" value="<?php echo $fetch_cart['id']; ?>">
-                                        <input type="number" name="update_quantity" min="1" max="99" value="<?php echo $fetch_cart['quantity']; ?>">
+                                        <input type="number" name="update_quantity" min="1" max="<?php echo $fetch_cart['stok']; ?>" value="<?php echo $fetch_cart['quantity']; ?>">
+
                                         <input type="submit" value="Update" name="update_update_btn">
                                     </form>
                                 </td>

@@ -33,16 +33,37 @@ if (isset($_POST['proses'])) {
     // Update order status
     mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE order_id='$order_id'");
 
-    // Check if the status is 'Diproses'
-    if ($status == 'Diproses') {
+
+    if ($status == 'Sedang Dikirim') {
         // Generate unique shipment number (nomor resi)
         $shipment_number = generate_unique_shipment_number(); // Implementasi fungsi generate_unique_shipment_number() perlu disesuaikan
 
+
+        // Your WhatsApp number
+        $whatsapp_number = '6281213567170'; // Replace with your WhatsApp number
+
+        // Create WhatsApp message content
+        $message = "Nomor resi Anda: $shipment_number";
+
+        // Encode message for URL
+        $encoded_message = urlencode($message);
+
+        // Generate WhatsApp message link
+        $whatsapp_link = "https://wa.me/$whatsapp_number/?text=$encoded_message";
+
+        echo "<script>
+                window.location.href = '$whatsapp_link';
+              </script>";
 
         // Update shipment number into delivery table
         $update_resi_query = mysqli_query($conn, "UPDATE delivery 
                                                 SET resi = '$shipment_number' 
                                                 WHERE id_delivery IN (SELECT id_delivery FROM orders WHERE order_id='$order_id')");
+    }
+
+
+    // Check if the status is 'Diproses'
+    if ($status == 'Diproses') {
 
         // Decrease the product stock
         // Retrieve order details and update product stock

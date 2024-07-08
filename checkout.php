@@ -28,6 +28,8 @@ while ($select = mysqli_fetch_assoc($select_user)) {
 }
 
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
+
+
 $total = 0;
 
 $product_details = array();
@@ -41,7 +43,9 @@ if (mysqli_num_rows($select_cart) > 0) {
         $product_details[] = array(
             'name' => $fetch_cart['product_name'],
             'quantity' => $fetch_cart['quantity'],
-            'total_price' => $total_price
+            'total_price' => $total_price,
+            'image' => $fetch_cart['image'] // Add the image URL
+
         );
     }
 }
@@ -129,12 +133,8 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
     <style>
         .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            /* max-width: 800px; */
+
         }
 
         h1 {
@@ -216,111 +216,150 @@ if ($total > 0 && isset($_POST['order_btn'])) {
         ⬅
     </a>
 
-    <div class="container">
-        <h1>Form Pemesanan</h1>
-        <?php if (empty($product_details)) : ?>
-            <p>Cart belanja anda kosong, <a href="produk.php">silahkan belanja</a></p>
-        <?php else : ?>
-            <table>
-                <thead>
-                    <th>No</th>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Sub harga</th>
-                </thead>
-                <tbody>
+
+    <style>
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            border: 1px solid #ddd;
+            padding: 2rem 1rem;
+            margin: 1rem;
+        }
+
+        .container-wrapper {
+            margin: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .result {
+            border: 1px solid pink !important;
+            margin: 30px;
+            padding: 20px;
+        }
+    </style>
+
+    <div class="grid-wrapper">
+        <div class="container-wrapper">
+            <h1>Form Pemesanan</h1>
+
+
+            <form action="" method="post">
+                <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
+
+                <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>" style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
+
+                <div class="phone-wrappe">
+                    <h4 style="margin-top: 10px;">No. Telepon</h4>
+                    <input type="number" min="10" value="<?php echo $_SESSION['phone'] ?>" name="phone_number" required readonly style=" background-color: #f2f2f8; 
+                border: 1px solid #ddd; 
+                color: #555; 
+                cursor: not-allowed; ">
+                </div>
+
+
+                <div class="alamat-wrapper">
+                    <h4>Alamat Lengkap Pengiriman</h4>
+                    <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
+                </div>
+
+                <div class="province-wrapper">
+                    <h4>Provinsi</h4>
+                    <select name="nama_provinsi" id="" required>
+
+                    </select>
+                </div>
+
+                <div class="district-wrapper">
+                    <h4>Distrik</h4>
+                    <select name="nama_distrik" id="" required>
+
+                    </select>
+                </div>
+
+                <div class="expedition-wrapper">
+                    <h4>Ekspedisi</h4>
+                    <select name="nama_ekspedisi" id="" class="form-control" required>
+
+                    </select>
+                </div>
+
+                <div class="paket-wrapper">
+                    <h4>Paket</h4>
+                    <select name="nama_paket" id="" class="form-control" required>
+
+                    </select>
+                </div>
+
+                <?php $totalberat = 0; ?>
+                <div class="selected-data">
+                    <input type="hidden" name="total_berat" value="1000">
+                    <input type="hidden" name="provinsi">
+                    <input type="hidden" name="distrik">
+                    <input type="hidden" name="tipe">
+                    <input type="hidden" name="kodepos">
+                    <input type="hidden" name="ekspedisi">
+                    <input type="hidden" name="paket">
+                    <input type="hidden" name="ongkir">
+                    <input type="hidden" name="estimasi">
+                </div>
+
+
+                <button type="submit" name="order_btn">Checkout</button>
+            </form>
+
+        </div>
+
+        <div class="result">
+            <?php if (empty($product_details)) : ?>
+                <p>Cart belanja anda kosong, <a href="produk.php">silahkan belanja</a></p>
+            <?php else : ?>
+
+                <div class="row">
+
+
+
+                    <!-- <h1>Ringkasan Pesanan</h1> -->
                     <?php
-                    $counter = 1; // Initialize a counter variable
-                    foreach ($product_details as $product) {
-                        echo "<tr>";
-                        echo "<td>" . $counter++ . "</td>"; // Display product number
-                        echo "<td>" . $product['name'] . "</td>"; // Display product name
-                        echo "<td>Rp " . number_format($product['total_price'] / $product['quantity'], 0, ',', '.') . "</td>"; // Display price per unit
-                        echo "<td>" . $product['quantity'] . "</td>"; // Display quantity
-                        echo "<td>Rp " . number_format($product['total_price'], 0, ',', '.') . "</td>"; // Display total price
-                        echo "</tr>";
+                    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
+                    $total = 0;
+                    if (mysqli_num_rows($select_cart) > 0) {
+                        while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                            $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
+                            $total += $total_price;
+                            echo "
+        <div class='item-container'>
+            <div class='item-image'><img src='img/{$fetch_cart['image']}' height='70' alt=''></div>
+            <div class='item-details'>
+                <div class='item-name'>{$fetch_cart['product_name']}</div>
+                <div class='item-price'>Rp " . number_format($fetch_cart['price'], 0, ',', '.') . "</div>
+                <div class='item-quantity'>Jumlah: {$fetch_cart['quantity']}</div>
+                <div class='item-subtotal'>Subtotal: Rp " . number_format($total_price, 0, ',', '.') . "</div>
+                <div class='item-subtotal'>Ongkir: </div>
+            </div>
+        </div>
+        ";
+                        }
+                        echo "<div class='total-price'>Total: Rp " . number_format($total, 0, ',', '.') . "</div>";
+                    } else {
+                        echo '<div class="empty">Keranjang belanja kosong</div>';
                     }
                     ?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" style="text-align: right;"><strong>Total Harga:</strong></td>
-                        <td><strong>Rp <?php echo number_format($total, 0, ',', '.'); ?></strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-        <?php endif; ?>
 
-        <form action="" method="post">
-            <input type="text" name="fullname" readonly value="<?php echo $_SESSION['fullname']   ?>" style=" background-color: #f2f2f8; 
-                border: 1px solid #ddd; 
-                color: #555; 
-                cursor: not-allowed; ">
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
 
-            <input type="email" placeholder="Masukkan Alamat Email.." name="email" readonly required value="<?php echo $_SESSION['user_email'] ?>" style=" background-color: #f2f2f8; 
-                border: 1px solid #ddd; 
-                color: #555; 
-                cursor: not-allowed; ">
-
-            <div class="phone-wrappe">
-                <h4 style="margin-top: 10px;">No. Telepon</h4>
-                <input type="number" min="10" value="<?php echo $_SESSION['phone'] ?>" name="phone_number" required readonly style=" background-color: #f2f2f8; 
-                border: 1px solid #ddd; 
-                color: #555; 
-                cursor: not-allowed; ">
-            </div>
-
-
-            <div class="alamat-wrapper">
-                <h4>Alamat Lengkap Pengiriman</h4>
-                <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
-            </div>
-
-            <div class="province-wrapper">
-                <h4>Provinsi</h4>
-                <select name="nama_provinsi" id="" required>
-
-                </select>
-            </div>
-
-            <div class="district-wrapper">
-                <h4>Distrik</h4>
-                <select name="nama_distrik" id="" required>
-
-                </select>
-            </div>
-
-            <div class="expedition-wrapper">
-                <h4>Ekspedisi</h4>
-                <select name="nama_ekspedisi" id="" class="form-control" required>
-
-                </select>
-            </div>
-
-            <div class="paket-wrapper">
-                <h4>Paket</h4>
-                <select name="nama_paket" id="" class="form-control" required>
-
-                </select>
-            </div>
-
-            <?php $totalberat = 0; ?>
-            <div class="selected-data">
-                <input type="hidden" name="total_berat" value="1000">
-                <input type="hidden" name="provinsi">
-                <input type="hidden" name="distrik">
-                <input type="hidden" name="tipe">
-                <input type="hidden" name="kodepos">
-                <input type="hidden" name="ekspedisi">
-                <input type="hidden" name="paket">
-                <input type="hidden" name="ongkir">
-                <input type="hidden" name="estimasi">
-            </div>
-
-
-            <button type="submit" name="order_btn">Checkout</button>
-        </form>
+            <?php endif; ?>
+        </div>
 
     </div>
 
