@@ -22,7 +22,7 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
         }
@@ -37,6 +37,7 @@
         input[type="email"],
         input[type="password"],
         input[type="number"],
+        textarea,
         button {
             width: calc(100% - 20px);
             padding: 12px;
@@ -91,6 +92,10 @@
         ::placeholder {
             color: #999;
         }
+
+        .asterisk {
+            color: red;
+        }
     </style>
 </head>
 
@@ -98,17 +103,20 @@
 
 
 
+
     <form action="register_process.php" method="post">
-        <label>Username</label>
+        <label>Username <span class="asterisk">*</span></label>
         <input type="text" name="username" placeholder="" required>
-        <label>Nama Lengkap</label>
+        <label>Nama Lengkap <span class="asterisk">*</span></label>
         <input type="text" name="fullname" placeholder="Jambrong Hermawan" required>
 
-        <label>No Telp</label>
-        <input type="number" name="phone" placeholder="0812xxxxx" min="10" required>
-        <label>Email</label>
+        <label>No Telp <span class="asterisk">*</span></label>
+        <input type="number" name="phone" placeholder="0812xxxxx" required>
+        <label>Alamat Lengkap <span class="asterisk">*</span></label>
+        <textarea name="full_address" placeholder="Jl. Kecubung.."></textarea>
+        <label>Email <span class="asterisk">*</span></label>
         <input type="email" name="email" placeholder="jambrong@gmail.com" required>
-        <label>Password</label>
+        <label>Password <span class="asterisk">*</span></label>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" name="register">Daftar</button>
         <span>Sudah punya akun? </span>

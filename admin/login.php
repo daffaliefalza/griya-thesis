@@ -59,12 +59,16 @@ if (isset($_POST['login'])) {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 450px;
       margin: 50px auto;
-      padding: 20px;
+      padding: 30px;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+
+
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -19,12 +22,13 @@ function generateOrderNumber()
 // Fetch cart items for the current user
 $user_id = $_SESSION['user_id'];
 
-$select_user = mysqli_query($conn, "SELECT fullname, phone_number, email FROM users WHERE id_users = '$user_id'");
+$select_user = mysqli_query($conn, "SELECT fullname, phone_number, full_address, email FROM users WHERE id_users = '$user_id'");
 
 while ($select = mysqli_fetch_assoc($select_user)) {
     $_SESSION['fullname'] = $select['fullname'];
     $_SESSION['phone'] = $select['phone_number'];
     $_SESSION['user_email'] = $select['email'];
+    $_SESSION['full_address'] = $select['full_address'];
 }
 
 $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
@@ -64,6 +68,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
     $estimasi = $_POST['estimasi'];
 
     $total_dengan_ongkir = $total + $ongkir;
+    $_SESSION['total_ongkir'] = $total_dengan_ongkir;
 
     // Generate unique order number
     $order_number = generateOrderNumber();
@@ -234,11 +239,94 @@ if ($total > 0 && isset($_POST['order_btn'])) {
             border-radius: 8px;
         }
 
+        /* Result container styling */
         .result {
-            border: 1px solid pink !important;
-            margin: 30px;
+            background-color: #fff;
             padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .result p {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .item-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .item-image {
+            flex: 0 0 70px;
+            margin-right: 10px;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-price,
+        .item-quantity,
+        .item-subtotal {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .item-subtotal {
+            font-size: 16px;
+        }
+
+        .total-price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .empty {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Back button styling */
+        .back {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            color: #fff !important;
+            margin-left: 15px;
+            margin-top: 10px;
+            background-color: #007bff;
+            border-radius: 50%;
+            padding: 5px 10px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+    </style>
     </style>
 
     <div class="grid-wrapper">
@@ -268,7 +356,7 @@ if ($total > 0 && isset($_POST['order_btn'])) {
 
                 <div class="alamat-wrapper">
                     <h4>Alamat Lengkap Pengiriman</h4>
-                    <textarea name="detail_address" id="" cols="30" rows="10" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
+                    <textarea name="detail_address" id="" cols="30" rows="10" required disabled><?php echo $_SESSION['full_address'] ?> </textarea>
                 </div>
 
                 <div class="province-wrapper">
@@ -324,10 +412,6 @@ if ($total > 0 && isset($_POST['order_btn'])) {
             <?php else : ?>
 
                 <div class="row">
-
-
-
-                    <!-- <h1>Ringkasan Pesanan</h1> -->
                     <?php
                     $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_users = '$user_id'");
                     $total = 0;
@@ -335,28 +419,37 @@ if ($total > 0 && isset($_POST['order_btn'])) {
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                             $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
                             $total += $total_price;
-                            echo "
-        <div class='item-container'>
-            <div class='item-image'><img src='img/{$fetch_cart['image']}' height='70' alt=''></div>
-            <div class='item-details'>
-                <div class='item-name'>{$fetch_cart['product_name']}</div>
-                <div class='item-price'>Rp " . number_format($fetch_cart['price'], 0, ',', '.') . "</div>
-                <div class='item-quantity'>Jumlah: {$fetch_cart['quantity']}</div>
-                <div class='item-subtotal'>Subtotal: Rp " . number_format($total_price, 0, ',', '.') . "</div>
-                <div class='item-subtotal'>Ongkir: </div>
-            </div>
-        </div>
-        ";
+                    ?>
+                            <div class="item-container" style="display: flex; align-items: center; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; width: 100%;">
+                                <div class="item-image" style="flex: 0 0 70px; margin-right: 10px;">
+                                    <img src="img/<?php echo $fetch_cart['image']; ?>" height="70" alt="" style="width: 100%; height: auto;">
+                                </div>
+                                <div class="item-details" style="flex: 1;">
+                                    <div class="item-name" style="font-size: 18px; font-weight: bold; margin-bottom: 5px;"><?php echo $fetch_cart['product_name']; ?></div>
+                                    <div class="item-price" style="font-size: 16px; margin-bottom: 3px;">Rp <?php echo number_format($fetch_cart['price'], 0, ',', '.'); ?></div>
+                                    <div class="item-quantity" style="font-size: 16px; margin-bottom: 3px;">Jumlah: <?php echo $fetch_cart['quantity']; ?></div>
+                                    <div class="item-subtotal" style="font-size: 16px; margin-bottom: 3px;">Subtotal: Rp <?php echo number_format($total_price, 0, ',', '.'); ?></div>
+
+                                </div>
+                            </div>
+                        <?php
                         }
-                        echo "<div class='total-price'>Total: Rp " . number_format($total, 0, ',', '.') . "</div>";
+                        ?>
+
+
+
+                        <div class="item-subtotal" style="font-size: 16px; font-weight: bold; ">
+                            Pengiriman: Rp <span id="ongkir_display">0</span>
+                        </div>
+                        <div class="total-price" style=" font-size: 20px; text-align: left; width: 100% !important">
+                            Total Harga: <strong>Rp <?php echo number_format($total, 0, ',', '.'); ?></strong>
+                        </div>
+                    <?php
                     } else {
-                        echo '<div class="empty">Keranjang belanja kosong</div>';
+                        echo '<div class="empty" style="font-size: 16px;">Keranjang belanja kosong</div>';
                     }
                     ?>
-
                 </div>
-                <div class="row"></div>
-                <div class="row"></div>
 
             <?php endif; ?>
         </div>
@@ -417,28 +510,42 @@ if ($total > 0 && isset($_POST['order_btn'])) {
                 })
             });
 
-            $("select[name=nama_distrik]").on("change", function() {
-                var prov = $("option:selected", this).attr('nama_provinsi');
-                var dist = $("option:selected", this).attr('nama_distrik');
-                var tipe = $("option:selected", this).attr('tipe_distrik');
-                var kodepos = $("option:selected", this).attr('kodepos');
-
-                $("input[name=provinsi]").val(prov);
-                $("input[name=distrik]").val(dist);
-                $("input[name=tipe]").val(tipe);
-                $("input[name=kodepos]").val(kodepos);
-            });
-
             $("select[name=nama_paket]").on("change", function() {
                 var paket = $("option:selected", this).attr("paket");
-                var ongkir = $("option:selected", this).attr("ongkir");
+                var ongkir = parseInt($("option:selected", this).attr("ongkir")); // Parse as integer
                 var etd = $("option:selected", this).attr("etd");
 
                 $("input[name=paket]").val(paket);
                 $("input[name=ongkir]").val(ongkir);
                 $("input[name=estimasi]").val(etd);
-            })
+
+                // Format ongkir as Rupiah
+                var ongkir_formatted = formatRupiah(ongkir);
+                $("#ongkir_display").text(ongkir_formatted); // Update the Ongkir display with formatted value
+
+                // Calculate total price including shipping cost
+                var total_harga = <?php echo $total; ?>; // PHP variable $total
+
+                if (!isNaN(ongkir)) {
+                    total_harga += ongkir;
+                }
+
+                // Format total_harga as Rupiah
+                var total_harga_formatted = formatRupiah(total_harga);
+
+                // Update display of total price including shipping
+                $(".total-price").html("Total Harga: Rp " + total_harga_formatted);
+            });
         });
+
+        function formatRupiah(angka) {
+            var number_string = angka.toString().replace(/[^,\d]/g, "");
+            var split = number_string.split(",");
+            var sisa = split[0].length % 3;
+            var rupiah = split[0].substr(0, sisa) + (sisa > 0 ? "." : "") + split[0].substr(sisa).match(/\d{3}/gi).join(".");
+            rupiah = (split[1] != undefined ? rupiah + "," + split[1] : rupiah);
+            return rupiah;
+        }
     </script>
 
 

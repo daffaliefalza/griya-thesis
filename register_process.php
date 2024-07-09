@@ -5,8 +5,15 @@ if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $fullname = $_POST['fullname'];
     $phone = $_POST['phone'];
+    $full_address = $_POST['full_address'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+
+    // Validate phone number length
+    if (strlen($phone) !== 10) {
+        echo "<script>alert('Nomor telepon harus memiliki 10 - 13 digit'); window.location.href = 'register.php';</script>";
+        exit(); // Exit script if validation fails
+    }
 
 
     // Check if username or email already exists
@@ -18,7 +25,7 @@ if (isset($_POST['register'])) {
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $insert_query = "INSERT INTO users (username, fullname, phone_number,email, password) VALUES ('$username', '$fullname', '$phone','$email', '$hashed_password')";
+        $insert_query = "INSERT INTO users (username, fullname, phone_number, full_address, email, password) VALUES ('$username', '$fullname', '$phone','$full_address', '$email', '$hashed_password')";
         $insert_result = mysqli_query($conn, $insert_query);
 
         if ($insert_result) {

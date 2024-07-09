@@ -1,5 +1,17 @@
 <?php
 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+
+// Create a new PHPMailer instance
+$mail = new PHPMailer(true);
+
+
 include '../server/connection.php';
 
 
@@ -39,6 +51,50 @@ if (isset($_POST['proses'])) {
         $shipment_number = generate_unique_shipment_number(); // Implementasi fungsi generate_unique_shipment_number() perlu disesuaikan
 
 
+
+
+        // Construct email message
+        $message .= "Terimakasih atas pesanan anda!\n\n";
+        $message .= "Berikut adalah no resi pengiriman anda: $shipment_number\n\n";
+
+        // Include order ID in the email message
+
+        $grand_total = 0;
+
+
+
+        $wa = 'https://wa.me/6281213567170';
+
+        $message .= "Jika ada pertanyaan, silahkan hubungi $wa \n";
+        $message .= "Best Regards,\n";
+        $message .= "Griya Jamoe Klasik";
+
+        // SMTP configuration
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'liefalzaa@gmail.com'; // Your Gmail email address
+        $mail->Password = 'jnzw guiv sksl vcjy'; // Your Gmail password
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Set email parameters
+        $mail->setFrom('liefalzaa@gmail.com', 'Griya Jamoe Klasik');
+        $mail->addAddress('liefalzaa@gmail.com', 'daffa');
+        $mail->Subject = 'Order Confirmation';
+        $mail->Body = $message;
+
+        // Send email
+        if (!$mail->send()) {
+            echo 'Email could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            // echo 'Email sent successfully!';
+        }
+
+
+
+
         // Your WhatsApp number
         $whatsapp_number = '6281213567170'; // Replace with your WhatsApp number
 
@@ -51,9 +107,9 @@ if (isset($_POST['proses'])) {
         // Generate WhatsApp message link
         $whatsapp_link = "https://wa.me/$whatsapp_number/?text=$encoded_message";
 
-        echo "<script>
-                window.location.href = '$whatsapp_link';
-              </script>";
+        // echo "<script>
+        //         window.location.href = '$whatsapp_link';
+        //       </script>";
 
         // Update shipment number into delivery table
         $update_resi_query = mysqli_query($conn, "UPDATE delivery 

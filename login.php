@@ -21,8 +21,9 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
+            padding: 40px;
+            width: 400px;
+            /* height: 300px; */
             text-align: center;
         }
 
@@ -34,7 +35,7 @@
         .login-form input[type="text"],
         .login-form input[type="password"] {
             width: 100%;
-            padding: 10px;
+            padding: 20px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -43,7 +44,7 @@
 
         .login-form button {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             background-color: #007bff;
             color: #fff;
             border: none;
