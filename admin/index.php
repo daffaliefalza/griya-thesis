@@ -8,9 +8,18 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-// Default year 
+// Default year and month
 $current_year = date("Y");
+$current_month = date("m");
 
+// Handle month selection
+if (isset($_GET['month']) && !empty($_GET['month'])) {
+    $selected_month = $_GET['month'];
+} else {
+    $selected_month = $current_month;
+}
+
+// Handle year selection
 if (isset($_GET['year']) && !empty($_GET['year'])) {
     $selected_year = $_GET['year'];
 } else {
@@ -20,33 +29,62 @@ if (isset($_GET['year']) && !empty($_GET['year'])) {
 $sql = "SELECT * FROM produk";
 $result = mysqli_query($conn, $sql);
 
-// Jumlah pesanan
-$sql_order = "SELECT COUNT(*) AS total_orders FROM orders WHERE YEAR(order_date) = $selected_year";
+// Total orders count for the selected month and year
+$sql_order = "SELECT COUNT(*) AS total_orders 
+              FROM orders 
+              WHERE YEAR(order_date) = $selected_year 
+              AND MONTH(order_date) = $selected_month";
 $result_order = mysqli_query($conn, $sql_order);
 $row_order = mysqli_fetch_assoc($result_order);
 $total_orders = $row_order['total_orders'];
 
-// Jumlah Status transaksi selesai
-$sql_completed_transactions = "SELECT COUNT(*) AS total_completed_transactions FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year";
+// Total completed transactions count for the selected month and year
+$sql_completed_transactions = "SELECT COUNT(*) AS total_completed_transactions 
+                               FROM orders 
+                               WHERE status = 'Selesai' 
+                               AND payment_status = 'Sudah Dibayar' 
+                               AND YEAR(order_date) = $selected_year 
+                               AND MONTH(order_date) = $selected_month";
 $result_completed_transactions = mysqli_query($conn, $sql_completed_transactions);
 $row_completed_transactions = mysqli_fetch_assoc($result_completed_transactions);
 $total_completed_transactions = $row_completed_transactions['total_completed_transactions'];
 
 $total_price = 0;
 
-$res = mysqli_query($conn, "SELECT * FROM orders WHERE status = 'Selesai' AND payment_status = 'Sudah Dibayar' AND YEAR(order_date) = $selected_year");
+$res = mysqli_query($conn, "SELECT * FROM orders 
+                            WHERE status = 'Selesai' 
+                            AND payment_status = 'Sudah Dibayar' 
+                            AND YEAR(order_date) = $selected_year 
+                            AND MONTH(order_date) = $selected_month");
 
 while ($row = mysqli_fetch_assoc($res)) {
     $total_price += $row['total_price'];
 }
 
+// Fetch transactions data for the selected month and year
 $sql_transactions = "SELECT orders.*, users.fullname 
                      FROM orders 
                      LEFT JOIN users ON orders.id_users = users.id_users
-                     WHERE orders.status = 'Selesai' AND orders.payment_status = 'Sudah Dibayar' AND YEAR(orders.order_date) = $selected_year
+                     WHERE orders.status = 'Selesai' 
+                     AND orders.payment_status = 'Sudah Dibayar' 
+                     AND YEAR(orders.order_date) = $selected_year
+                     AND MONTH(orders.order_date) = $selected_month
                      LIMIT 3";
 $result_transactions = mysqli_query($conn, $sql_transactions);
+
+// Fetch sold products data for the selected month and year
+$sql_sold_products = "SELECT order_items.product_name, SUM(order_items.quantity) AS quantity, SUM(order_items.total_price) AS total_price
+                      FROM order_items
+                      INNER JOIN orders ON order_items.order_id = orders.order_id
+                      WHERE orders.status = 'Selesai' 
+                      AND orders.payment_status = 'Sudah Dibayar' 
+                      AND YEAR(orders.order_date) = $selected_year
+                      AND MONTH(orders.order_date) = $selected_month
+                      GROUP BY order_items.product_name";
+$result_sold_products = mysqli_query($conn, $sql_sold_products);
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -239,14 +277,36 @@ $result_transactions = mysqli_query($conn, $sql_transactions);
                         <p style="font-size: 1.2rem; color: #fff; margin: 0; text-decoration: underline;"><strong>Rp. <?php echo number_format($total_price) ?></strong></p>
                     </div>
                 </div>
+
+                <!-- Year selection section -->
                 <section>
-                    <h2>Filter Tahun Penjualan</h2>
+                    <h2>Filter Tahun dan Bulan Penjualan</h2>
                     <select onchange="location = this.value;" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; color: #333;">
-                        <?php for ($year = $current_year; $year >= 2020; $year--) { ?>
-                            <option value="?year=<?php echo $year; ?>" <?php if ($selected_year == $year) echo "selected"; ?>><?php echo $year; ?></option>
+                        <?php
+                        // Get the current year and go 5 years back
+                        $start_year = date("Y") - 5;
+                        // Loop through years
+                        for ($year = $start_year; $year <= $current_year; $year++) {
+                        ?>
+                            <option value="?year=<?php echo $year; ?>&month=<?php echo $selected_month; ?>" <?php if ($selected_year == $year) echo "selected"; ?>><?php echo $year; ?></option>
                         <?php } ?>
                     </select>
+
+                    <select onchange="location = this.value;" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; color: #333;">
+                        <?php
+                        // Loop through months
+                        for ($month = 1; $month <= 12; $month++) {
+                            $month_name = date("F", mktime(0, 0, 0, $month, 1));
+                        ?>
+                            <option value="?year=<?php echo $selected_year; ?>&month=<?php echo $month; ?>" <?php if ($selected_month == $month) echo "selected"; ?>><?php echo $month_name; ?></option>
+                        <?php } ?>
+                    </select>
+
                 </section>
+
+
+
+
             </div>
             <?php
             // Check if there are transactions for the selected year
@@ -298,10 +358,40 @@ $result_transactions = mysqli_query($conn, $sql_transactions);
             } else {
             ?>
                 <!-- Display message if no transactions found -->
-                <p>Tidak ada riwayat transaksi untuk tahun <?php echo $selected_year; ?></p>
+                <p>Tidak ada riwayat transaksi </p>
             <?php
             }
             ?>
+
+            <!-- New Data Produk Terjual Table -->
+            <h2 style="margin-top: 25px;">Data Produk Terjual</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Produk</th>
+                        <th>Jumlah Terjual</th>
+                        <!-- <th>Harga Satuan</th> -->
+                        <th>Total Harga Produk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $product_number = 1;
+                    while ($row = mysqli_fetch_assoc($result_sold_products)) {
+                    ?>
+                        <tr>
+                            <td><?php echo $product_number++; ?></td>
+                            <td><?php echo $row['product_name']; ?></td>
+                            <td><?php echo $row['quantity']; ?></td>
+                            <!-- <td>Rp. <?php echo number_format($row['harga_satuan']); ?></td> -->
+                            <td>Rp. <?php echo number_format($row['total_price']); ?></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
         </main>
         <footer class="admin-footer">
             Made with &hearts; - Andi Daffa Liefalza
